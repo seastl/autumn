@@ -18,14 +18,17 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
 
     SecurityLogType security = null;
     security = new SecurityLogType(new Security(1, "Dow Jones index", "symbol", SecurityType.US_INDEX, Sector.DOW),
-                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00"), Time.valueOf("13:05")),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE); // Dow
+    securities.add(security);
     security = new SecurityLogType(new Security(2, "Dow Jones index", "symbol", SecurityType.US_INDEX, Sector.DOW),
-                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00"), Time.valueOf("13:05")),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE); // Nasdaq
+    securities.add(security);
     security = new SecurityLogType(new Security(3, "Dow Jones index", "symbol", SecurityType.US_INDEX, Sector.DOW),
-                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00"), Time.valueOf("13:05")),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE); // S&P 500
+    securities.add(security);
     
     return securities;
   }
@@ -36,14 +39,17 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
 
     SecurityLogType security = null;
     security = new SecurityLogType(new Security(1, "Dow Jones index", "symbol", SecurityType.US_INDEX, Sector.DOW),
-                                   new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00"), null),
+                                   new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00:00"), null),
                                    Boolean.TRUE); // Dow
+    securities.add(security);
     security = new SecurityLogType(new Security(2, "Dow Jones index", "symbol", SecurityType.US_INDEX, Sector.DOW),
-                                   new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00"), null),
+                                   new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00:00"), null),
                                    Boolean.TRUE); // Nasdaq
+    securities.add(security);
     security = new SecurityLogType(new Security(3, "Dow Jones index", "symbol", SecurityType.US_INDEX, Sector.DOW),
-                                   new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00"), null),
+                                   new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00:00"), null),
                                    Boolean.TRUE); // S&P 500
+    securities.add(security);
     
     return securities;
   }
@@ -54,14 +60,17 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
 
     SecurityLogType security = null;
     security = new SecurityLogType(new Security(1, "Dow Jones index", "symbol", SecurityType.US_INDEX, Sector.DOW),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05")),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE); // Dow
+    securities.add(security);
     security = new SecurityLogType(new Security(2, "Dow Jones index", "symbol", SecurityType.US_INDEX, Sector.DOW),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05")),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE); // Nasdaq
+    securities.add(security);
     security = new SecurityLogType(new Security(3, "Dow Jones index", "symbol", SecurityType.US_INDEX, Sector.DOW),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05")),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE); // S&P 500
+    securities.add(security);
     
     return securities;
   }
