@@ -37,10 +37,16 @@ public class EmailUtil {
 
   
   public static final void main(String[] args) {
+    if (args.length != 2) {
+      System.out.println("Usage: java com.autumn.core.util.EmailUtil <google_user> <google_password>");
+      System.exit(0);
+    }
+    String googleUser = args[0];
+    String googlePassword = args[1];
     System.out.println("Starting ...");
     String message = "This is a test email.\nhttp://www.yahoo.com\n";
-    EmailUtil email = new EmailUtil("smtp.googlemail.com", 465, "??????", "??????");
-    email.sendEmailThruGoogle("eccskc.schedules@gmail.com", "liangtech@yahoo.com.com", "Test Email", message);
-    System.out.println("Done");
+    EmailUtil email = new EmailUtil("smtp.googlemail.com", 465, googleUser, googlePassword);
+    email.sendEmailThruGoogle("eccskc.schedules@gmail.com", "liangtech@yahoo.com", "Test Email", message);
+    System.out.println("Email sent!");
   }
 }
