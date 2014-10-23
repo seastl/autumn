@@ -2,6 +2,7 @@ package com.autumn.core.service.impl;
 
 import com.autumn.core.dao.LogDao;
 import com.autumn.core.dao.SecurityLogTypeDao;
+import com.autumn.core.dao.YfDao;
 import com.autumn.core.model.SecurityLogType;
 import com.autumn.core.service.SecurityService;
 import java.util.List;
@@ -13,6 +14,7 @@ public class SecurityServiceImpl implements SecurityService {
 
   private SecurityLogTypeDao securityLogTypeDao;
   private LogDao logDao;
+  private YfDao yfDao;
 
   @Autowired
   public void setSecurityLogTypeDao(SecurityLogTypeDao securityLogTypeDao) {
@@ -24,6 +26,11 @@ public class SecurityServiceImpl implements SecurityService {
     this.logDao = logDao;
   }
 
+  @Autowired
+  public void setYfDao(YfDao yfDao) {
+    this.yfDao = yfDao;
+  }
+
   
   @Override
   public void check() {
@@ -32,6 +39,9 @@ public class SecurityServiceImpl implements SecurityService {
     for (SecurityLogType security : securities) {
       System.out.println("Security=" + security.getSecurity().getYahooSymbol() + " LogType=" + security.getLogType().getDescription());
     }
+    
+    String result = yfDao.getQuote(null, null);
+    System.out.println("Yf_out:\n" + result);
   }
   
 }
