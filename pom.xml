@@ -33,6 +33,12 @@
     </build>
     
     <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>4.1.1.RELEASE</version>
+    </dependency>
+    
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-email</artifactId>
