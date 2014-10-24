@@ -5,7 +5,6 @@ import com.autumn.core.dao.SecurityLogTypeDao;
 import com.autumn.core.dao.YfDao;
 import com.autumn.core.model.SecurityLogType;
 import com.autumn.core.service.SecurityService;
-import java.sql.Array;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
