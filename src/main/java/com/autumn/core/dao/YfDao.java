@@ -1,6 +1,10 @@
 package com.autumn.core.dao;
 
+import java.util.List;
+
 public interface YfDao {
+  public static final String BASE_URL = "http://download.finance.yahoo.com/d/";
+
   public static final String ASK = "a";
   public static final String AVG_DAILY_VOL = "a2";
   public static final String ASK_SIZE = "a5";
@@ -9,13 +13,13 @@ public interface YfDao {
   public static final String BID_RT = "b3";
   public static final String BOOK_VAL = "b4";
   public static final String BOOK_SIZE = "b6";
-  public static final String PERCENT_CHANGE = "c";
-  public static final String CHANGE = "c1";
+  public static final String CHG_AND_PCT_CHG = "c";
+  public static final String CHG = "c1";
   public static final String COMMISSION = "c3";
-  public static final String CHANGE_RT = "c6";
-  public static final String AH_CHANGE_RT = "c8";
+  public static final String CHG_RT = "c6";
+  public static final String AH_CHG_RT = "c8";
   public static final String DIV = "d";
-  public static final String LAST_TRD_DATE = "d1";
+  public static final String LST_TRD_DATE = "d1";
   public static final String TRD_DATE = "d2";
   public static final String EARNINGS = "e";
   public static final String ERR_INDICATE = "e1";
@@ -23,7 +27,7 @@ public interface YfDao {
   public static final String EPS_EST_NY = "e8";
   public static final String EPS_EST_NQ = "e9";
   public static final String FLOAT_SHARES = "f6";
-  public static final String DAYS_LOW = "g";
+  public static final String DAYS_LO = "g";
   public static final String DAYS_HI = "h";
   public static final String _52WK_LO = "j";
   public static final String _52WK_HI = "k";
@@ -87,5 +91,5 @@ public interface YfDao {
   public static final String STOCK_EXCHANGE = "x";
   public static final String DIV_YIELD = "y";
   
-  public String getQuote(String symbols, String requests);
+  public List<String> getQuote(List<String> symbols, String requests);
 }
