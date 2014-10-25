@@ -8,10 +8,13 @@ import com.autumn.core.dao.impl.SecurityLogTypeDaoImpl;
 import com.autumn.core.dao.impl.YfDaoImpl;
 import com.autumn.core.service.SecurityService;
 import com.autumn.core.service.impl.SecurityServiceImpl;
+import com.autumn.core.util.Scheduler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
+@EnableScheduling
 public class AutumnConfiguration {
   
   @Bean
@@ -32,5 +35,10 @@ public class AutumnConfiguration {
   @Bean
   public SecurityService securityService() {
     return new SecurityServiceImpl();
+  } 
+  
+  @Bean
+  public Scheduler scheduler() {
+    return new Scheduler();
   } 
 }
