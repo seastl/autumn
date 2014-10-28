@@ -5,15 +5,25 @@ import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
 
 public class EmailUtil {
+  private static final String SMTP_HOST = "smtp.googlemail.com";
+  private static final int SMTP_PORT = 465;
 
-  private final String hostName;
-  private final int smtpPort;
-  private final String googleUserName;
-  private final String googlePassword;
+  private String googleUserName;
+  private String googlePassword;
+
+  public void setGoogleUserName(String googleUserName) {
+    this.googleUserName = googleUserName;
+  }
+
+  public void setGooglePassword(String googlePassword) {
+    this.googlePassword = googlePassword;
+  }
+
   
-  public EmailUtil(String hostName, int smtpPort, String googleUserName, String googlePassword) {
-    this.hostName = hostName;
-    this.smtpPort = smtpPort;
+  public EmailUtil() {
+  }
+  
+  public EmailUtil(String googleUserName, String googlePassword) {
     this.googleUserName = googleUserName;
     this.googlePassword = googlePassword;
   }
@@ -21,8 +31,6 @@ public class EmailUtil {
   public void sendEmailThruGoogle(String from, String to, String subject, String message) {
     try {
       Email email = new SimpleEmail();
-      email.setHostName(this.hostName);
-      email.setSmtpPort(this.smtpPort);
       email.setAuthenticator(new DefaultAuthenticator(this.googleUserName, this.googlePassword));
       email.setSSLOnConnect(true);
       email.setFrom(from);
@@ -45,7 +53,7 @@ public class EmailUtil {
     String googlePassword = args[1];
     System.out.println("Starting ...");
     String message = "This is a test email.\nhttp://www.yahoo.com\n";
-    EmailUtil email = new EmailUtil("smtp.googlemail.com", 465, googleUser, googlePassword);
+    EmailUtil email = new EmailUtil(googleUser, googlePassword);
     email.sendEmailThruGoogle("eccskc.schedules@gmail.com", "liangtech@yahoo.com", "Test Email", message);
     System.out.println("Email sent!");
   }
