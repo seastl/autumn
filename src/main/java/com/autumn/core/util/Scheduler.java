@@ -16,7 +16,7 @@ public class Scheduler {
   }
 
   
-  @Scheduled(cron = "*/5 * * * * ?")
+  //@Scheduled(cron = "*/5 * * * * ?")
   public void executeEvery5Secs() {
     //System.out.println("Execute every 5sec. Time=" + new Date() + ".");
     securityService.checkForStartOfDay();
@@ -31,7 +31,7 @@ public class Scheduler {
   /**
    * Executes Mon-Fri @6:35PM
    */
-  @Scheduled(cron = "0 35 6 * * MON-FRI")
+  //@Scheduled(cron = "0 35 6 * * MON-FRI")
   public void executeForStartOfDay() {
   }
 
@@ -39,7 +39,7 @@ public class Scheduler {
   /**
    * Executes Mon-Fri @1:05PM
    */
-  @Scheduled(cron = "0 5 13 * * MON-FRI")
+  //@Scheduled(cron = "0 5 13 * * MON-FRI")
   public void executeForEndOfDay() {
   }
 
@@ -47,7 +47,7 @@ public class Scheduler {
   /**
    * Executes hourly Mon-Fri
    */
-  @Scheduled(cron = "0 0 */1 * * MON-FRI")
+  //@Scheduled(cron = "0 0 */1 * * MON-FRI")
   public void executeHourly() {
   }
 

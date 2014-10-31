@@ -5,6 +5,25 @@ import java.util.List;
 public interface YfDao {
   public static final String BASE_URL = "http://download.finance.yahoo.com/d/";
 
+  public static final String CARET = "%5E"; // character ^
+  public static final String DOW = CARET+"INDU";
+  public static final String NASDAQ = CARET+"IXIC";
+  public static final String SP500 = CARET+"GSPC";
+  public static final String SP500_VOLATILITY = CARET+"VIX";
+  public static final String IDX_TECHOLOGY = "XLK";
+  public static final String IDX_CONSUMER_DISCRETE_SELECT = "XLY";
+  public static final String IDX_HEALTH_CARE = "XLV";
+  public static final String IDX_MATERIALS = "XLB";
+  public static final String IDX_INDUSTIAL = "XLI";
+  public static final String IDX_CONSUMER_STABLES = "XLP";
+  public static final String IDX_ENGERY = "XLE";
+  public static final String IDX_UTILITIES = "XLU";
+  public static final String IDX_FINANCE = "XLF";
+  public static final String IDX_RETAIL = "XRT";
+  public static final String IDX_HOME_BUILDERS = "XHB";
+  public static final String IDX_HEALTH_CARE_EQUIPMENT = "XHE";
+  public static final String IDX_HEALTH_CARE_SERVICES = "XHS";
+  
   public static final String ASK = "a";
   public static final String AVG_DAILY_VOL = "a2";
   public static final String ASK_SIZE = "a5";

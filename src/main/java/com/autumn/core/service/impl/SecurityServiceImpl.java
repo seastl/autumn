@@ -3,6 +3,7 @@ package com.autumn.core.service.impl;
 import com.autumn.core.dao.LogDao;
 import com.autumn.core.dao.SecurityLogTypeDao;
 import com.autumn.core.dao.YfDao;
+import static com.autumn.core.dao.YfDao.*;
 import com.autumn.core.model.SecurityLogType;
 import com.autumn.core.service.SecurityService;
 import com.autumn.core.util.EmailUtil;
@@ -49,10 +50,8 @@ public class SecurityServiceImpl implements SecurityService {
       System.out.println("Security=" + security.getSecurity().getYahooSymbol() + " LogType=" + security.getLogType().getDescription());
     }
     
-    List<String> symbols = Arrays.asList("msft","fb");
-//    String REQUESTS = YfDao.SYMBOL + YfDao.DAYS_LO + YfDao.DAYS_HI + YfDao.BID_RT + YfDao.ASK_RT + YfDao.PREVIOUS_CLOSE + YfDao.LST_TRD;
-//    String requests = YfDao.SYMBOL + YfDao.NAME + YfDao._50D_MOVING_AVG + YfDao.PCT_CHG_FRM_50D_MOVING_AVG + YfDao.CHG + YfDao.PCT_CHG + YfDao._1Y_TARGET_PRICE;
-    String requests = YfDao.SYMBOL + YfDao.PREVIOUS_CLOSE + YfDao.LST_TRD;
+    List<String> symbols = Arrays.asList("msft", "fb", NASDAQ, SP500, DOW, IDX_TECHOLOGY, SP500_VOLATILITY);
+    String requests = SYMBOL + NAME + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
     List<String> results = yfDao.getQuote(symbols, requests);
     for (String result : results) {
       System.out.println(result);
@@ -62,7 +61,7 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void checkForStartOfDay() {
-    final String REQUESTS = YfDao.SYMBOL + YfDao.PREVIOUS_CLOSE + YfDao.LST_TRD;
+    final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD;
     final String[] HEADERS = {"","prv","ask"};
     
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForStartOfDayLogging();
@@ -77,7 +76,7 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void checkForEndOfDay() {
-    final String REQUESTS = YfDao.SYMBOL + YfDao.PREVIOUS_CLOSE + YfDao.LST_TRD;
+    final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD;
     final String[] HEADERS = {"","prv","ask"};
     
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForStartOfDayLogging();
@@ -103,7 +102,11 @@ public class SecurityServiceImpl implements SecurityService {
     for (String csvResult : csvResults) {
       String[] result = csvResult.split(",");
       for (int i = 0; i < headers.length; i++) {
-        sb.append(headers[i] + ":" + result[i] + " ");
+        if (headers[i] != null && !headers[i].isEmpty()) {
+          sb.append(headers[i] + ":" + result[i] + " ");
+        } else {
+          sb.append(result[i] + " ");
+        }
       }
     }
     return sb.toString();

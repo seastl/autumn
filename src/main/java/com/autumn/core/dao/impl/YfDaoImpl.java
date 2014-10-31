@@ -25,6 +25,9 @@ public class YfDaoImpl implements YfDao {
       BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
       String line = null;
       while ((line=rd.readLine()) != null) {
+        if (line.equals("Missing Symbols List.")) {
+          throw new RuntimeException("Failed to retrieve quotes. Message from API: " + line + ".");
+        }
         results.add(line);
       }
     } catch (Exception ex) {
