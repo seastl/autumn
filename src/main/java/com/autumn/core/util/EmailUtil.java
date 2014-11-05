@@ -31,6 +31,8 @@ public class EmailUtil {
   public void sendEmailThruGoogle(String from, String to, String subject, String message) {
     try {
       Email email = new SimpleEmail();
+      email.setHostName(SMTP_HOST);
+      email.setSmtpPort(SMTP_PORT);
       email.setAuthenticator(new DefaultAuthenticator(this.googleUserName, this.googlePassword));
       email.setSSLOnConnect(true);
       email.setFrom(from);
@@ -54,7 +56,7 @@ public class EmailUtil {
     System.out.println("Starting ...");
     String message = "This is a test email.\nhttp://www.yahoo.com\n";
     EmailUtil email = new EmailUtil(googleUser, googlePassword);
-    email.sendEmailThruGoogle("eccskc.schedules@gmail.com", "liangtech@yahoo.com", "Test Email", message);
+    email.sendEmailThruGoogle("liangtek.mail@gmail.com", "liangtech@yahoo.com", "Test Email", message);
     System.out.println("Email sent!");
   }
 }
