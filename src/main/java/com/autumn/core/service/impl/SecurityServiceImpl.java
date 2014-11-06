@@ -61,23 +61,23 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void checkForStartOfDay() {
-    final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD;
-    final String[] HEADERS = {"","prv","ask"};
+    final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
+    final String[] HEADERS = {"","prv","ask","pct"};
     
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForStartOfDayLogging();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
     
     String message = buildMessage(HEADERS, csvResults);
- //   emailUtil.sendEmailThruGoogle(message, message, message, message);
+    emailUtil.sendEmailThruGoogle("-", message);
     System.out.println(message);
   }
   
   
   @Override
   public void checkForEndOfDay() {
-    final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD;
-    final String[] HEADERS = {"","prv","ask"};
+    final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
+    final String[] HEADERS = {"","prv","ask","pct"};
     
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForStartOfDayLogging();
     List<String> symbols = getSymbols(securities);
@@ -108,6 +108,7 @@ public class SecurityServiceImpl implements SecurityService {
           sb.append(result[i] + " ");
         }
       }
+      sb.append("\n");
     }
     return sb.toString();
   }
