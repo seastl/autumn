@@ -9,6 +9,7 @@ import com.autumn.core.service.SecurityService;
 import com.autumn.core.util.EmailUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -70,7 +71,7 @@ public class SecurityServiceImpl implements SecurityService {
     
     String message = buildMessage(HEADERS, csvResults);
     emailUtil.sendEmailThruGoogle("-", message);
-    System.out.println(message);
+    System.out.println(new Date() + message);
   }
   
   
@@ -84,7 +85,8 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
     
     String message = buildMessage(HEADERS, csvResults);
-//    emailUtil.sendEmailThruGoogle(message, message, message, message);
+    emailUtil.sendEmailThruGoogle("-", message);
+    System.out.println(new Date() + message);
   }
   
   
