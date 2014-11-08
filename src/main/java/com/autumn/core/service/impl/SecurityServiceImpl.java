@@ -61,7 +61,7 @@ public class SecurityServiceImpl implements SecurityService {
 
   
   @Override
-  public void checkForStartOfDay() {
+  public void checkForDailyOpen() {
     final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"","prv","ask","pct"};
     
@@ -76,15 +76,42 @@ public class SecurityServiceImpl implements SecurityService {
   
   
   @Override
-  public void checkForEndOfDay() {
+  public void checkForDailyClose() {
     final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"","prv","ask","pct"};
     
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForStartOfDayLogging();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
-    
+
     String message = buildMessage(HEADERS, csvResults);
+    emailUtil.sendEmailThruGoogle("-", message);
+    System.out.println(new Date() + message);
+  }
+  
+  
+  @Override
+  public void checkForEndOfDay() {
+    final String REQUESTS = SYMBOL + NAME + LST_TRD + PCT_CHG;
+    final String[] HEADERS = {"","","",""};
+    
+    List<SecurityLogType> nnSecurities = securityLogTypeDao.getSecuritiesForNn();
+    List<String> nnSymbols = getSymbols(nnSecurities);
+    List<String> nnCsvResults = yfDao.getQuote(nnSymbols, REQUESTS);
+
+    List<SecurityLogType> lbSecurities = securityLogTypeDao.getSecuritiesForLb();
+    List<String> lbSymbols = getSymbols(lbSecurities);
+    List<String> lbCsvResults = yfDao.getQuote(lbSymbols, REQUESTS);
+
+    List<SecurityLogType> icSecurities = securityLogTypeDao.getSecuritiesForIc();
+    List<String> icSymbols = getSymbols(icSecurities);
+    List<String> icCsvResults = yfDao.getQuote(icSymbols, REQUESTS);
+
+    String message = "\n";
+    message += "Nn Funds:\n" + buildMessage(HEADERS, nnCsvResults) + "\n";
+    message += "Lb Funds:\n" + buildMessage(HEADERS, lbCsvResults) + "\n";
+    message += "Ic Funds:\n" + buildMessage(HEADERS, icCsvResults) + "\n";
+    
     emailUtil.sendEmailThruGoogle("-", message);
     System.out.println(new Date() + message);
   }

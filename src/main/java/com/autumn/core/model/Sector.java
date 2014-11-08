@@ -1,6 +1,7 @@
 package com.autumn.core.model;
 
 public class Sector {
+  public static final int UNKNOWN = 0;
   public static final int DOW = 1;
   public static final int NASDAQ = 2;
   public static final int SP_500 = 3;

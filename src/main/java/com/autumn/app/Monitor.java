@@ -24,7 +24,7 @@ public class Monitor {
     // The following should be moved to SecurityServiceImpl later.
     SecurityService securityService = ctx.getBean(SecurityService.class);
     //securityService.check();
-    securityService.checkForStartOfDay();
+    securityService.checkForEndOfDay();
 
   }
   

@@ -18,7 +18,7 @@ public class Scheduler {
   
   //@Scheduled(cron = "*/5 * * * * ?")
   public void executeEvery5Secs() {
-    securityService.checkForStartOfDay();
+    securityService.checkForDailyOpen();
   }
   
   //@Scheduled(cron = "*/1 * * * * ?")
@@ -32,7 +32,7 @@ public class Scheduler {
    */
   @Scheduled(cron = "0 35 6 * * MON-FRI")
   public void executeForStartOfDay() {
-    securityService.checkForStartOfDay();
+    securityService.checkForDailyOpen();
   }
 
 
@@ -41,7 +41,7 @@ public class Scheduler {
    */
   @Scheduled(cron = "0 5 13 * * MON-FRI")
   public void executeForEndOfDay() {
-    securityService.checkForEndOfDay();
+    securityService.checkForDailyClose();
   }
 
 
@@ -50,7 +50,7 @@ public class Scheduler {
    */
   @Scheduled(cron = "0 0 7-13 * * MON-FRI")
   public void executeHourly() {
-    securityService.checkForStartOfDay();
+    securityService.checkForDailyOpen();
   }
 
 }
