@@ -31,7 +31,7 @@ public class Scheduler {
    * Executes Mon-Fri @6:35AM
    */
   @Scheduled(cron = "0 35 6 * * MON-FRI")
-  public void executeForStartOfDay() {
+  public void executeForDailyOpen() {
     securityService.checkForDailyOpen();
   }
 
@@ -40,15 +40,24 @@ public class Scheduler {
    * Executes Mon-Fri @1:05PM
    */
   @Scheduled(cron = "0 5 13 * * MON-FRI")
-  public void executeForEndOfDay() {
+  public void executeForDailyCLose() {
     securityService.checkForDailyClose();
   }
 
 
   /**
-   * Executes every hour between 7AM and 1PM Mon-Fri
+   * Executes Mon-Fri @4:05PM
    */
-  @Scheduled(cron = "0 0 7-13 * * MON-FRI")
+  @Scheduled(cron = "0 5 16 * * MON-FRI")
+  public void executeForEndOfDay() {
+    securityService.checkForEndOfDay();
+  }
+
+
+  /**
+   * Executes every hour at the 5th minute between 7AM and 1PM Mon-Fri
+   */
+  @Scheduled(cron = "0 5 7-13 * * MON-FRI")
   public void executeHourly() {
     securityService.checkForDailyOpen();
   }
