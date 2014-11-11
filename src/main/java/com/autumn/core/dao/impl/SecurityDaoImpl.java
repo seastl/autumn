@@ -14,11 +14,11 @@ public class SecurityDaoImpl implements SecurityDao {
     List<Security> securities = new ArrayList();
     
     Security security = null;
-    security = new Security(1, "Dow Jones index", "symbol", SecurityType.US_INDEX, Sector.DOW);
+    security = new Security(1, "Dow Jones index", "symbol", SecurityType.US_INDEX, Sector.DOW, false);
     securities.add(security);
-    security = new Security(2, "Nasdaq index", "symbol", SecurityType.US_INDEX, Sector.NASDAQ);
+    security = new Security(2, "Nasdaq index", "symbol", SecurityType.US_INDEX, Sector.NASDAQ, false);
     securities.add(security);
-    security = new Security(3, "S&P 500", "symbol", SecurityType.US_INDEX, Sector.SP_500);
+    security = new Security(3, "S&P 500", "symbol", SecurityType.US_INDEX, Sector.SP_500, false);
     securities.add(security);
     
     return securities;

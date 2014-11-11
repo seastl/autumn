@@ -97,20 +97,23 @@ public class SecurityServiceImpl implements SecurityService {
     
     List<SecurityLogType> nnSecurities = securityLogTypeDao.getSecuritiesForNn();
     List<String> nnSymbols = getSymbols(nnSecurities);
+    List<Boolean> nnParticipations = getParticipations(nnSecurities);
     List<String> nnCsvResults = yfDao.getQuote(nnSymbols, REQUESTS);
 
     List<SecurityLogType> lbSecurities = securityLogTypeDao.getSecuritiesForLb();
     List<String> lbSymbols = getSymbols(lbSecurities);
+    List<Boolean> lbParticipations = getParticipations(lbSecurities);
     List<String> lbCsvResults = yfDao.getQuote(lbSymbols, REQUESTS);
 
     List<SecurityLogType> icSecurities = securityLogTypeDao.getSecuritiesForIc();
     List<String> icSymbols = getSymbols(icSecurities);
+    List<Boolean> icParticipations = getParticipations(icSecurities);
     List<String> icCsvResults = yfDao.getQuote(icSymbols, REQUESTS);
 
     String message = "\n";
-    message += "Nn Funds:\n" + buildMessage(HEADERS, nnCsvResults) + "\n";
-    message += "Lb Funds:\n" + buildMessage(HEADERS, lbCsvResults) + "\n";
-    message += "Ic Funds:\n" + buildMessage(HEADERS, icCsvResults) + "\n";
+    message += "Nn Funds:\n" + buildMessage(HEADERS, nnParticipations, nnCsvResults) + "\n";
+    message += "Lb Funds:\n" + buildMessage(HEADERS, lbParticipations, lbCsvResults) + "\n";
+    message += "Ic Funds:\n" + buildMessage(HEADERS, icParticipations, icCsvResults) + "\n";
     
     emailUtil.sendEmailThruGoogle("-", message);
     System.out.println(new Date() + message);
@@ -126,6 +129,15 @@ public class SecurityServiceImpl implements SecurityService {
   }
   
   
+  private List<Boolean> getParticipations(List<SecurityLogType> securities) {
+    List<Boolean> participations = new ArrayList();
+    for (SecurityLogType security : securities) {
+      participations.add(security.getSecurity().isParticipated());
+    }
+    return participations;
+  }
+  
+  
   private String buildMessage(String[] headers, List<String> csvResults) {
     StringBuilder sb = new StringBuilder();
     for (String csvResult : csvResults) {
@@ -135,6 +147,25 @@ public class SecurityServiceImpl implements SecurityService {
           sb.append(headers[i] + ":" + result[i] + " ");
         } else {
           sb.append(result[i] + " ");
+        }
+      }
+      sb.append("\n");
+    }
+    return sb.toString();
+  }
+
+  
+  private String buildMessage(String[] headers, List<Boolean> participations, List<String> csvResults) {
+    StringBuilder sb = new StringBuilder();
+    for (int j = 0; j < csvResults.size(); j++) {
+      String csvResult = csvResults.get(j);
+      String participation = participations.get(j) ? "*" : "";
+      String[] result = csvResult.split(",");
+      for (int i = 0; i < headers.length; i++) {
+        if (headers[i] != null && !headers[i].isEmpty()) {
+          sb.append(participation + headers[i] + ":" + result[i] + " ");
+        } else {
+          sb.append(participation + result[i] + " ");
         }
       }
       sb.append("\n");

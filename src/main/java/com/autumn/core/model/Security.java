@@ -10,13 +10,15 @@ public class Security {
   private Integer sectorId;
   private Integer pe;
   private float marketCap;
+  private boolean isParticipated;
 
-  public Security(Integer id, String description, String yahooSymbol, Integer typeId, Integer sectorId) {
+  public Security(Integer id, String description, String yahooSymbol, Integer typeId, Integer sectorId, boolean isParticipated) {
     this.id = id;
     this.description = description;
     this.yahooSymbol = yahooSymbol;
     this.typeId = typeId;
     this.sectorId = sectorId;
+    this.isParticipated = isParticipated;
   }
 
   
@@ -91,6 +93,14 @@ public class Security {
   public void setMarketCap(float marketCap) {
     this.marketCap = marketCap;
   }
-  
+
+  public boolean isParticipated() {
+    return isParticipated;
+  }
+
+  public void setIsParticipated(boolean isParticipated) {
+    this.isParticipated = isParticipated;
+  }
+
   
 }
