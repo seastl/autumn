@@ -9,8 +9,12 @@ import com.autumn.core.service.SecurityService;
 import com.autumn.core.util.EmailUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -99,16 +103,19 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> nnSymbols = getSymbols(nnSecurities);
     List<Boolean> nnParticipations = getParticipations(nnSecurities);
     List<String> nnCsvResults = yfDao.getQuote(nnSymbols, REQUESTS);
+    nnCsvResults = sortByColumn(nnCsvResults, 3, true);
 
     List<SecurityLogType> lbSecurities = securityLogTypeDao.getSecuritiesForLb();
     List<String> lbSymbols = getSymbols(lbSecurities);
     List<Boolean> lbParticipations = getParticipations(lbSecurities);
     List<String> lbCsvResults = yfDao.getQuote(lbSymbols, REQUESTS);
+    lbCsvResults = sortByColumn(lbCsvResults, 3, true);
 
     List<SecurityLogType> icSecurities = securityLogTypeDao.getSecuritiesForIc();
     List<String> icSymbols = getSymbols(icSecurities);
     List<Boolean> icParticipations = getParticipations(icSecurities);
     List<String> icCsvResults = yfDao.getQuote(icSymbols, REQUESTS);
+    icCsvResults = sortByColumn(icCsvResults, 3, true);
 
     String message = "\n";
     message += "Nn Funds:\n" + buildMessage(HEADERS, nnParticipations, nnCsvResults) + "\n";
@@ -159,18 +166,76 @@ public class SecurityServiceImpl implements SecurityService {
     StringBuilder sb = new StringBuilder();
     for (int j = 0; j < csvResults.size(); j++) {
       String csvResult = csvResults.get(j);
-      String participation = participations.get(j) ? "*" : "";
+      String participation = participations.get(j) ? "*" : " ";
       String[] result = csvResult.split(",");
+      sb.append(participation);
       for (int i = 0; i < headers.length; i++) {
         if (headers[i] != null && !headers[i].isEmpty()) {
-          sb.append(participation + headers[i] + ":" + result[i] + " ");
+          sb.append(headers[i] + ":" + removeQuotes(result[i]) + " ");
         } else {
-          sb.append(participation + result[i] + " ");
+          sb.append(removeQuotes(result[i]) + " ");
         }
       }
       sb.append("\n");
     }
     return sb.toString();
   }
+  
+
+  /**
+   * Remove double quotes from the string if the string does not contain spaces.
+   * @param in
+   * @return 
+   */
+  private String removeQuotes(String in) {
+    if (in.contains(" ")) {
+      return in;
+    } else {
+      return in.replace("\"", "");
+    }
+  }
+  
+
+  /**
+   * 
+   * @param in
+   * @param columnToSort
+   * @param isAcending
+   * @return 
+   */
+  private List<String> sortByColumn(List<String> csvStrings, int sortColIndex, boolean isAcending) {
+    Map<Float,String> unsortedMap = new HashMap();
+    for (String csvString : csvStrings) {
+      String[] splittedStrings = csvString.split(",");
+      unsortedMap.put(convertToInteger(splittedStrings[sortColIndex]), csvString);
+    }
+    
+    Map<Float,String> sortedMap = new TreeMap<Float,String>(
+      new Comparator<Float>() {
+        @Override
+        public int compare(Float num1, Float num2) {
+          return num2.compareTo(num1);
+        }
+      }
+    );
+    sortedMap.putAll(unsortedMap);
+    
+    List<String> sortedCsvStrings = new ArrayList<String>(sortedMap.values());
+    return sortedCsvStrings;
+  }
+  
+  
+  private Float convertToInteger(String in) {
+    String stripped = in.replace("\"", "");
+    stripped = stripped.replace("%", "");
+    Float convertedFloat = null;
+    try {
+      convertedFloat = Float.parseFloat(stripped);
+    } catch (Exception ex) {
+      convertedFloat = -100.0F;
+    }
+    return convertedFloat;
+  }
+  
   
 }
