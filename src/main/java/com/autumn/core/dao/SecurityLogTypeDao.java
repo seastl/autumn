@@ -9,5 +9,6 @@ public interface SecurityLogTypeDao {
   List<SecurityLogType> getSecuritiesForEndOfDayLogging();
   List<SecurityLogType> getSecuritiesForNn();
   List<SecurityLogType> getSecuritiesForLb();
+  List<SecurityLogType> getSecuritiesForSg();
   List<SecurityLogType> getSecuritiesForIc();
 }

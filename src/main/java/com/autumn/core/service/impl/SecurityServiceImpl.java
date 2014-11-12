@@ -25,6 +25,7 @@ public class SecurityServiceImpl implements SecurityService {
   private LogDao logDao;
   private YfDao yfDao;
   private EmailUtil emailUtil;
+  private boolean sendEmail = false;
 
   @Autowired
   public void setSecurityLogTypeDao(SecurityLogTypeDao securityLogTypeDao) {
@@ -44,6 +45,12 @@ public class SecurityServiceImpl implements SecurityService {
   @Autowired
   public void setEmailUtil(EmailUtil emailUtil) {
     this.emailUtil = emailUtil;
+  }
+
+  
+  @Override
+  public void setSendEmail(boolean sendEmail) {
+    this.sendEmail = sendEmail;
   }
 
   
@@ -74,7 +81,9 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
     
     String message = buildMessage(HEADERS, csvResults);
-    emailUtil.sendEmailThruGoogle("-", message);
+    if (sendEmail) {
+      emailUtil.sendEmailThruGoogle("-", message);
+    }
     System.out.println(new Date() + message);
   }
   
@@ -89,7 +98,9 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
 
     String message = buildMessage(HEADERS, csvResults);
-    emailUtil.sendEmailThruGoogle("-", message);
+    if (sendEmail) {
+      emailUtil.sendEmailThruGoogle("-", message);
+    }
     System.out.println(new Date() + message);
   }
   
@@ -117,12 +128,21 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> icCsvResults = yfDao.getQuote(icSymbols, REQUESTS);
     icCsvResults = sortByColumn(icCsvResults, 3, true);
 
+    List<SecurityLogType> sgSecurities = securityLogTypeDao.getSecuritiesForSg();
+    List<String> sgSymbols = getSymbols(sgSecurities);
+    List<Boolean> sgParticipations = getParticipations(sgSecurities);
+    List<String> sgCsvResults = yfDao.getQuote(sgSymbols, REQUESTS);
+    sgCsvResults = sortByColumn(sgCsvResults, 3, true);
+
     String message = "\n";
     message += "Nn Funds:\n" + buildMessage(HEADERS, nnParticipations, nnCsvResults) + "\n";
     message += "Lb Funds:\n" + buildMessage(HEADERS, lbParticipations, lbCsvResults) + "\n";
     message += "Ic Funds:\n" + buildMessage(HEADERS, icParticipations, icCsvResults) + "\n";
+    message += "Sg Funds:\n" + buildMessage(HEADERS, sgParticipations, sgCsvResults) + "\n";
     
-    emailUtil.sendEmailThruGoogle("-", message);
+    if (sendEmail) {
+      emailUtil.sendEmailThruGoogle("-", message);
+    }
     System.out.println(new Date() + message);
   }
   

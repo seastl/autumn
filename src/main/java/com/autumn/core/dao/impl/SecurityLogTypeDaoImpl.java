@@ -363,5 +363,106 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
     return securities;  
   }
   
+  @Override
+  public List<SecurityLogType> getSecuritiesForSg() {
+    List<SecurityLogType> securities = new ArrayList();
+
+    SecurityLogType security = null;
+    security = new SecurityLogType(new Security(1301, "EQUITY INCOME FUND", "PRFDX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1302, "GROWTH STOCK FUND", "PRGFX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1303, "INTERNATIONAL GROWTH & INCOME", "TRIGX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1304, "MEDIA & TELECOMMUNICATIONS", "PRMTX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1305, "MID-CAP GROWTH FUND", "RPMGX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1306, "NEW HORIZONS FUND", "PRNHX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1307, "SCIENCE & TECHNOLOGY FUND", "PRSCX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1308, "SCOUT MID CAP", "UMBMX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1309, "SPECTRUM GROWTH FUND", "PRSGX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1310, "VANGUARD SMALL CAP INDEX, ADM", "VSMAX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1311, "SPECTRUM INCOME FUND", "RPSIX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1312, "RETIREMENT 2005 FUND", "TRRFX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1313, "RETIREMENT 2010 FUND", "TRRAX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1314, "RETIREMENT 2015 FUND", "TRRGX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1315, "RETIREMENT 2020 FUND", "TRRBX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1316, "RETIREMENT 2025 FUND", "TRRHX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1317, "RETIREMENT 2030 FUND", "TRRCX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1318, "RETIREMENT 2035 FUND", "TRRJX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1319, "RETIREMENT 2040 FUND", "TRRDX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1320, "RETIREMENT 2045 FUND", "TRRKX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1321, "RETIREMENT 2050 FUND", "TRRMX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1322, "RETIREMENT 2055 FUND", "TRRNX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1323, "RETIREMENT INCOME FUND", "TRRIX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    
+    return securities;  
+  }
+
   
 }
