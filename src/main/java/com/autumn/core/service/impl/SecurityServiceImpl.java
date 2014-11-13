@@ -86,6 +86,23 @@ public class SecurityServiceImpl implements SecurityService {
     }
     System.out.println(new Date() + message);
   }
+
+  
+  @Override
+  public void checkForIntraDay() {
+    final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
+    final String[] HEADERS = {"","prv","ask","pct"};
+    
+    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForStartOfDayLogging();
+    List<String> symbols = getSymbols(securities);
+    List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
+    
+    String message = buildMessage(HEADERS, csvResults);
+    if (sendEmail) {
+      emailUtil.sendEmailThruGoogle("-", message);
+    }
+    System.out.println(new Date() + message);
+  }
   
   
   @Override

@@ -40,7 +40,7 @@ public class Scheduler {
    * Executes Mon-Fri @1:05PM
    */
   @Scheduled(cron = "0 5 13 * * MON-FRI")
-  public void executeForDailyCLose() {
+  public void executeForDailyClose() {
     securityService.checkForDailyClose();
   }
 
@@ -59,7 +59,7 @@ public class Scheduler {
    */
   @Scheduled(cron = "0 5 7-13 * * MON-FRI")
   public void executeHourly() {
-    securityService.checkForDailyOpen();
+    securityService.checkForIntraDay();
   }
 
 }
