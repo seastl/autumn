@@ -1,10 +1,13 @@
 package com.autumn.core.dao.impl;
 
 import com.autumn.core.dao.YfDao;
+import com.autumn.core.model.HistoricalQuote;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import static org.apache.http.HttpHeaders.USER_AGENT;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -36,10 +39,16 @@ public class YfDaoImpl implements YfDao {
     
     return results;
   }
+
+  
+  @Override
+  public Map<Date, HistoricalQuote> getHisoricalQuotes(String symbols, Date fromDate, Date toDate, String interval) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
   
   
   private String buildUrl(List<String> symbols, String requests) {
-    StringBuilder sb = new StringBuilder(YfDao.BASE_URL);
+    StringBuilder sb = new StringBuilder(YfDao.BASE_QUOTE_URL);
     sb.append("?s=");
     for (String symbol : symbols) {
       sb.append(symbol + "+");

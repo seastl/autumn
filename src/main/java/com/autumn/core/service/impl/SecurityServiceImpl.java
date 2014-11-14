@@ -99,7 +99,7 @@ public class SecurityServiceImpl implements SecurityService {
     
     String message = buildMessage(HEADERS, csvResults);
     if (sendEmail) {
-      emailUtil.sendEmailThruGoogle("-", message);
+      emailUtil.sendEmailThruGoogle("--", message);
     }
     System.out.println(new Date() + message);
   }
@@ -116,7 +116,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     String message = buildMessage(HEADERS, csvResults);
     if (sendEmail) {
-      emailUtil.sendEmailThruGoogle("-", message);
+      emailUtil.sendEmailThruGoogle("---", message);
     }
     System.out.println(new Date() + message);
   }
@@ -158,7 +158,7 @@ public class SecurityServiceImpl implements SecurityService {
     message += "Sg Funds:\n" + buildMessage(HEADERS, sgParticipations, sgCsvResults) + "\n";
     
     if (sendEmail) {
-      emailUtil.sendEmailThruGoogle("-", message);
+      emailUtil.sendEmailThruGoogle("----", message);
     }
     System.out.println(new Date() + message);
   }

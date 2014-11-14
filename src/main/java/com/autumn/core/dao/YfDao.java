@@ -1,10 +1,18 @@
 package com.autumn.core.dao;
 
+import com.autumn.core.model.HistoricalQuote;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface YfDao {
-  public static final String BASE_URL = "http://download.finance.yahoo.com/d/";
+  public static final String BASE_QUOTE_URL = "http://download.finance.yahoo.com/d/";
+  public static final String BASE_HISTORICAL_QUOTE_URL = "http://ichart.yahoo.com/table.csv";
 
+  public static final String DAILY_INTERVAL = "d";
+  public static final String WEEKLY_INTERVAL = "w";
+  public static final String MONTHLY_INTERVAL = "m";
+  
   public static final String CARET = "%5E"; // character ^
   public static final String DOW = CARET+"INDU";
   public static final String NASDAQ = CARET+"IXIC";
@@ -111,4 +119,5 @@ public interface YfDao {
   public static final String DIV_YIELD = "y";
   
   public List<String> getQuote(List<String> symbols, String requests);
+  public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbols, Date fromDate, Date toDate, String interval);
 }
