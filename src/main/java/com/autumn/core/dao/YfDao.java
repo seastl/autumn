@@ -119,5 +119,5 @@ public interface YfDao {
   public static final String DIV_YIELD = "y";
   
   public List<String> getQuote(List<String> symbols, String requests);
-  public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbols, Date fromDate, Date toDate, String interval);
+  public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbol, Date fromDate, Date toDate, String interval);
 }
