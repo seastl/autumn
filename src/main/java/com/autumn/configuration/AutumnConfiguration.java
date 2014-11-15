@@ -8,6 +8,7 @@ import com.autumn.core.dao.impl.SecurityLogTypeDaoImpl;
 import com.autumn.core.dao.impl.YfDaoImpl;
 import com.autumn.core.service.SecurityService;
 import com.autumn.core.service.impl.SecurityServiceImpl;
+import com.autumn.core.util.CommonUtil;
 import com.autumn.core.util.EmailUtil;
 import com.autumn.core.util.Scheduler;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +47,13 @@ public class AutumnConfiguration {
   @Bean
   public EmailUtil emailUtil() {
     return new EmailUtil();
+
+  }
+  
+  @Bean
+  public CommonUtil commonUtil() {
+    return new CommonUtil();
+
   }
   
 }

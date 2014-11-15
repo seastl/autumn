@@ -28,12 +28,13 @@ public class Monitor {
       emailUtil.setGooglePassword(args[1]);
       emailUtil.setToEmail(args[2]);
     }
+
     
-    // The following should be moved to SecurityServiceImpl later.
+    // The following is for testing only Actual code is triggered by scheduler.
     SecurityService securityService = ctx.getBean(SecurityService.class);
     securityService.setSendEmail(sendEmail);
-    //securityService.check();
-    securityService.checkForEndOfDay();
+    securityService.check();
+    //securityService.checkForEndOfDay();
 
   }
   

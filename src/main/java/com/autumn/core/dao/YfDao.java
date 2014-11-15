@@ -9,9 +9,9 @@ public interface YfDao {
   public static final String BASE_QUOTE_URL = "http://download.finance.yahoo.com/d/";
   public static final String BASE_HISTORICAL_QUOTE_URL = "http://ichart.yahoo.com/table.csv";
 
-  public static final String DAILY_INTERVAL = "d";
-  public static final String WEEKLY_INTERVAL = "w";
-  public static final String MONTHLY_INTERVAL = "m";
+  public static final String DAILY_INCREMENT = "d";
+  public static final String WEEKLY_INCREMENT = "w";
+  public static final String MONTHLY_INCREMENT = "m";
   
   public static final String CARET = "%5E"; // character ^
   public static final String DOW = CARET+"INDU";
@@ -119,5 +119,6 @@ public interface YfDao {
   public static final String DIV_YIELD = "y";
   
   public List<String> getQuote(List<String> symbols, String requests);
-  public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbol, Date fromDate, Date toDate, String interval);
+  public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbol, Date startDate, Date endDate, String increment);
+  public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbol, int numberOfPastWeekdays, String increment);
 }

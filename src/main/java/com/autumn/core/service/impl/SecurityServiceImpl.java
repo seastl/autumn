@@ -4,6 +4,7 @@ import com.autumn.core.dao.LogDao;
 import com.autumn.core.dao.SecurityLogTypeDao;
 import com.autumn.core.dao.YfDao;
 import static com.autumn.core.dao.YfDao.*;
+import com.autumn.core.model.HistoricalQuote;
 import com.autumn.core.model.SecurityLogType;
 import com.autumn.core.service.SecurityService;
 import com.autumn.core.util.EmailUtil;
@@ -56,6 +57,7 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void check() {
+    /*
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIntraDayLogging();
     
     for (SecurityLogType security : securities) {
@@ -67,6 +69,12 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> results = yfDao.getQuote(symbols, requests);
     for (String result : results) {
       System.out.println(result);
+    }
+    */
+    
+    Map<Date, HistoricalQuote> quotes = yfDao.getHisoricalQuotes("msft", 5, YfDao.DAILY_INCREMENT);
+    for (Map.Entry<Date, HistoricalQuote> quote : quotes.entrySet()) {
+      System.out.println(quote.getKey() + ": " + quote.getValue().getClose());
     }
   }
 
