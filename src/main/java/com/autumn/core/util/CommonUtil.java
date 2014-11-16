@@ -8,14 +8,17 @@ public class CommonUtil {
   
   /**
    * Returns an array of two Date objects. 
-   * The 1st one is the start date and the 2nd one is the end date.
+   * The 1st one is the start date and the 2nd one is the end date(today).
    * They are inclusive of the number days specified.
    * 
    * @param numberOfPastWeekdays
    * @return 
    */
   public Date[] getDateRangeForNumberOfPastWeekdays(int numberOfPastWeekdays) {
-    Date endDate = new LocalDate().minusDays(1).toDateTimeAtStartOfDay().toDate();
+//    Date endDate = new LocalDate().toDateTimeAtStartOfDay().toDate();
+    
+    // TODO:
+    Date endDate = new LocalDate().minusDays(1).toDateTimeAtStartOfDay().toDate();  // For testing in weekends
     
     LocalDate newDate = new LocalDate();
     int i = 0;

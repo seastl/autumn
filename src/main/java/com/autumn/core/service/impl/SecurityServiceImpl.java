@@ -7,9 +7,9 @@ import static com.autumn.core.dao.YfDao.*;
 import com.autumn.core.model.HistoricalQuote;
 import com.autumn.core.model.SecurityLogType;
 import com.autumn.core.service.SecurityService;
+import com.autumn.core.util.CommonUtil;
 import com.autumn.core.util.EmailUtil;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +26,7 @@ public class SecurityServiceImpl implements SecurityService {
   private LogDao logDao;
   private YfDao yfDao;
   private EmailUtil emailUtil;
+  private CommonUtil commonUtil;
   private boolean sendEmail = false;
 
   @Autowired
@@ -46,6 +47,11 @@ public class SecurityServiceImpl implements SecurityService {
   @Autowired
   public void setEmailUtil(EmailUtil emailUtil) {
     this.emailUtil = emailUtil;
+  }
+
+  @Autowired
+  public void setCommonUtil(CommonUtil commonUtil) {
+    this.commonUtil = commonUtil;
   }
 
   
@@ -72,10 +78,15 @@ public class SecurityServiceImpl implements SecurityService {
     }
     */
     
-    Map<Date, HistoricalQuote> quotes = yfDao.getHisoricalQuotes("msft", 5, YfDao.DAILY_INCREMENT);
+    Map<Date, HistoricalQuote> quotes = yfDao.getHisoricalQuotes("actwx", 365, YfDao.DAILY_INCREMENT);
     for (Map.Entry<Date, HistoricalQuote> quote : quotes.entrySet()) {
       System.out.println(quote.getKey() + ": " + quote.getValue().getClose());
     }
+    
+    Date[] dateRange = commonUtil.getDateRangeForNumberOfPastWeekdays(5);
+    HistoricalQuote quote5d = quotes.get(dateRange[0]);
+    System.out.println("5d " + quote5d.getDate() + " " + quote5d.getClose());
+    System.out.println("5d%: " + getPercentDisplayForDaysAgo(quotes, 2));
   }
 
   
@@ -169,6 +180,16 @@ public class SecurityServiceImpl implements SecurityService {
       emailUtil.sendEmailThruGoogle("----", message);
     }
     System.out.println(new Date() + message);
+  }
+  
+  
+  private List<Map<Date,HistoricalQuote>> getHistoricalQuotesForSymbols(List<String> symbols, int numberOfPastWeekdays, String increment) {
+    List<Map<Date,HistoricalQuote>> historicalQuotes = new ArrayList();
+    for (String symbol : symbols) {
+      Map<Date,HistoricalQuote> historicalQuote = yfDao.getHisoricalQuotes(symbol, numberOfPastWeekdays, increment);
+      historicalQuotes.add(historicalQuote);
+    }
+    return historicalQuotes;
   }
   
   
@@ -282,5 +303,22 @@ public class SecurityServiceImpl implements SecurityService {
     return convertedFloat;
   }
   
+  
+  private String getPercentDisplayForDaysAgo(Map<Date, HistoricalQuote> historicalQuotes, int daysAgo) {
+    String percentForDaysAgo = null;
+    Date[] dateRange = commonUtil.getDateRangeForNumberOfPastWeekdays(daysAgo);
+    HistoricalQuote quoteDaysAgo = historicalQuotes.get(dateRange[0]);
+    HistoricalQuote quoteToday = historicalQuotes.get(dateRange[1]);
+    if (quoteDaysAgo != null && quoteToday != null) {
+      float closeDaysAgo = quoteDaysAgo.getClose();
+      float closeToday = quoteToday.getClose();
+      float percentChange = ((closeToday - closeDaysAgo) * 100) / closeDaysAgo;
+      percentForDaysAgo = String.format("%+.2f%%", percentChange);
+    } else {
+      percentForDaysAgo = "n/a";
+    }
+    
+    return percentForDaysAgo;
+  }
   
 }

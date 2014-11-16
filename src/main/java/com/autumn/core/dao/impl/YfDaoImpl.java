@@ -8,9 +8,9 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import static org.apache.http.HttpHeaders.USER_AGENT;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -37,6 +37,9 @@ public class YfDaoImpl implements YfDao {
     request.addHeader("User-Agent", USER_AGENT);
     try {
       HttpResponse response = client.execute(request);
+      if (response.getStatusLine().getStatusCode() != 200) {
+        throw new RuntimeException("Unable to retrieve quotes. The request URL is " + url + ".");
+      }
       BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
       String line = null;
       while ((line=rd.readLine()) != null) {
@@ -64,6 +67,11 @@ public class YfDaoImpl implements YfDao {
     request.addHeader("User-Agent", USER_AGENT);
     try {
       HttpResponse response = client.execute(request);
+      if (response.getStatusLine().getStatusCode() != 200) {
+        throw new RuntimeException("Unable to retrieve historical quotes for symbol " + symbol + ". " +
+                                   "Make sure the symbol is correct. " +
+                                   "The request URL is " + url + ".");
+      }
       BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
       String line = null;
       while ((line=rd.readLine()) != null) {
@@ -113,7 +121,7 @@ public class YfDaoImpl implements YfDao {
   
   private Map<Date, HistoricalQuote> convertToQuoteObjects(List<String> csvResults) {
     final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    Map<Date, HistoricalQuote> quotes = new HashMap();
+    Map<Date, HistoricalQuote> quotes = new TreeMap();
     for (int i = 1; i < csvResults.size(); i++) {
       String[] splitted = csvResults.get(i).split(",");
       try {
