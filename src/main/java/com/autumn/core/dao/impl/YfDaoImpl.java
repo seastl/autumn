@@ -30,6 +30,10 @@ public class YfDaoImpl implements YfDao {
   
   @Override
   public List<String> getQuote(List<String> symbols, String requests) {
+    if (!requests.startsWith(SYMBOL)) {
+      throw new RuntimeException("Requests parameter must start with SYMBOL \"s\".");
+    }
+    
     List<String> results = new ArrayList();
     String url = buildQuoteUrl(symbols, requests);
     HttpClient client = HttpClientBuilder.create().build();
@@ -68,14 +72,15 @@ public class YfDaoImpl implements YfDao {
     try {
       HttpResponse response = client.execute(request);
       if (response.getStatusLine().getStatusCode() != 200) {
-        throw new RuntimeException("Unable to retrieve historical quotes for symbol " + symbol + ". " +
-                                   "Make sure the symbol is correct. " +
-                                   "The request URL is " + url + ".");
-      }
-      BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-      String line = null;
-      while ((line=rd.readLine()) != null) {
-        csvResults.add(line);
+        System.out.println("Error: Unable to retrieve historical quotes for symbol " + symbol + ". " +
+                                  "Make sure the symbol is correct. " +
+                                  "The request URL is " + url + ".");
+      } else {
+        BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+        String line = null;
+        while ((line=rd.readLine()) != null) {
+          csvResults.add(line);
+        }
       }
     } catch (Exception ex) {
       ex.printStackTrace();

@@ -33,8 +33,9 @@ public class Monitor {
     // The following is for testing only Actual code is triggered by scheduler.
     SecurityService securityService = ctx.getBean(SecurityService.class);
     securityService.setSendEmail(sendEmail);
-    securityService.check();
-    //securityService.checkForEndOfDay();
+    
+    //securityService.check();
+    securityService.checkForEndOfDay();
 
   }
   

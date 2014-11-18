@@ -78,7 +78,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
     */
     
-    Map<Date, HistoricalQuote> quotes = yfDao.getHisoricalQuotes("actwx", 365, YfDao.DAILY_INCREMENT);
+    Map<Date, HistoricalQuote> quotes = yfDao.getHisoricalQuotes("dodgx", 250, YfDao.DAILY_INCREMENT);
     for (Map.Entry<Date, HistoricalQuote> quote : quotes.entrySet()) {
       System.out.println(quote.getKey() + ": " + quote.getValue().getClose());
     }
@@ -86,7 +86,7 @@ public class SecurityServiceImpl implements SecurityService {
     Date[] dateRange = commonUtil.getDateRangeForNumberOfPastWeekdays(5);
     HistoricalQuote quote5d = quotes.get(dateRange[0]);
     System.out.println("5d " + quote5d.getDate() + " " + quote5d.getClose());
-    System.out.println("5d%: " + getPercentDisplayForDaysAgo(quotes, 2));
+    System.out.println("5d%: " + getPercentDisplayForWeekdaysAgo(quotes, 2));
   }
 
   
@@ -145,36 +145,65 @@ public class SecurityServiceImpl implements SecurityService {
   public void checkForEndOfDay() {
     final String REQUESTS = SYMBOL + NAME + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"","","",""};
+
+    Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes = null;
+    String message = "\n";
     
+    // nn
     List<SecurityLogType> nnSecurities = securityLogTypeDao.getSecuritiesForNn();
     List<String> nnSymbols = getSymbols(nnSecurities);
-    List<Boolean> nnParticipations = getParticipations(nnSecurities);
+    Map<String, Boolean> nnParticipations = getParticipations(nnSecurities);
     List<String> nnCsvResults = yfDao.getQuote(nnSymbols, REQUESTS);
     nnCsvResults = sortByColumn(nnCsvResults, 3, true);
 
+    securitiesHistQuotes = new HashMap();
+    for (String nnSymbol : nnSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(nnSymbol, 250, YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(nnSymbol, securityHistQuotes);
+    }
+    message += "Nn Funds:\n" + buildMessage(HEADERS, nnParticipations, nnCsvResults, securitiesHistQuotes) + "\n";
+    
+    // lb
     List<SecurityLogType> lbSecurities = securityLogTypeDao.getSecuritiesForLb();
     List<String> lbSymbols = getSymbols(lbSecurities);
-    List<Boolean> lbParticipations = getParticipations(lbSecurities);
+    Map<String, Boolean> lbParticipations = getParticipations(lbSecurities);
     List<String> lbCsvResults = yfDao.getQuote(lbSymbols, REQUESTS);
     lbCsvResults = sortByColumn(lbCsvResults, 3, true);
 
+    securitiesHistQuotes = new HashMap();
+    for (String lbSymbol : lbSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(lbSymbol, 250, YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(lbSymbol, securityHistQuotes);
+    }
+    message += "Lb Funds:\n" + buildMessage(HEADERS, lbParticipations, lbCsvResults, securitiesHistQuotes) + "\n";
+    
+    // Ic
     List<SecurityLogType> icSecurities = securityLogTypeDao.getSecuritiesForIc();
     List<String> icSymbols = getSymbols(icSecurities);
-    List<Boolean> icParticipations = getParticipations(icSecurities);
+    Map<String, Boolean> icParticipations = getParticipations(icSecurities);
     List<String> icCsvResults = yfDao.getQuote(icSymbols, REQUESTS);
     icCsvResults = sortByColumn(icCsvResults, 3, true);
 
+    securitiesHistQuotes = new HashMap();
+    for (String icSymbol : icSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(icSymbol, 250, YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(icSymbol, securityHistQuotes);
+    }
+    message += "Ic Funds:\n" + buildMessage(HEADERS, icParticipations, icCsvResults, securitiesHistQuotes) + "\n";
+    
+    // sg
     List<SecurityLogType> sgSecurities = securityLogTypeDao.getSecuritiesForSg();
     List<String> sgSymbols = getSymbols(sgSecurities);
-    List<Boolean> sgParticipations = getParticipations(sgSecurities);
+    Map<String, Boolean> sgParticipations = getParticipations(sgSecurities);
     List<String> sgCsvResults = yfDao.getQuote(sgSymbols, REQUESTS);
     sgCsvResults = sortByColumn(sgCsvResults, 3, true);
 
-    String message = "\n";
-    message += "Nn Funds:\n" + buildMessage(HEADERS, nnParticipations, nnCsvResults) + "\n";
-    message += "Lb Funds:\n" + buildMessage(HEADERS, lbParticipations, lbCsvResults) + "\n";
-    message += "Ic Funds:\n" + buildMessage(HEADERS, icParticipations, icCsvResults) + "\n";
-    message += "Sg Funds:\n" + buildMessage(HEADERS, sgParticipations, sgCsvResults) + "\n";
+    securitiesHistQuotes = new HashMap();
+    for (String sgSymbol : sgSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(sgSymbol, 250, YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(sgSymbol, securityHistQuotes);
+    }
+    message += "Ic Funds:\n" + buildMessage(HEADERS, sgParticipations, sgCsvResults, securitiesHistQuotes) + "\n";
     
     if (sendEmail) {
       emailUtil.sendEmailThruGoogle("----", message);
@@ -202,10 +231,10 @@ public class SecurityServiceImpl implements SecurityService {
   }
   
   
-  private List<Boolean> getParticipations(List<SecurityLogType> securities) {
-    List<Boolean> participations = new ArrayList();
+  private Map<String,Boolean> getParticipations(List<SecurityLogType> securities) {
+    Map<String,Boolean> participations = new HashMap();
     for (SecurityLogType security : securities) {
-      participations.add(security.getSecurity().isParticipated());
+      participations.put(security.getSecurity().getYahooSymbol(), security.getSecurity().isParticipated());
     }
     return participations;
   }
@@ -228,20 +257,50 @@ public class SecurityServiceImpl implements SecurityService {
   }
 
   
-  private String buildMessage(String[] headers, List<Boolean> participations, List<String> csvResults) {
+  private String buildMessage(String[] headers, Map<String,Boolean> participations, List<String> csvResults) {
     StringBuilder sb = new StringBuilder();
     for (int j = 0; j < csvResults.size(); j++) {
       String csvResult = csvResults.get(j);
-      String participation = participations.get(j) ? "*" : " ";
       String[] result = csvResult.split(",");
+      String symbol = removeDoubleQuotes(result[0]);
+      String participation = participations.get(symbol) ? "*" : " ";
       sb.append(participation);
       for (int i = 0; i < headers.length; i++) {
         if (headers[i] != null && !headers[i].isEmpty()) {
-          sb.append(headers[i] + ":" + removeQuotes(result[i]) + " ");
+          sb.append(headers[i] + ":" + removeDoubleQuotes(result[i]) + " ");
         } else {
-          sb.append(removeQuotes(result[i]) + " ");
+          sb.append(removeDoubleQuotes(result[i]) + " ");
         }
       }
+      sb.append("\n");
+    }
+    return sb.toString();
+  }
+  
+
+  private String buildMessage(String[] headers, Map<String,Boolean> participations, List<String> csvResults, Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes) {
+    StringBuilder sb = new StringBuilder();
+    for (int j = 0; j < csvResults.size(); j++) {
+      String csvResult = csvResults.get(j);
+      String[] result = csvResult.split(",");
+      String symbol = removeDoubleQuotes(result[0]);
+      String participation = participations.get(symbol) ? "*" : " ";
+      sb.append(participation);
+      for (int i = 0; i < headers.length; i++) {
+        if (headers[i] != null && !headers[i].isEmpty()) {
+          sb.append(headers[i] + ":" + removeDoubleQuotes(result[i]) + " ");
+        } else {
+          sb.append(removeDoubleQuotes(result[i]) + " ");
+        }
+      }
+      Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
+      sb.append("5d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 5)).append(" ");
+      sb.append("10d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 10)).append(" ");
+      sb.append("1m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 20)).append(" ");
+      sb.append("3m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 60)).append(" ");
+      sb.append("6m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 120)).append(" ");
+      sb.append("9m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 180)).append(" ");
+      sb.append("1y" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 240)).append(" ");
       sb.append("\n");
     }
     return sb.toString();
@@ -253,7 +312,7 @@ public class SecurityServiceImpl implements SecurityService {
    * @param in
    * @return 
    */
-  private String removeQuotes(String in) {
+  private String removeDoubleQuotes(String in) {
     if (in.contains(" ")) {
       return in;
     } else {
@@ -304,9 +363,9 @@ public class SecurityServiceImpl implements SecurityService {
   }
   
   
-  private String getPercentDisplayForDaysAgo(Map<Date, HistoricalQuote> historicalQuotes, int daysAgo) {
+  private String getPercentDisplayForWeekdaysAgo(Map<Date, HistoricalQuote> historicalQuotes, int weekdaysAgo) {
     String percentForDaysAgo = null;
-    Date[] dateRange = commonUtil.getDateRangeForNumberOfPastWeekdays(daysAgo);
+    Date[] dateRange = commonUtil.getDateRangeForNumberOfPastWeekdays(weekdaysAgo);
     HistoricalQuote quoteDaysAgo = historicalQuotes.get(dateRange[0]);
     HistoricalQuote quoteToday = historicalQuotes.get(dateRange[1]);
     if (quoteDaysAgo != null && quoteToday != null) {
