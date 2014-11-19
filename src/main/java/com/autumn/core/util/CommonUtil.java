@@ -39,14 +39,14 @@ public class CommonUtil {
 
   /**
    * 
-   * @param pastPeriod e.g. 1d, 10d, 2m, 1y
+   * @param pastWorkPeriod e.g. 1d, 10d, 2m, 1y
    * @return 
    */
-  public Date[] getDateRangeForPeriod(String pastPeriod) {
-    String timeUnit = pastPeriod.substring(pastPeriod.length()-1);
-    int timeValue = Integer.parseInt(pastPeriod.substring(0, pastPeriod.length()-1));
+  public Date[] getDateRangeForPastWorkPeriod(String pastWorkPeriod) {
+    String timeUnit = pastWorkPeriod.substring(pastWorkPeriod.length()-1);
+    int timeValue = Integer.parseInt(pastWorkPeriod.substring(0, pastWorkPeriod.length()-1));
             
-    if (!pastPeriod.endsWith("d") && !pastPeriod.endsWith("w") && !pastPeriod.endsWith("m") && !pastPeriod.endsWith("y")) {
+    if (!pastWorkPeriod.endsWith("d") && !pastWorkPeriod.endsWith("w") && !pastWorkPeriod.endsWith("m") && !pastWorkPeriod.endsWith("y")) {
       throw new RuntimeException("Past period must end with d, m, y.");
     }
     
@@ -60,18 +60,23 @@ public class CommonUtil {
     
     // Determines startDate
     if (timeUnit.equals("d")) {
-      newDate = newDate.minusDays(timeValue);
+      for (int i = 0; i < timeValue-1; i++) {
+        newDate = newDate.minusDays(1);
+        while (newDate.getDayOfWeek() > DateTimeConstants.FRIDAY) {
+          newDate = newDate.minusDays(1);
+        }
+      }
     } else if (timeUnit.equals("w")) {
-      newDate = newDate.minusWeeks(timeValue);
+      newDate = newDate.minusWeeks(timeValue).plusDays(1);
     } else if (timeUnit.equals("m")) {
-      newDate = newDate.minusMonths(timeValue);
+      newDate = newDate.minusMonths(timeValue).plusDays(1);
     } else if (timeUnit.equals("y")) {
-      newDate = newDate.minusYears(timeValue);
+      newDate = newDate.minusYears(timeValue).plusDays(1);
     }
 
-    // Move backward to a weekday
+    // Move forward to a weekday if necessary
     while (newDate.getDayOfWeek() > DateTimeConstants.FRIDAY) {
-      newDate = newDate.minusDays(1);
+      newDate = newDate.plusDays(1);
     }
     Date startDate = newDate.toDateTimeAtStartOfDay().toDate();
     

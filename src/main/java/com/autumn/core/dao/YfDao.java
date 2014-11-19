@@ -120,5 +120,5 @@ public interface YfDao {
   
   public List<String> getQuote(List<String> symbols, String requests);
   public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbol, Date startDate, Date endDate, String increment);
-  public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbol, int numberOfPastWeekdays, String increment);
+  public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbol, String pastPeriod, String increment);
 }

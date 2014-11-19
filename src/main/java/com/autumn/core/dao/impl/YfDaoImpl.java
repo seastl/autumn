@@ -92,8 +92,8 @@ public class YfDaoImpl implements YfDao {
 
   
   @Override
-  public Map<Date, HistoricalQuote> getHisoricalQuotes(String symbol, int numberOfPastWeekdays, String increment) {
-    Date[] dateRange = commonUtil.getDateRangeForNumberOfPastWeekdays(numberOfPastWeekdays);
+  public Map<Date, HistoricalQuote> getHisoricalQuotes(String symbol, String pastPeriod, String increment) {
+    Date[] dateRange = commonUtil.getDateRangeForPastWorkPeriod(pastPeriod);
     Date fromDate = dateRange[0];
     Date toDate = dateRange[1];
     return getHisoricalQuotes(symbol, fromDate, toDate, increment);

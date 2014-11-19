@@ -78,15 +78,15 @@ public class SecurityServiceImpl implements SecurityService {
     }
     */
     
-    Map<Date, HistoricalQuote> quotes = yfDao.getHisoricalQuotes("dodgx", 250, YfDao.DAILY_INCREMENT);
+    Map<Date, HistoricalQuote> quotes = yfDao.getHisoricalQuotes("dodgx", "1y", YfDao.DAILY_INCREMENT);
     for (Map.Entry<Date, HistoricalQuote> quote : quotes.entrySet()) {
       System.out.println(quote.getKey() + ": " + quote.getValue().getClose());
     }
     
-    Date[] dateRange = commonUtil.getDateRangeForNumberOfPastWeekdays(5);
+    Date[] dateRange = commonUtil.getDateRangeForPastWorkPeriod("5d");
     HistoricalQuote quote5d = quotes.get(dateRange[0]);
     System.out.println("5d " + quote5d.getDate() + " " + quote5d.getClose());
-    System.out.println("5d%: " + getPercentDisplayForWeekdaysAgo(quotes, 2));
+    System.out.println("5d%: " + getPercentDisplayForWeekdaysAgo(quotes, "5d"));
   }
 
   
@@ -158,7 +158,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     securitiesHistQuotes = new HashMap();
     for (String nnSymbol : nnSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(nnSymbol, 250, YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(nnSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(nnSymbol, securityHistQuotes);
     }
     message += "Nn Funds:\n" + buildMessage(HEADERS, nnParticipations, nnCsvResults, securitiesHistQuotes) + "\n";
@@ -172,7 +172,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     securitiesHistQuotes = new HashMap();
     for (String lbSymbol : lbSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(lbSymbol, 250, YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(lbSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(lbSymbol, securityHistQuotes);
     }
     message += "Lb Funds:\n" + buildMessage(HEADERS, lbParticipations, lbCsvResults, securitiesHistQuotes) + "\n";
@@ -186,7 +186,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     securitiesHistQuotes = new HashMap();
     for (String icSymbol : icSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(icSymbol, 250, YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(icSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(icSymbol, securityHistQuotes);
     }
     message += "Ic Funds:\n" + buildMessage(HEADERS, icParticipations, icCsvResults, securitiesHistQuotes) + "\n";
@@ -200,25 +200,15 @@ public class SecurityServiceImpl implements SecurityService {
 
     securitiesHistQuotes = new HashMap();
     for (String sgSymbol : sgSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(sgSymbol, 250, YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(sgSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(sgSymbol, securityHistQuotes);
     }
-    message += "Ic Funds:\n" + buildMessage(HEADERS, sgParticipations, sgCsvResults, securitiesHistQuotes) + "\n";
+    message += "Sg Funds:\n" + buildMessage(HEADERS, sgParticipations, sgCsvResults, securitiesHistQuotes) + "\n";
     
     if (sendEmail) {
       emailUtil.sendEmailThruGoogle("----", message);
     }
     System.out.println(new Date() + message);
-  }
-  
-  
-  private List<Map<Date,HistoricalQuote>> getHistoricalQuotesForSymbols(List<String> symbols, int numberOfPastWeekdays, String increment) {
-    List<Map<Date,HistoricalQuote>> historicalQuotes = new ArrayList();
-    for (String symbol : symbols) {
-      Map<Date,HistoricalQuote> historicalQuote = yfDao.getHisoricalQuotes(symbol, numberOfPastWeekdays, increment);
-      historicalQuotes.add(historicalQuote);
-    }
-    return historicalQuotes;
   }
   
   
@@ -294,13 +284,13 @@ public class SecurityServiceImpl implements SecurityService {
         }
       }
       Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
-      sb.append("5d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 5)).append(" ");
-      sb.append("10d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 10)).append(" ");
-      sb.append("1m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 20)).append(" ");
-      sb.append("3m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 60)).append(" ");
-      sb.append("6m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 120)).append(" ");
-      sb.append("9m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 180)).append(" ");
-      sb.append("1y" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, 240)).append(" ");
+      sb.append("5d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d")).append(" ");
+      sb.append("10d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d")).append(" ");
+      sb.append("1m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m")).append(" ");
+      sb.append("3m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m")).append(" ");
+      sb.append("6m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m")).append(" ");
+      sb.append("9m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m")).append(" ");
+      sb.append("1y" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y")).append(" ");
       sb.append("\n");
     }
     return sb.toString();
@@ -332,7 +322,12 @@ public class SecurityServiceImpl implements SecurityService {
     Map<Float,String> unsortedMap = new HashMap();
     for (String csvString : csvStrings) {
       String[] splittedStrings = csvString.split(",");
-      unsortedMap.put(convertToInteger(splittedStrings[sortColIndex]), csvString);
+      Float key = convertToFloat(splittedStrings[sortColIndex]);
+      if (unsortedMap.containsKey(key)) {
+        unsortedMap.put(key+0.0001F, csvString);
+      } else {
+        unsortedMap.put(key, csvString);
+      }
     }
     
     Map<Float,String> sortedMap = new TreeMap<Float,String>(
@@ -350,7 +345,7 @@ public class SecurityServiceImpl implements SecurityService {
   }
   
   
-  private Float convertToInteger(String in) {
+  private Float convertToFloat(String in) {
     String stripped = in.replace("\"", "");
     stripped = stripped.replace("%", "");
     Float convertedFloat = null;
@@ -363,15 +358,15 @@ public class SecurityServiceImpl implements SecurityService {
   }
   
   
-  private String getPercentDisplayForWeekdaysAgo(Map<Date, HistoricalQuote> historicalQuotes, int weekdaysAgo) {
+  private String getPercentDisplayForWeekdaysAgo(Map<Date, HistoricalQuote> historicalQuotes, String pastWorkPeriod) {
     String percentForDaysAgo = null;
-    Date[] dateRange = commonUtil.getDateRangeForNumberOfPastWeekdays(weekdaysAgo);
+    Date[] dateRange = commonUtil.getDateRangeForPastWorkPeriod(pastWorkPeriod);
     HistoricalQuote quoteDaysAgo = historicalQuotes.get(dateRange[0]);
     HistoricalQuote quoteToday = historicalQuotes.get(dateRange[1]);
     if (quoteDaysAgo != null && quoteToday != null) {
-      float closeDaysAgo = quoteDaysAgo.getClose();
+      float openDaysAgo = quoteDaysAgo.getOpen();
       float closeToday = quoteToday.getClose();
-      float percentChange = ((closeToday - closeDaysAgo) * 100) / closeDaysAgo;
+      float percentChange = ((closeToday - openDaysAgo) * 100) / openDaysAgo;
       percentForDaysAgo = String.format("%+.2f%%", percentChange);
     } else {
       percentForDaysAgo = "n/a";

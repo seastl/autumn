@@ -46,9 +46,9 @@ public class Scheduler {
 
 
   /**
-   * Executes Mon-Fri @4:05PM
+   * Executes Mon-Fri @5:05PM
    */
-  @Scheduled(cron = "0 5 16 * * MON-FRI")
+  @Scheduled(cron = "0 5 17 * * MON-FRI")
   public void executeForEndOfDay() {
     securityService.checkForEndOfDay();
   }
