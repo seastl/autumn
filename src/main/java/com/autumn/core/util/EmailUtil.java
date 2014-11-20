@@ -2,6 +2,7 @@ package com.autumn.core.util;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
 
 public class EmailUtil {
@@ -44,6 +45,24 @@ public class EmailUtil {
       email.setFrom(googleUserName);
       email.setSubject(subject);
       email.setMsg(message);
+      email.addTo(toEmail);
+      email.send();
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }   
+  }
+
+  
+  public void sendHtmlEmailThruGoogle(String subject, String message) {
+    try {
+      HtmlEmail email = new HtmlEmail();
+      email.setHostName(SMTP_HOST);
+      email.setSmtpPort(SMTP_PORT);
+      email.setAuthenticator(new DefaultAuthenticator(this.googleUserName, this.googlePassword));
+      email.setSSLOnConnect(true);
+      email.setFrom(googleUserName);
+      email.setSubject(subject);
+      email.setHtmlMsg(message);
       email.addTo(toEmail);
       email.send();
     } catch (Exception ex) {
