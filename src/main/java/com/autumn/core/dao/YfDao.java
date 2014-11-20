@@ -17,6 +17,9 @@ public interface YfDao {
   public static final String DOW = CARET+"INDU";
   public static final String NASDAQ = CARET+"IXIC";
   public static final String SP500 = CARET+"GSPC";
+  public static final String RUSSELL_1000 = CARET+"RUI";
+  public static final String RUSSELL_2000 = CARET+"RUT";
+  public static final String RUSSELL_3000 = CARET+"RUA";
   public static final String SP500_VOLATILITY = CARET+"VIX";
   public static final String IDX_TECHOLOGY = "XLK";
   public static final String IDX_CONSUMER_DISCRETE_SELECT = "XLY";

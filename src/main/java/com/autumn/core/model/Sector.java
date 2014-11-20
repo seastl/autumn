@@ -16,8 +16,12 @@ public class Sector {
   public static final int CONSUMER_STAPLES = 12;
   public static final int ENERGY = 13;
   public static final int UTILITIES = 14;
-  public static final int FINANCIAL = 15;
+  public static final int FINANCE = 15;
   public static final int VOLATILITY = 16;
+  public static final int RETAIL = 17;
+  public static final int HOME_BUILDERS = 18;
+  public static final int HEALTH_CARE_EQUIPMENT = 19;
+  public static final int HEALTH_CARE_SERVICES = 20;
   
   private Integer id;
   private String description;

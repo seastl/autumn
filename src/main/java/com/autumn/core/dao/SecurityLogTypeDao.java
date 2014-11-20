@@ -4,9 +4,9 @@ import com.autumn.core.model.SecurityLogType;
 import java.util.List;
 
 public interface SecurityLogTypeDao {
-  List<SecurityLogType> getSecuritiesForIntraDayLogging();
-  List<SecurityLogType> getSecuritiesForStartOfDayLogging();
-  List<SecurityLogType> getSecuritiesForEndOfDayLogging();
+  List<SecurityLogType> getSecuritiesForIntraDay();
+  List<SecurityLogType> getSecuritiesForDailyOpen();
+  List<SecurityLogType> getSecuritiesForDailyClose();
   List<SecurityLogType> getSecuritiesForNn();
   List<SecurityLogType> getSecuritiesForLb();
   List<SecurityLogType> getSecuritiesForSg();

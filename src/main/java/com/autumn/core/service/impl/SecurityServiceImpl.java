@@ -95,7 +95,7 @@ public class SecurityServiceImpl implements SecurityService {
     final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"","prv","ask","pct"};
     
-    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForStartOfDayLogging();
+    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
     
@@ -112,7 +112,7 @@ public class SecurityServiceImpl implements SecurityService {
     final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"","prv","ask","pct"};
     
-    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForStartOfDayLogging();
+    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
     
@@ -129,7 +129,7 @@ public class SecurityServiceImpl implements SecurityService {
     final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"","prv","ask","pct"};
     
-    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForStartOfDayLogging();
+    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
 
