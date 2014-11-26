@@ -86,22 +86,22 @@ public class SecurityServiceImpl implements SecurityService {
     Date[] dateRange = commonUtil.getDateRangeForPastWorkPeriod("5d");
     HistoricalQuote quote5d = quotes.get(dateRange[0]);
     System.out.println("5d " + quote5d.getDate() + " " + quote5d.getClose());
-    System.out.println("5d%: " + getPercentDisplayForWeekdaysAgo(quotes, "5d"));
+    System.out.println("5d%: " + commonUtil.getPercentDisplayForWeekdaysAgo(quotes, "5d"));
   }
 
   
   @Override
   public void checkForDailyOpen() {
-    final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
-    final String[] HEADERS = {"","prv","ask","pct"};
+    final String REQUESTS = SYMBOL + NAME + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
+    final String[] HEADERS = {"Sym","Name","Prv","Ask","Pct"};
     
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
     
-    String message = buildMessage(HEADERS, csvResults);
+    String message = commonUtil.buildHtmlMessage(HEADERS, csvResults);
     if (sendEmail) {
-      emailUtil.sendEmailThruGoogle("-", message);
+      emailUtil.sendHtmlEmailThruGoogle("-", message);
     }
     System.out.println(new Date() + message);
   }
@@ -109,14 +109,14 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void checkForIntraDay() {
-    final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
-    final String[] HEADERS = {"","prv","ask","pct"};
+    final String REQUESTS = SYMBOL + NAME + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
+    final String[] HEADERS = {"Sym","Name","Prv","Ask","Pct"};
     
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
     
-    String message = buildMessage(HEADERS, csvResults);
+    String message = commonUtil.buildMessage(HEADERS, csvResults);
     if (sendEmail) {
       emailUtil.sendEmailThruGoogle("--", message);
     }
@@ -133,7 +133,7 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
 
-    String message = buildMessage(HEADERS, csvResults);
+    String message = commonUtil.buildMessage(HEADERS, csvResults);
     if (sendEmail) {
       emailUtil.sendEmailThruGoogle("---", message);
     }
@@ -161,7 +161,7 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(nnSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(nnSymbol, securityHistQuotes);
     }
-    message += "Nn Funds:\n" + buildMessage(HEADERS, nnParticipations, nnCsvResults, securitiesHistQuotes) + "\n";
+    message += "Nn Funds:\n" + commonUtil.buildMessage(HEADERS, nnParticipations, nnCsvResults, securitiesHistQuotes) + "\n";
     
     // lb
     List<SecurityLogType> lbSecurities = securityLogTypeDao.getSecuritiesForLb();
@@ -175,7 +175,7 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(lbSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(lbSymbol, securityHistQuotes);
     }
-    message += "Lb Funds:\n" + buildMessage(HEADERS, lbParticipations, lbCsvResults, securitiesHistQuotes) + "\n";
+    message += "Lb Funds:\n" + commonUtil.buildMessage(HEADERS, lbParticipations, lbCsvResults, securitiesHistQuotes) + "\n";
     
     // Ic
     List<SecurityLogType> icSecurities = securityLogTypeDao.getSecuritiesForIc();
@@ -189,7 +189,7 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(icSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(icSymbol, securityHistQuotes);
     }
-    message += "Ic Funds:\n" + buildMessage(HEADERS, icParticipations, icCsvResults, securitiesHistQuotes) + "\n";
+    message += "Ic Funds:\n" + commonUtil.buildMessage(HEADERS, icParticipations, icCsvResults, securitiesHistQuotes) + "\n";
     
     // sg
     List<SecurityLogType> sgSecurities = securityLogTypeDao.getSecuritiesForSg();
@@ -203,7 +203,7 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(sgSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(sgSymbol, securityHistQuotes);
     }
-    message += "Sg Funds:\n" + buildMessage(HEADERS, sgParticipations, sgCsvResults, securitiesHistQuotes) + "\n";
+    message += "Sg Funds:\n" + commonUtil.buildMessage(HEADERS, sgParticipations, sgCsvResults, securitiesHistQuotes) + "\n";
     
     if (sendEmail) {
       emailUtil.sendEmailThruGoogle("----", message);
@@ -230,87 +230,6 @@ public class SecurityServiceImpl implements SecurityService {
   }
   
   
-  private String buildMessage(String[] headers, List<String> csvResults) {
-    StringBuilder sb = new StringBuilder();
-    for (String csvResult : csvResults) {
-      String[] result = csvResult.split(",");
-      for (int i = 0; i < headers.length; i++) {
-        if (headers[i] != null && !headers[i].isEmpty()) {
-          sb.append(headers[i] + ":" + result[i] + " ");
-        } else {
-          sb.append(result[i] + " ");
-        }
-      }
-      sb.append("\n");
-    }
-    return sb.toString();
-  }
-
-  
-  private String buildMessage(String[] headers, Map<String,Boolean> participations, List<String> csvResults) {
-    StringBuilder sb = new StringBuilder();
-    for (int j = 0; j < csvResults.size(); j++) {
-      String csvResult = csvResults.get(j);
-      String[] result = csvResult.split(",");
-      String symbol = removeDoubleQuotes(result[0]);
-      String participation = participations.get(symbol) ? "*" : " ";
-      sb.append(participation);
-      for (int i = 0; i < headers.length; i++) {
-        if (headers[i] != null && !headers[i].isEmpty()) {
-          sb.append(headers[i] + ":" + removeDoubleQuotes(result[i]) + " ");
-        } else {
-          sb.append(removeDoubleQuotes(result[i]) + " ");
-        }
-      }
-      sb.append("\n");
-    }
-    return sb.toString();
-  }
-  
-
-  private String buildMessage(String[] headers, Map<String,Boolean> participations, List<String> csvResults, Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes) {
-    StringBuilder sb = new StringBuilder();
-    for (int j = 0; j < csvResults.size(); j++) {
-      String csvResult = csvResults.get(j);
-      String[] result = csvResult.split(",");
-      String symbol = removeDoubleQuotes(result[0]);
-      String participation = participations.get(symbol) ? "*" : " ";
-      sb.append(participation);
-      for (int i = 0; i < headers.length; i++) {
-        if (headers[i] != null && !headers[i].isEmpty()) {
-          sb.append(headers[i] + ":" + removeDoubleQuotes(result[i]) + " ");
-        } else {
-          sb.append(removeDoubleQuotes(result[i]) + " ");
-        }
-      }
-      Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
-      sb.append("5d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d")).append(" ");
-      sb.append("10d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d")).append(" ");
-      sb.append("1m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m")).append(" ");
-      sb.append("3m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m")).append(" ");
-      sb.append("6m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m")).append(" ");
-      sb.append("9m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m")).append(" ");
-      sb.append("1y" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y")).append(" ");
-      sb.append("\n");
-    }
-    return sb.toString();
-  }
-  
-
-  /**
-   * Remove double quotes from the string if the string does not contain spaces.
-   * @param in
-   * @return 
-   */
-  private String removeDoubleQuotes(String in) {
-    if (in.contains(" ")) {
-      return in;
-    } else {
-      return in.replace("\"", "");
-    }
-  }
-  
-
   /**
    * 
    * @param in
@@ -357,22 +276,5 @@ public class SecurityServiceImpl implements SecurityService {
     return convertedFloat;
   }
   
-  
-  private String getPercentDisplayForWeekdaysAgo(Map<Date, HistoricalQuote> historicalQuotes, String pastWorkPeriod) {
-    String percentForDaysAgo = null;
-    Date[] dateRange = commonUtil.getDateRangeForPastWorkPeriod(pastWorkPeriod);
-    HistoricalQuote quoteDaysAgo = historicalQuotes.get(dateRange[0]);
-    HistoricalQuote quoteToday = historicalQuotes.get(dateRange[1]);
-    if (quoteDaysAgo != null && quoteToday != null) {
-      float openDaysAgo = quoteDaysAgo.getOpen();
-      float closeToday = quoteToday.getClose();
-      float percentChange = ((closeToday - openDaysAgo) * 100) / openDaysAgo;
-      percentForDaysAgo = String.format("%+.2f%%", percentChange);
-    } else {
-      percentForDaysAgo = "n/a";
-    }
-    
-    return percentForDaysAgo;
-  }
   
 }

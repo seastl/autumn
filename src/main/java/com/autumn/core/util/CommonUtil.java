@@ -1,6 +1,9 @@
 package com.autumn.core.util;
 
+import com.autumn.core.model.HistoricalQuote;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 
@@ -82,6 +85,148 @@ public class CommonUtil {
     
     Date[] dateRange = new Date[]{startDate, endDate};
     return dateRange;
+  }
+  
+  
+  public String buildMessage(String[] headers, List<String> csvResults) {
+    StringBuilder sb = new StringBuilder();
+    for (String csvResult : csvResults) {
+      String[] result = csvResult.split(",");
+      for (int i = 0; i < headers.length; i++) {
+        if (headers[i] != null && !headers[i].isEmpty()) {
+          sb.append(headers[i] + ":" + result[i] + " ");
+        } else {
+          sb.append(result[i] + " ");
+        }
+      }
+      sb.append("\n");
+    }
+    return sb.toString();
+  }
+
+  
+  public String buildHtmlMessage(String[] headers, List<String> csvResults) {
+    StringBuilder sb = new StringBuilder("<html>\n");
+    sb = createHtmlHead(sb);
+    sb.append("<body>\n")
+      .append("  <table id='t01' style='width:500px'>\n")
+      .append("    <caption><h3>Caption</h3></caption>\n")
+      .append("    <tr>\n");
+    
+    for (String header : headers) {
+      sb.append("      <th>").append(header).append("</th>\n");
+    }
+    sb.append("    </tr>\n");
+    
+    for (String csvResult : csvResults) {
+      sb.append("    <tr>");
+      String[] results = csvResult.split(",");
+      for (String result : results) {
+        sb.append("      <td>").append(removeDoubleQuotes(result)).append("</td>\n");
+      }
+      sb.append("    </tr>");
+    }
+    sb.append("  </table>\n");
+    sb.append("</body>\n");
+    sb.append("</html>\n");
+    return sb.toString();
+  }
+
+  
+  public String buildMessage(String[] headers, Map<String,Boolean> participations, List<String> csvResults) {
+    StringBuilder sb = new StringBuilder();
+    for (int j = 0; j < csvResults.size(); j++) {
+      String csvResult = csvResults.get(j);
+      String[] result = csvResult.split(",");
+      String symbol = removeDoubleQuotes(result[0]);
+      String participation = participations.get(symbol) ? "*" : " ";
+      sb.append(participation);
+      for (int i = 0; i < headers.length; i++) {
+        if (headers[i] != null && !headers[i].isEmpty()) {
+          sb.append(headers[i] + ":" + removeDoubleQuotes(result[i]) + " ");
+        } else {
+          sb.append(removeDoubleQuotes(result[i]) + " ");
+        }
+      }
+      sb.append("\n");
+    }
+    return sb.toString();
+  }
+  
+
+  public String buildMessage(String[] headers, Map<String,Boolean> participations, List<String> csvResults, Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes) {
+    StringBuilder sb = new StringBuilder();
+    for (int j = 0; j < csvResults.size(); j++) {
+      String csvResult = csvResults.get(j);
+      String[] result = csvResult.split(",");
+      String symbol = removeDoubleQuotes(result[0]);
+      String participation = participations.get(symbol) ? "*" : " ";
+      sb.append(participation);
+      for (int i = 0; i < headers.length; i++) {
+        if (headers[i] != null && !headers[i].isEmpty()) {
+          sb.append(headers[i] + ":" + removeDoubleQuotes(result[i]) + " ");
+        } else {
+          sb.append(removeDoubleQuotes(result[i]) + " ");
+        }
+      }
+      Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
+      sb.append("5d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d")).append(" ");
+      sb.append("10d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d")).append(" ");
+      sb.append("1m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m")).append(" ");
+      sb.append("3m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m")).append(" ");
+      sb.append("6m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m")).append(" ");
+      sb.append("9m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m")).append(" ");
+      sb.append("1y" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y")).append(" ");
+      sb.append("\n");
+    }
+    return sb.toString();
+  }
+  
+
+  /**
+   * Remove double quotes from the string if the string does not contain spaces.
+   * @param in
+   * @return 
+   */
+  public String removeDoubleQuotes(String in) {
+    if (in.contains(" ")) {
+      return in;
+    } else {
+      return in.replace("\"", "");
+    }
+  }
+  
+
+  public String getPercentDisplayForWeekdaysAgo(Map<Date, HistoricalQuote> historicalQuotes, String pastWorkPeriod) {
+    String percentForDaysAgo = null;
+    Date[] dateRange = getDateRangeForPastWorkPeriod(pastWorkPeriod);
+    HistoricalQuote quoteDaysAgo = historicalQuotes.get(dateRange[0]);
+    HistoricalQuote quoteToday = historicalQuotes.get(dateRange[1]);
+    if (quoteDaysAgo != null && quoteToday != null) {
+      float openDaysAgo = quoteDaysAgo.getOpen();
+      float closeToday = quoteToday.getClose();
+      float percentChange = ((closeToday - openDaysAgo) * 100) / openDaysAgo;
+      percentForDaysAgo = String.format("%+.2f%%", percentChange);
+    } else {
+      percentForDaysAgo = "n/a";
+    }
+    
+    return percentForDaysAgo;
+  }
+  
+
+  private StringBuilder createHtmlHead(StringBuilder sb) {
+    sb.append("  <head>\n")
+      .append("    <style>\n")
+      .append("      table, th, td {border: 1px solid white; border-collapse: collapse;}\n")
+      .append("      th,td {padding: 1px;}\n")
+      .append("      th {text-align: left;}\n")
+      .append("      table#t01 tr:nth-child(even) {background-color: #eee;}\n")
+      .append("      table#t01 tr:nth-child(odd) {background-color: #fff;}\n")
+      .append("      table#t01 th {color: white; background-color: gray;}\n")
+      .append("    </style>\n")
+      .append("  </head>\n");
+    return sb;
   }
   
 }
