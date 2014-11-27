@@ -144,6 +144,80 @@ public class SecurityServiceImpl implements SecurityService {
   @Override
   public void checkForEndOfDay() {
     final String REQUESTS = SYMBOL + NAME + LST_TRD + PCT_CHG;
+    final String[] HEADERS = {"","","","","5d","10d","1m","3m","6m","9m","1y"};
+    
+    StringBuilder sb = new StringBuilder();
+    sb = commonUtil.createHtmlBegin(sb);
+
+    Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes = null;
+    
+    // nn
+    List<SecurityLogType> nnSecurities = securityLogTypeDao.getSecuritiesForNn();
+    List<String> nnSymbols = getSymbols(nnSecurities);
+    Map<String, Boolean> nnParticipations = getParticipations(nnSecurities);
+    List<String> nnCsvResults = yfDao.getQuote(nnSymbols, REQUESTS);
+    nnCsvResults = sortByColumn(nnCsvResults, 3, true);
+
+    securitiesHistQuotes = new HashMap();
+    for (String nnSymbol : nnSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(nnSymbol, "1y", YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(nnSymbol, securityHistQuotes);
+    }
+    sb = commonUtil.createHtmlTable(sb, "Nn Funds", HEADERS, nnParticipations, nnCsvResults, securitiesHistQuotes);
+    
+    // lb
+    List<SecurityLogType> lbSecurities = securityLogTypeDao.getSecuritiesForLb();
+    List<String> lbSymbols = getSymbols(lbSecurities);
+    Map<String, Boolean> lbParticipations = getParticipations(lbSecurities);
+    List<String> lbCsvResults = yfDao.getQuote(lbSymbols, REQUESTS);
+    lbCsvResults = sortByColumn(lbCsvResults, 3, true);
+
+    securitiesHistQuotes = new HashMap();
+    for (String lbSymbol : lbSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(lbSymbol, "1y", YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(lbSymbol, securityHistQuotes);
+    }
+    sb = commonUtil.createHtmlTable(sb, "Lb Funds", HEADERS, lbParticipations, lbCsvResults, securitiesHistQuotes);
+    
+    // Ic
+    List<SecurityLogType> icSecurities = securityLogTypeDao.getSecuritiesForIc();
+    List<String> icSymbols = getSymbols(icSecurities);
+    Map<String, Boolean> icParticipations = getParticipations(icSecurities);
+    List<String> icCsvResults = yfDao.getQuote(icSymbols, REQUESTS);
+    icCsvResults = sortByColumn(icCsvResults, 3, true);
+
+    securitiesHistQuotes = new HashMap();
+    for (String icSymbol : icSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(icSymbol, "1y", YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(icSymbol, securityHistQuotes);
+    }
+    sb = commonUtil.createHtmlTable(sb, "Ic Funds", HEADERS, icParticipations, icCsvResults, securitiesHistQuotes);
+    
+    // sg
+    List<SecurityLogType> sgSecurities = securityLogTypeDao.getSecuritiesForSg();
+    List<String> sgSymbols = getSymbols(sgSecurities);
+    Map<String, Boolean> sgParticipations = getParticipations(sgSecurities);
+    List<String> sgCsvResults = yfDao.getQuote(sgSymbols, REQUESTS);
+    sgCsvResults = sortByColumn(sgCsvResults, 3, true);
+
+    securitiesHistQuotes = new HashMap();
+    for (String sgSymbol : sgSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(sgSymbol, "1y", YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(sgSymbol, securityHistQuotes);
+    }
+    sb = commonUtil.createHtmlTable(sb, "Sg Funds", HEADERS, sgParticipations, sgCsvResults, securitiesHistQuotes);
+    
+    sb = commonUtil.createHtmlEnd(sb);
+    
+    if (sendEmail) {
+      emailUtil.sendHtmlEmailThruGoogle("----", sb.toString());
+    }
+    System.out.println(new Date() + sb.toString());
+  }
+
+  /*
+  public void checkForEndOfDay() {
+    final String REQUESTS = SYMBOL + NAME + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"","","",""};
 
     Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes = null;
@@ -211,6 +285,7 @@ public class SecurityServiceImpl implements SecurityService {
     System.out.println(new Date() + message);
   }
   
+  */
   
   private List<String> getSymbols(List<SecurityLogType> securities) {
     List<String> symbols = new ArrayList();

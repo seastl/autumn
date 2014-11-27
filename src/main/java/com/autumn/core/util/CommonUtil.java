@@ -106,29 +106,10 @@ public class CommonUtil {
 
   
   public String buildHtmlMessage(String[] headers, List<String> csvResults) {
-    StringBuilder sb = new StringBuilder("<html>\n");
-    sb = createHtmlHead(sb);
-    sb.append("<body>\n")
-      .append("  <table id='t01' style='width:500px'>\n")
-      .append("    <caption><h3>Caption</h3></caption>\n")
-      .append("    <tr>\n");
-    
-    for (String header : headers) {
-      sb.append("      <th>").append(header).append("</th>\n");
-    }
-    sb.append("    </tr>\n");
-    
-    for (String csvResult : csvResults) {
-      sb.append("    <tr>");
-      String[] results = csvResult.split(",");
-      for (String result : results) {
-        sb.append("      <td>").append(removeDoubleQuotes(result)).append("</td>\n");
-      }
-      sb.append("    </tr>");
-    }
-    sb.append("  </table>\n");
-    sb.append("</body>\n");
-    sb.append("</html>\n");
+    StringBuilder sb = new StringBuilder();
+    sb = createHtmlBegin(sb);
+    sb = createHtmlTable(sb, "Indexes", headers, csvResults);
+    sb = createHtmlEnd(sb);
     return sb.toString();
   }
 
@@ -215,8 +196,9 @@ public class CommonUtil {
   }
   
 
-  private StringBuilder createHtmlHead(StringBuilder sb) {
-    sb.append("  <head>\n")
+  public StringBuilder createHtmlBegin(StringBuilder sb) {
+    sb.append("<html>\n")
+      .append("  <head>\n")
       .append("    <style>\n")
       .append("      table, th, td {border: 1px solid white; border-collapse: collapse;}\n")
       .append("      th,td {padding: 1px;}\n")
@@ -225,8 +207,79 @@ public class CommonUtil {
       .append("      table#t01 tr:nth-child(odd) {background-color: #fff;}\n")
       .append("      table#t01 th {color: white; background-color: gray;}\n")
       .append("    </style>\n")
-      .append("  </head>\n");
+      .append("  </head>\n")
+      .append("  <body>\n");
     return sb;
   }
   
+
+  public StringBuilder createHtmlEnd(StringBuilder sb) {
+    sb.append("  </body>\n")
+      .append("</html>\n");
+    return sb;
+  }
+  
+  
+  private StringBuilder createHtmlTable(StringBuilder sb, String caption, String[] headers, List<String> csvResults) {
+    sb.append("  <table id='t01' style='width:500px'>\n")
+      .append("    <caption><h3>").append(caption).append("</h3></caption>\n")
+      .append("    <tr>\n");
+    
+    for (String header : headers) {
+      sb.append("      <th>").append(header).append("</th>\n");
+    }
+    sb.append("    </tr>\n");
+    
+    for (String csvResult : csvResults) {
+      sb.append("    <tr>\n");
+      String[] results = csvResult.split(",");
+      for (String result : results) {
+        sb.append("      <td>").append(removeDoubleQuotes(result)).append("</td>\n");
+      }
+      sb.append("    </tr>\n");
+    }
+    sb.append("  </table>\n");
+    
+    return sb;
+  }
+  
+  
+  public StringBuilder createHtmlTable(StringBuilder sb, String caption, String[] headers, Map<String,Boolean> participations, List<String> csvResults, Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes) {
+    sb.append("  <table id='t01' style='width:500px'>\n")
+      .append("    <caption><h3>").append(caption).append("</h3></caption>\n")
+      .append("    <tr>\n");
+    
+    for (String header : headers) {
+      sb.append("      <th>").append(header).append("</th>\n");
+    }
+    sb.append("    </tr>\n");
+    
+    for (String csvResult : csvResults) {
+      String[] splitResults = csvResult.split(",");
+      String symbol = removeDoubleQuotes(splitResults[0]);
+      
+      sb.append("    <tr>\n");
+      for (String splitResult : splitResults) {
+        if (participations.get(symbol)) {
+          sb.append("      <td><b>").append(removeDoubleQuotes(splitResult)).append("</b></td>\n");
+        } else {
+          sb.append("      <td>").append(removeDoubleQuotes(splitResult)).append("</td>\n");
+        }
+      }
+      
+      Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
+      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d")).append("</td>\n");
+      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d")).append("</td>\n");
+      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m")).append("</td>\n");
+      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m")).append("</td>\n");
+      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m")).append("</td>\n");
+      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m")).append("</td>\n");
+      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y")).append("</td>\n");
+      
+      sb.append("    </tr>\n");
+    }
+    return sb;
+  }
+  
+
 }
