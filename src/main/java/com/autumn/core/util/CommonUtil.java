@@ -151,13 +151,13 @@ public class CommonUtil {
         }
       }
       Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
-      sb.append("5d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d")).append(" ");
-      sb.append("10d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d")).append(" ");
-      sb.append("1m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m")).append(" ");
-      sb.append("3m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m")).append(" ");
-      sb.append("6m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m")).append(" ");
-      sb.append("9m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m")).append(" ");
-      sb.append("1y" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y")).append(" ");
+      sb.append("5d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d", true)).append(" ");
+      sb.append("10d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d", true)).append(" ");
+      sb.append("1m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m", true)).append(" ");
+      sb.append("3m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m", true)).append(" ");
+      sb.append("6m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m", true)).append(" ");
+      sb.append("9m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m", true)).append(" ");
+      sb.append("1y" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y", true)).append(" ");
       sb.append("\n");
     }
     return sb.toString();
@@ -178,7 +178,7 @@ public class CommonUtil {
   }
   
 
-  public String getPercentDisplayForWeekdaysAgo(Map<Date, HistoricalQuote> historicalQuotes, String pastWorkPeriod) {
+  public String getPercentDisplayForWeekdaysAgo(Map<Date, HistoricalQuote> historicalQuotes, String pastWorkPeriod, boolean formatToDisplay) {
     String percentForDaysAgo = null;
     Date[] dateRange = getDateRangeForPastWorkPeriod(pastWorkPeriod);
     HistoricalQuote quoteDaysAgo = historicalQuotes.get(dateRange[0]);
@@ -187,7 +187,17 @@ public class CommonUtil {
       float openDaysAgo = quoteDaysAgo.getOpen();
       float closeToday = quoteToday.getClose();
       float percentChange = ((closeToday - openDaysAgo) * 100) / openDaysAgo;
-      percentForDaysAgo = String.format("%+.2f%%", percentChange);
+      if (formatToDisplay) {
+        if (percentChange > 0.0) {
+          percentForDaysAgo = "<font color='green'>" + String.format("%+.2f%%", percentChange) + "</font>";
+        } else if (percentChange < 0.0) {
+          percentForDaysAgo = "<font color='red'>" + String.format("%+.2f%%", percentChange) + "</font>";
+        } else {
+          percentForDaysAgo = String.format("%+.2f%%", percentChange);
+        }
+      } else {
+        percentForDaysAgo = String.format("%+.2f%", percentChange);
+      }
     } else {
       percentForDaysAgo = "n/a";
     }
@@ -197,11 +207,12 @@ public class CommonUtil {
   
 
   public StringBuilder createHtmlBegin(StringBuilder sb) {
-    sb.append("<html>\n")
+    sb.append("\n")
+      .append("<html>\n")
       .append("  <head>\n")
       .append("    <style>\n")
       .append("      table, th, td {border: 1px solid white; border-collapse: collapse;}\n")
-      .append("      th,td {padding: 1px;}\n")
+      .append("      th,td {padding: 1px; font-family: Arial,sans-serif; font-size: 14px;}\n")
       .append("      th {text-align: left;}\n")
       .append("      table#t01 tr:nth-child(even) {background-color: #eee;}\n")
       .append("      table#t01 tr:nth-child(odd) {background-color: #fff;}\n")
@@ -245,7 +256,7 @@ public class CommonUtil {
   
   
   public StringBuilder createHtmlTable(StringBuilder sb, String caption, String[] headers, Map<String,Boolean> participations, List<String> csvResults, Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes) {
-    sb.append("  <table id='t01' style='width:500px'>\n")
+    sb.append("  <table id='t01' style='width:800px'>\n")
       .append("    <caption><h3>").append(caption).append("</h3></caption>\n")
       .append("    <tr>\n");
     
@@ -268,18 +279,112 @@ public class CommonUtil {
       }
       
       Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
-      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d")).append("</td>\n");
-      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d")).append("</td>\n");
-      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m")).append("</td>\n");
-      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m")).append("</td>\n");
-      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m")).append("</td>\n");
-      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m")).append("</td>\n");
-      sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y")).append("</td>\n");
+      if (participations.get(symbol)) {
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getShortTermIndex(securityHistQuotes)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getMidTermIndex(securityHistQuotes)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getLongTermIndex(securityHistQuotes)).append("</b></td>\n");
+      } else {
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y", true)).append("</td>\n");
+        sb.append("      <td>").append(getShortTermIndex(securityHistQuotes)).append("</b>\n");
+        sb.append("      <td>").append(getMidTermIndex(securityHistQuotes)).append("</b>\n");
+        sb.append("      <td>").append(getLongTermIndex(securityHistQuotes)).append("</b>\n");
+      }
       
       sb.append("    </tr>\n");
     }
+    sb.append("  </table>");
     return sb;
   }
   
+  
+  private String getShortTermIndex(Map<Date,HistoricalQuote> securityHistQuotes) {
+    String _5d = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d", false);
+    String _10d = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d", false);
+    String _1m = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m", false);
+    
+    float _5dFloat = 0.0f;
+    float _10dFloat = 0.0f;
+    float _1mFloat = 0.0f;
+    try {
+      _5dFloat = Float.parseFloat(_5d);
+      _10dFloat = Float.parseFloat(_10d);
+      _1mFloat = Float.parseFloat(_1m);
+    } catch (Exception ex) {
+      // Do nothing.
+    }
+    
+    float stx = (_5dFloat + _10dFloat + _1mFloat) * 100;
+
+    String stxString = "n/a";
+    if (stx > 0.0) {
+      stxString = Float.toString(stx);
+    }
+    return stxString;
+  }
+
+  
+  private String getMidTermIndex(Map<Date,HistoricalQuote> securityHistQuotes) {
+    String _1m = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m", false);
+    String _3m = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m", false);
+    String _6m = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m", false);
+    
+    float _1mFloat = 0.0f;
+    float _3mFloat = 0.0f;
+    float _6mFloat = 0.0f;
+    try {
+      _1mFloat = Float.parseFloat(_1m);
+      _3mFloat = Float.parseFloat(_3m);
+      _6mFloat = Float.parseFloat(_6m);
+    } catch (Exception ex) {
+      // Do nothing.
+    }
+    
+    float stx = (_1mFloat + _3mFloat + _6mFloat) * 100;
+    
+    String stxString = "n/a";
+    if (stx > 0.0) {
+      stxString = Float.toString(stx);
+    }
+    return stxString;
+  }
+
+  
+  private String getLongTermIndex(Map<Date,HistoricalQuote> securityHistQuotes) {
+    String _6m = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m", false);
+    String _9m = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m", false);
+    String _1y = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y", false);
+    
+    float _6mFloat = 0.0f;
+    float _9mFloat = 0.0f;
+    float _1yFloat = 0.0f;
+    try {
+      _6mFloat = Float.parseFloat(_6m);
+      _9mFloat = Float.parseFloat(_9m);
+      _1yFloat = Float.parseFloat(_1y);
+    } catch (Exception ex) {
+      // Do nothing.
+    }
+    
+    float stx = (_6mFloat + _9mFloat + _1yFloat) * 100;
+    
+    String stxString = "n/a";
+    if (stx > 0.0) {
+      stxString = Float.toString(stx);
+    }
+    return stxString;
+  }
 
 }

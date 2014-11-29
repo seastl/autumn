@@ -35,8 +35,8 @@ public class Monitor {
     securityService.setSendEmail(sendEmail);
     
     //securityService.check();
-    securityService.checkForDailyOpen();
-    //securityService.checkForEndOfDay();
+    //securityService.checkForDailyOpen();
+    securityService.checkForEndOfDay();
 
   }
   
