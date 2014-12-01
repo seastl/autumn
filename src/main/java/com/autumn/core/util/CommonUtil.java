@@ -196,7 +196,7 @@ public class CommonUtil {
           percentForDaysAgo = String.format("%+.2f%%", percentChange);
         }
       } else {
-        percentForDaysAgo = String.format("%+.2f%", percentChange);
+        percentForDaysAgo = String.format("%+.2f", percentChange);
       }
     } else {
       percentForDaysAgo = "n/a";
