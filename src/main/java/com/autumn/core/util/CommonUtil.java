@@ -215,19 +215,19 @@ public class CommonUtil {
    * Because today's close is not available until late of the day in the historical quote api,
    * this function uses the today's close from today quote api instead.
    * 
-   * @param todaysClose
+   * @param lastQuote
    * @param historicalQuotes
    * @param pastWorkPeriod
    * @param formatToDisplay
    * @return 
    */
-  public String getPercentDisplayForWeekdaysAgo(String todaysClose, Map<Date, HistoricalQuote> historicalQuotes, String pastWorkPeriod, boolean formatToDisplay) {
+  public String getPercentDisplayForWeekdaysAgo(String lastQuote, Map<Date, HistoricalQuote> historicalQuotes, String pastWorkPeriod, boolean formatToDisplay) {
     String percentForDaysAgo = null;
     Date[] dateRange = getDateRangeForPastWorkPeriod(pastWorkPeriod);
     HistoricalQuote quoteDaysAgo = historicalQuotes.get(dateRange[0]);
-    if (quoteDaysAgo != null && todaysClose != null) {
+    if (quoteDaysAgo != null && lastQuote != null) {
       float openDaysAgo = quoteDaysAgo.getOpen();
-      float closeToday = Float.parseFloat(todaysClose);
+      float closeToday = Float.parseFloat(lastQuote);
       float percentChange = ((closeToday - openDaysAgo) * 100) / openDaysAgo;
       if (formatToDisplay) {
         if (percentChange > 0.0) {
@@ -310,7 +310,7 @@ public class CommonUtil {
     for (String csvResult : csvResults) {
       String[] splitResults = csvResult.split(",");
       String symbol = removeDoubleQuotes(splitResults[0], true);
-      String todaysClose = removeDoubleQuotes(splitResults[2], true);
+      String lastQuote = removeDoubleQuotes(splitResults[2], true);
       
       sb.append("    <tr>\n");
       for (String splitResult : splitResults) {
@@ -323,27 +323,27 @@ public class CommonUtil {
       
       Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
       if (participations.get(symbol)) {
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "5d", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "10d", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "1m", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "3m", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "6m", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "9m", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "1y", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getShortTermIndex(securityHistQuotes)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getMidTermIndex(securityHistQuotes)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getLongTermIndex(securityHistQuotes)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "5d", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "10d", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "1m", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "3m", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "6m", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "9m", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "1y", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getShortTermIndex(lastQuote, securityHistQuotes)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getMidTermIndex(lastQuote, securityHistQuotes)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getLongTermIndex(lastQuote, securityHistQuotes)).append("</b></td>\n");
       } else {
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "5d", true)).append("</td>\n");
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "10d", true)).append("</td>\n");
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "1m", true)).append("</td>\n");
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "3m", true)).append("</td>\n");
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "6m", true)).append("</td>\n");
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "9m", true)).append("</td>\n");
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "1y", true)).append("</td>\n");
-        sb.append("      <td>").append(getShortTermIndex(securityHistQuotes)).append("</b>\n");
-        sb.append("      <td>").append(getMidTermIndex(securityHistQuotes)).append("</b>\n");
-        sb.append("      <td>").append(getLongTermIndex(securityHistQuotes)).append("</b>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "5d", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "10d", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "1m", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "3m", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "6m", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "9m", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "1y", true)).append("</td>\n");
+        sb.append("      <td>").append(getShortTermIndex(lastQuote, securityHistQuotes)).append("</b>\n");
+        sb.append("      <td>").append(getMidTermIndex(lastQuote, securityHistQuotes)).append("</b>\n");
+        sb.append("      <td>").append(getLongTermIndex(lastQuote, securityHistQuotes)).append("</b>\n");
       }
       
       sb.append("    </tr>\n");
@@ -353,81 +353,50 @@ public class CommonUtil {
   }
   
   
-  private String getShortTermIndex(Map<Date,HistoricalQuote> securityHistQuotes) {
-    String _5d = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d", false);
-    String _10d = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d", false);
-    String _1m = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m", false);
+  private String getShortTermIndex(String lastQuote, Map<Date,HistoricalQuote> securityHistQuotes) {
+    String _5d = getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "5d", false);
+    String _10d = getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "10d", false);
+    String _1m = getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "1m", false);
     
-    float _5dFloat = 0.0f;
-    float _10dFloat = 0.0f;
-    float _1mFloat = 0.0f;
-    try {
-      _5dFloat = Float.parseFloat(_5d);
-      _10dFloat = Float.parseFloat(_10d);
-      _1mFloat = Float.parseFloat(_1m);
-    } catch (Exception ex) {
-      // Do nothing.
-    }
-    
-    int stx = Math.round((_5dFloat + _10dFloat + _1mFloat) * 100);
-
-    String stxString = "n/a";
-    if (stx > 0) {
-      stxString = Integer.toString(stx);
-    }
-    return stxString;
+    String[] quotes = new String[] {_5d, _10d, _1m};
+    return getTermIndex(quotes);
   }
 
   
-  private String getMidTermIndex(Map<Date,HistoricalQuote> securityHistQuotes) {
-    String _1m = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m", false);
-    String _3m = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m", false);
-    String _6m = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m", false);
+  private String getMidTermIndex(String lastQuote, Map<Date,HistoricalQuote> securityHistQuotes) {
+    String _1m = getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "1m", false);
+    String _3m = getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "3m", false);
+    String _6m = getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "6m", false);
     
-    float _1mFloat = 0.0f;
-    float _3mFloat = 0.0f;
-    float _6mFloat = 0.0f;
-    try {
-      _1mFloat = Float.parseFloat(_1m);
-      _3mFloat = Float.parseFloat(_3m);
-      _6mFloat = Float.parseFloat(_6m);
-    } catch (Exception ex) {
-      // Do nothing.
-    }
-    
-    int mtx = Math.round((_1mFloat + _3mFloat + _6mFloat) * 100);
-    
-    String mtxString = "n/a";
-    if (mtx > 0) {
-      mtxString = Integer.toString(mtx);
-    }
-    return mtxString;
+    String[] quotes = new String[] {_1m, _3m, _6m};
+    return getTermIndex(quotes);
   }
 
   
-  private String getLongTermIndex(Map<Date,HistoricalQuote> securityHistQuotes) {
-    String _6m = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m", false);
-    String _9m = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m", false);
-    String _1y = getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y", false);
+  private String getLongTermIndex(String lastQuote, Map<Date,HistoricalQuote> securityHistQuotes) {
+    String _6m = getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "6m", false);
+    String _9m = getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "9m", false);
+    String _1y = getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "1y", false);
     
-    float _6mFloat = 0.0f;
-    float _9mFloat = 0.0f;
-    float _1yFloat = 0.0f;
-    try {
-      _6mFloat = Float.parseFloat(_6m);
-      _9mFloat = Float.parseFloat(_9m);
-      _1yFloat = Float.parseFloat(_1y);
-    } catch (Exception ex) {
-      // Do nothing.
+    String[] quotes = new String[] {_6m, _9m, _1y};
+    return getTermIndex(quotes);
+  }
+  
+  
+  private String getTermIndex(String[] quotes) {
+    float total = 0.0f;
+    for (String quote : quotes) {
+      try {
+        total += Float.parseFloat(quote);
+      } catch (Exception ex) {
+        // Do nothing.
+      }
     }
     
-    int ltx = Math.round((_6mFloat + _9mFloat + _1yFloat) * 100);
+    int index = Math.round(total * 100);
     
-    String ltxString = "n/a";
-    if (ltx > 0.0) {
-      ltxString = Float.toString(ltx);
-    }
-    return ltxString;
+    String indexString = Integer.toString(index);
+    return indexString;
   }
 
 }
