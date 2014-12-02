@@ -119,14 +119,14 @@ public class CommonUtil {
     for (int j = 0; j < csvResults.size(); j++) {
       String csvResult = csvResults.get(j);
       String[] result = csvResult.split(",");
-      String symbol = removeDoubleQuotes(result[0]);
+      String symbol = removeDoubleQuotes(result[0], false);
       String participation = participations.get(symbol) ? "*" : " ";
       sb.append(participation);
       for (int i = 0; i < headers.length; i++) {
         if (headers[i] != null && !headers[i].isEmpty()) {
-          sb.append(headers[i] + ":" + removeDoubleQuotes(result[i]) + " ");
+          sb.append(headers[i] + ":" + removeDoubleQuotes(result[i], false) + " ");
         } else {
-          sb.append(removeDoubleQuotes(result[i]) + " ");
+          sb.append(removeDoubleQuotes(result[i], false) + " ");
         }
       }
       sb.append("\n");
@@ -140,14 +140,14 @@ public class CommonUtil {
     for (int j = 0; j < csvResults.size(); j++) {
       String csvResult = csvResults.get(j);
       String[] result = csvResult.split(",");
-      String symbol = removeDoubleQuotes(result[0]);
+      String symbol = removeDoubleQuotes(result[0], false);
       String participation = participations.get(symbol) ? "*" : " ";
       sb.append(participation);
       for (int i = 0; i < headers.length; i++) {
         if (headers[i] != null && !headers[i].isEmpty()) {
-          sb.append(headers[i] + ":" + removeDoubleQuotes(result[i]) + " ");
+          sb.append(headers[i] + ":" + removeDoubleQuotes(result[i], false) + " ");
         } else {
-          sb.append(removeDoubleQuotes(result[i]) + " ");
+          sb.append(removeDoubleQuotes(result[i], false) + " ");
         }
       }
       Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
@@ -165,13 +165,18 @@ public class CommonUtil {
   
 
   /**
-   * Remove double quotes from the string if the string does not contain spaces.
+   * Remove double quotes from the string.
+   * If includePhrase is false, double quotes won't be removed if it contains space.
    * @param in
    * @return 
    */
-  public String removeDoubleQuotes(String in) {
+  public String removeDoubleQuotes(String in, boolean includePhrase) {
     if (in.contains(" ")) {
-      return in;
+      if (includePhrase) {
+        return in.replace("\"", "");
+      } else {
+        return in;
+      }
     } else {
       return in.replace("\"", "");
     }
@@ -206,13 +211,50 @@ public class CommonUtil {
   }
   
 
+  /**
+   * Because today's close is not available until late of the day in the historical quote api,
+   * this function uses the today's close from today quote api instead.
+   * 
+   * @param todaysClose
+   * @param historicalQuotes
+   * @param pastWorkPeriod
+   * @param formatToDisplay
+   * @return 
+   */
+  public String getPercentDisplayForWeekdaysAgo(String todaysClose, Map<Date, HistoricalQuote> historicalQuotes, String pastWorkPeriod, boolean formatToDisplay) {
+    String percentForDaysAgo = null;
+    Date[] dateRange = getDateRangeForPastWorkPeriod(pastWorkPeriod);
+    HistoricalQuote quoteDaysAgo = historicalQuotes.get(dateRange[0]);
+    if (quoteDaysAgo != null && todaysClose != null) {
+      float openDaysAgo = quoteDaysAgo.getOpen();
+      float closeToday = Float.parseFloat(todaysClose);
+      float percentChange = ((closeToday - openDaysAgo) * 100) / openDaysAgo;
+      if (formatToDisplay) {
+        if (percentChange > 0.0) {
+          percentForDaysAgo = "<font color='green'>" + String.format("%+.2f%%", percentChange) + "</font>";
+        } else if (percentChange < 0.0) {
+          percentForDaysAgo = "<font color='red'>" + String.format("%+.2f%%", percentChange) + "</font>";
+        } else {
+          percentForDaysAgo = String.format("%+.2f%%", percentChange);
+        }
+      } else {
+        percentForDaysAgo = String.format("%+.2f", percentChange);
+      }
+    } else {
+      percentForDaysAgo = "n/a";
+    }
+    
+    return percentForDaysAgo;
+  }
+  
+
   public StringBuilder createHtmlBegin(StringBuilder sb) {
     sb.append("\n")
       .append("<html>\n")
       .append("  <head>\n")
       .append("    <style>\n")
       .append("      table, th, td {border: 1px solid white; border-collapse: collapse;}\n")
-      .append("      th,td {padding: 1px; font-family: Arial,sans-serif; font-size: 14px;}\n")
+      .append("      th,td {padding: 1px; font-family: Arial,sans-serif; font-size: 12px;}\n")
       .append("      th {text-align: left;}\n")
       .append("      table#t01 tr:nth-child(even) {background-color: #eee;}\n")
       .append("      table#t01 tr:nth-child(odd) {background-color: #fff;}\n")
@@ -245,7 +287,7 @@ public class CommonUtil {
       sb.append("    <tr>\n");
       String[] results = csvResult.split(",");
       for (String result : results) {
-        sb.append("      <td>").append(removeDoubleQuotes(result)).append("</td>\n");
+        sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</td>\n");
       }
       sb.append("    </tr>\n");
     }
@@ -267,37 +309,38 @@ public class CommonUtil {
     
     for (String csvResult : csvResults) {
       String[] splitResults = csvResult.split(",");
-      String symbol = removeDoubleQuotes(splitResults[0]);
+      String symbol = removeDoubleQuotes(splitResults[0], true);
+      String todaysClose = removeDoubleQuotes(splitResults[2], true);
       
       sb.append("    <tr>\n");
       for (String splitResult : splitResults) {
         if (participations.get(symbol)) {
-          sb.append("      <td><b>").append(removeDoubleQuotes(splitResult)).append("</b></td>\n");
+          sb.append("      <td><b>").append(removeDoubleQuotes(splitResult, true)).append("</b></td>\n");
         } else {
-          sb.append("      <td>").append(removeDoubleQuotes(splitResult)).append("</td>\n");
+          sb.append("      <td>").append(removeDoubleQuotes(splitResult, true)).append("</td>\n");
         }
       }
       
       Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
       if (participations.get(symbol)) {
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m", true)).append("</b></td>\n");
-        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "5d", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "10d", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "1m", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "3m", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "6m", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "9m", true)).append("</b></td>\n");
+        sb.append("      <td><b>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "1y", true)).append("</b></td>\n");
         sb.append("      <td><b>").append(getShortTermIndex(securityHistQuotes)).append("</b></td>\n");
         sb.append("      <td><b>").append(getMidTermIndex(securityHistQuotes)).append("</b></td>\n");
         sb.append("      <td><b>").append(getLongTermIndex(securityHistQuotes)).append("</b></td>\n");
       } else {
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d", true)).append("</td>\n");
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d", true)).append("</td>\n");
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m", true)).append("</td>\n");
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m", true)).append("</td>\n");
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m", true)).append("</td>\n");
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m", true)).append("</td>\n");
-        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "5d", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "10d", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "1m", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "3m", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "6m", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "9m", true)).append("</td>\n");
+        sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(todaysClose, securityHistQuotes, "1y", true)).append("</td>\n");
         sb.append("      <td>").append(getShortTermIndex(securityHistQuotes)).append("</b>\n");
         sb.append("      <td>").append(getMidTermIndex(securityHistQuotes)).append("</b>\n");
         sb.append("      <td>").append(getLongTermIndex(securityHistQuotes)).append("</b>\n");
@@ -326,11 +369,11 @@ public class CommonUtil {
       // Do nothing.
     }
     
-    float stx = (_5dFloat + _10dFloat + _1mFloat) * 100;
+    int stx = Math.round((_5dFloat + _10dFloat + _1mFloat) * 100);
 
     String stxString = "n/a";
-    if (stx > 0.0) {
-      stxString = Float.toString(stx);
+    if (stx > 0) {
+      stxString = Integer.toString(stx);
     }
     return stxString;
   }
@@ -352,13 +395,13 @@ public class CommonUtil {
       // Do nothing.
     }
     
-    float stx = (_1mFloat + _3mFloat + _6mFloat) * 100;
+    int mtx = Math.round((_1mFloat + _3mFloat + _6mFloat) * 100);
     
-    String stxString = "n/a";
-    if (stx > 0.0) {
-      stxString = Float.toString(stx);
+    String mtxString = "n/a";
+    if (mtx > 0) {
+      mtxString = Integer.toString(mtx);
     }
-    return stxString;
+    return mtxString;
   }
 
   
@@ -378,13 +421,13 @@ public class CommonUtil {
       // Do nothing.
     }
     
-    float stx = (_6mFloat + _9mFloat + _1yFloat) * 100;
+    int ltx = Math.round((_6mFloat + _9mFloat + _1yFloat) * 100);
     
-    String stxString = "n/a";
-    if (stx > 0.0) {
-      stxString = Float.toString(stx);
+    String ltxString = "n/a";
+    if (ltx > 0.0) {
+      ltxString = Float.toString(ltx);
     }
-    return stxString;
+    return ltxString;
   }
 
 }
