@@ -11,4 +11,8 @@ public interface SecurityLogTypeDao {
   List<SecurityLogType> getSecuritiesForLb();
   List<SecurityLogType> getSecuritiesForSg();
   List<SecurityLogType> getSecuritiesForIc();
+  List<SecurityLogType> getSecuritiesForFidEquity();
+  List<SecurityLogType> getSecuritiesForFidInternational();
+  List<SecurityLogType> getSecuritiesForFidSector();
+  
 }

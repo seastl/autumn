@@ -93,7 +93,7 @@ public class SecurityServiceImpl implements SecurityService {
   @Override
   public void checkForDailyOpen() {
     final String REQUESTS = SYMBOL + NAME + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
-    final String[] HEADERS = {"Sym","Name","Prv","Ask","Pct"};
+    final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
     
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
     List<String> symbols = getSymbols(securities);
@@ -110,7 +110,7 @@ public class SecurityServiceImpl implements SecurityService {
   @Override
   public void checkForIntraDay() {
     final String REQUESTS = SYMBOL + NAME + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
-    final String[] HEADERS = {"Sym","Name","Prv","Ask","Pct"};
+    final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
     
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
     List<String> symbols = getSymbols(securities);
@@ -118,7 +118,7 @@ public class SecurityServiceImpl implements SecurityService {
     
     String message = commonUtil.buildMessage(HEADERS, csvResults);
     if (sendEmail) {
-      emailUtil.sendEmailThruGoogle("--", message);
+      emailUtil.sendHtmlEmailThruGoogle("--", message);
     }
     System.out.println(new Date() + message);
   }
@@ -127,7 +127,7 @@ public class SecurityServiceImpl implements SecurityService {
   @Override
   public void checkForDailyClose() {
     final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
-    final String[] HEADERS = {"","prv","ask","pct"};
+    final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
     
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
     List<String> symbols = getSymbols(securities);
@@ -135,7 +135,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     String message = commonUtil.buildMessage(HEADERS, csvResults);
     if (sendEmail) {
-      emailUtil.sendEmailThruGoogle("---", message);
+      emailUtil.sendHtmlEmailThruGoogle("---", message);
     }
     System.out.println(new Date() + message);
   }
