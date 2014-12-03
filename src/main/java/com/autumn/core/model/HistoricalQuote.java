@@ -8,7 +8,7 @@ public class HistoricalQuote {
   private Float high;
   private Float low;
   private Float close;
-  private Integer volume;
+  private Long volume;
   private Float adjClose;
 
   public Date getDate() {
@@ -51,11 +51,11 @@ public class HistoricalQuote {
     this.close = close;
   }
 
-  public Integer getVolume() {
+  public Long getVolume() {
     return volume;
   }
 
-  public void setVolume(Integer volume) {
+  public void setVolume(Long volume) {
     this.volume = volume;
   }
 

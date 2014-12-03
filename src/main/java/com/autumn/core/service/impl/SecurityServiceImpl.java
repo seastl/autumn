@@ -151,6 +151,20 @@ public class SecurityServiceImpl implements SecurityService {
 
     Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes = null;
     
+    // indexes
+    List<SecurityLogType> dailyCloseSecurities = securityLogTypeDao.getSecuritiesForDailyClose();
+    List<String> dailyCloseSymbols = getSymbols(dailyCloseSecurities);
+    Map<String, Boolean> dailyCloseParticipations = getParticipations(dailyCloseSecurities);
+    List<String> dailyCloseCsvResults = yfDao.getQuote(dailyCloseSymbols, REQUESTS);
+    dailyCloseCsvResults = sortByColumn(dailyCloseCsvResults, 3, true);
+    
+    securitiesHistQuotes = new HashMap();
+    for (String dailyCloseSymbol : dailyCloseSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(dailyCloseSymbol, "1y", YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(dailyCloseSymbol, securityHistQuotes);
+    }
+    sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, dailyCloseParticipations, dailyCloseCsvResults, securitiesHistQuotes);
+    
     // nn
     List<SecurityLogType> nnSecurities = securityLogTypeDao.getSecuritiesForNn();
     List<String> nnSymbols = getSymbols(nnSecurities);

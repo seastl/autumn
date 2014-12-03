@@ -71,6 +71,43 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
+    
+    return securities;
+  }
+
+  @Override
+  public List<SecurityLogType> getSecuritiesForDailyClose() {
+    List<SecurityLogType> securities = new ArrayList();
+
+    SecurityLogType security = null;
+    security = new SecurityLogType(new Security(1, "Dow Jones index", DOW, SecurityType.US_INDEX, Sector.DOW, false),
+                                   new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00:00"), null),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(2, "Nasdaq index", NASDAQ, SecurityType.US_INDEX, Sector.NASDAQ, false),
+                                   new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00:00"), null),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(3, "S&P 500 index", SP500, SecurityType.US_INDEX, Sector.SP_500, false),
+                                   new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00:00"), null),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(4, "Russell 1000 index", RUSSELL_1000, SecurityType.US_INDEX, Sector.RUSSELL_1000, false),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(5, "Russell 2000 index", RUSSELL_2000, SecurityType.US_INDEX, Sector.RUSSELL_2000, false),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(6, "Russell 3000 index", RUSSELL_3000, SecurityType.US_INDEX, Sector.RUSSELL_3000, false),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(7, "S&P 500 volatility index", SP500_VOLATILITY, SecurityType.US_INDEX, Sector.VOLATILITY, false),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
     security = new SecurityLogType(new Security(8, "Technology index", IDX_TECHOLOGY, SecurityType.US_INDEX, Sector.TECHNOLOGY, false),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
@@ -121,27 +158,6 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
     securities.add(security);
     security = new SecurityLogType(new Security(17, "Health Care Services index", IDX_HEALTH_CARE_SERVICES, SecurityType.US_INDEX, Sector.HEALTH_CARE_SERVICES, false),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    
-    return securities;
-  }
-
-  @Override
-  public List<SecurityLogType> getSecuritiesForDailyClose() {
-    List<SecurityLogType> securities = new ArrayList();
-
-    SecurityLogType security = null;
-    security = new SecurityLogType(new Security(1, "Dow Jones index", DOW, SecurityType.US_INDEX, Sector.DOW, false),
-                                   new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00:00"), null),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(2, "Nasdaq index", NASDAQ, SecurityType.US_INDEX, Sector.NASDAQ, false),
-                                   new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00:00"), null),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(3, "S&P 500 index", SP500, SecurityType.US_INDEX, Sector.SP_500, false),
-                                   new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00:00"), null),
                                    Boolean.TRUE);
     securities.add(security);
     

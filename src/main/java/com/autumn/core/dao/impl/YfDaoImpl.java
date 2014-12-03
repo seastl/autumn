@@ -137,7 +137,7 @@ public class YfDaoImpl implements YfDao {
         quote.setHigh(Float.parseFloat(splitted[2]));
         quote.setLow(Float.parseFloat(splitted[3]));
         quote.setClose(Float.parseFloat(splitted[4]));
-        quote.setVolume(Integer.parseInt(splitted[5]));
+        quote.setVolume(Long.parseLong(splitted[5]));
         quote.setAdjClose(Float.parseFloat(splitted[6]));
         quotes.put(date, quote);
       } catch (Exception ex) {

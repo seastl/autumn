@@ -4,6 +4,7 @@ import com.autumn.core.model.HistoricalQuote;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 
@@ -309,7 +310,7 @@ public class CommonUtil {
     
     for (String csvResult : csvResults) {
       String[] splitResults = csvResult.split(",");
-      String symbol = removeDoubleQuotes(splitResults[0], true);
+      String symbol = StringEscapeUtils.escapeXml(removeDoubleQuotes(splitResults[0], true) );
       String lastQuote = removeDoubleQuotes(splitResults[2], true);
       
       sb.append("    <tr>\n");
@@ -348,7 +349,7 @@ public class CommonUtil {
       
       sb.append("    </tr>\n");
     }
-    sb.append("  </table>");
+    sb.append("  </table>\n");
     return sb;
   }
   
