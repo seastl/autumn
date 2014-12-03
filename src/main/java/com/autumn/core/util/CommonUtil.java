@@ -1,10 +1,10 @@
 package com.autumn.core.util;
 
 import com.autumn.core.model.HistoricalQuote;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 
@@ -308,9 +308,14 @@ public class CommonUtil {
     }
     sb.append("    </tr>\n");
     
+    String symbol = null;
     for (String csvResult : csvResults) {
       String[] splitResults = csvResult.split(",");
-      String symbol = StringEscapeUtils.escapeXml(removeDoubleQuotes(splitResults[0], true) );
+      try {
+      symbol = URLEncoder.encode(removeDoubleQuotes(splitResults[0], true), "UTF-8");
+      } catch (Exception ex) {
+        throw new RuntimeException("Failed to URL encode " + removeDoubleQuotes(splitResults[0], true) + ".", ex);
+      }
       String lastQuote = removeDoubleQuotes(splitResults[2], true);
       
       sb.append("    <tr>\n");
