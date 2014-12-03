@@ -164,6 +164,76 @@ public class SecurityServiceImpl implements SecurityService {
       securitiesHistQuotes.put(dailyCloseSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, dailyCloseParticipations, dailyCloseCsvResults, securitiesHistQuotes);
+
+    // dow 30
+    List<SecurityLogType> dowSecurities = securityLogTypeDao.getSecuritiesForDow30();
+    List<String> dowSymbols = getSymbols(dowSecurities);
+    Map<String, Boolean> dowParticipations = getParticipations(dowSecurities);
+    List<String> dowCsvResults = yfDao.getQuote(dowSymbols, REQUESTS);
+    dowCsvResults = sortByColumn(dowCsvResults, 3, true);
+
+    securitiesHistQuotes = new HashMap();
+    for (String dowSymbol : dowSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(dowSymbol, "1y", YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(dowSymbol, securityHistQuotes);
+    }
+    sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, dowParticipations, dowCsvResults, securitiesHistQuotes);
+    
+    // fid equity
+    List<SecurityLogType> fidEqSecurities = securityLogTypeDao.getSecuritiesForFidEquity();
+    List<String> fidEqSymbols = getSymbols(fidEqSecurities);
+    Map<String, Boolean> fidEqParticipations = getParticipations(fidEqSecurities);
+    List<String> fidEqCsvResults = yfDao.getQuote(fidEqSymbols, REQUESTS);
+    fidEqCsvResults = sortByColumn(fidEqCsvResults, 3, true);
+
+    securitiesHistQuotes = new HashMap();
+    for (String fidEqSymbol : fidEqSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(fidEqSymbol, "1y", YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(fidEqSymbol, securityHistQuotes);
+    }
+    sb = commonUtil.createHtmlTable(sb, "Fid Equity", HEADERS, fidEqParticipations, fidEqCsvResults, securitiesHistQuotes);
+    
+    // fid international
+    List<SecurityLogType> fidInlSecurities = securityLogTypeDao.getSecuritiesForFidInternational();
+    List<String> fidInlSymbols = getSymbols(fidInlSecurities);
+    Map<String, Boolean> fidInlParticipations = getParticipations(fidInlSecurities);
+    List<String> fidInlCsvResults = yfDao.getQuote(fidInlSymbols, REQUESTS);
+    fidInlCsvResults = sortByColumn(fidInlCsvResults, 3, true);
+
+    securitiesHistQuotes = new HashMap();
+    for (String fidInlSymbol : fidInlSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(fidInlSymbol, "1y", YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(fidInlSymbol, securityHistQuotes);
+    }
+    sb = commonUtil.createHtmlTable(sb, "Fid International", HEADERS, fidInlParticipations, fidInlCsvResults, securitiesHistQuotes);
+    
+    // fid sector
+    List<SecurityLogType> fidSecSecurities = securityLogTypeDao.getSecuritiesForFidSector();
+    List<String> fidSecSymbols = getSymbols(fidSecSecurities);
+    Map<String, Boolean> fidSecParticipations = getParticipations(fidSecSecurities);
+    List<String> fidSecCsvResults = yfDao.getQuote(fidSecSymbols, REQUESTS);
+    fidSecCsvResults = sortByColumn(fidSecCsvResults, 3, true);
+
+    securitiesHistQuotes = new HashMap();
+    for (String fidSecSymbol : fidSecSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(fidSecSymbol, "1y", YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(fidSecSymbol, securityHistQuotes);
+    }
+    sb = commonUtil.createHtmlTable(sb, "Fid Sector", HEADERS, fidSecParticipations, fidSecCsvResults, securitiesHistQuotes);
+    
+    // fid ishares
+    List<SecurityLogType> fidIshrSecurities = securityLogTypeDao.getSecuritiesForFidIShares();
+    List<String> fidIshrSymbols = getSymbols(fidIshrSecurities);
+    Map<String, Boolean> fidIshrParticipations = getParticipations(fidIshrSecurities);
+    List<String> fidIshrCsvResults = yfDao.getQuote(fidIshrSymbols, REQUESTS);
+    fidIshrCsvResults = sortByColumn(fidIshrCsvResults, 3, true);
+
+    securitiesHistQuotes = new HashMap();
+    for (String fidIshrSymbol : fidIshrSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(fidIshrSymbol, "1y", YfDao.DAILY_INCREMENT);
+      securitiesHistQuotes.put(fidIshrSymbol, securityHistQuotes);
+    }
+    sb = commonUtil.createHtmlTable(sb, "Fid iShares", HEADERS, fidIshrParticipations, fidIshrCsvResults, securitiesHistQuotes);
     
     // nn
     List<SecurityLogType> nnSecurities = securityLogTypeDao.getSecuritiesForNn();
