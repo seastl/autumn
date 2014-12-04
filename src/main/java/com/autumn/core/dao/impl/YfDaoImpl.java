@@ -128,7 +128,7 @@ public class YfDaoImpl implements YfDao {
     final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     Map<Date, HistoricalQuote> quotes = new TreeMap();
     for (int i = 1; i < csvResults.size(); i++) {
-      String[] splitted = csvResults.get(i).split(",");
+      String[] splitted = csvResults.get(i).split(CommonUtil.COMMA_SPLIT_REGEX);
       try {
         HistoricalQuote quote = new HistoricalQuote();
         Date date = sdf.parse(splitted[0]);

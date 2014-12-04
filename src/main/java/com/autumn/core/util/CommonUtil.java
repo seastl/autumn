@@ -10,6 +10,8 @@ import org.joda.time.LocalDate;
 
 public class CommonUtil {
   
+  public static final String COMMA_SPLIT_REGEX = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
+  
   /**
    * Returns an array of two Date objects. 
    * The 1st one is the start date that is # days before the end date.
@@ -92,7 +94,7 @@ public class CommonUtil {
   public String buildMessage(String[] headers, List<String> csvResults) {
     StringBuilder sb = new StringBuilder();
     for (String csvResult : csvResults) {
-      String[] result = csvResult.split(",");
+      String[] result = csvResult.split(COMMA_SPLIT_REGEX);
       for (int i = 0; i < headers.length; i++) {
         if (headers[i] != null && !headers[i].isEmpty()) {
           sb.append(headers[i] + ":" + result[i] + " ");
@@ -119,7 +121,7 @@ public class CommonUtil {
     StringBuilder sb = new StringBuilder();
     for (int j = 0; j < csvResults.size(); j++) {
       String csvResult = csvResults.get(j);
-      String[] result = csvResult.split(",");
+      String[] result = csvResult.split(COMMA_SPLIT_REGEX);
       String symbol = removeDoubleQuotes(result[0], false);
       String participation = participations.get(symbol) ? "*" : " ";
       sb.append(participation);
@@ -140,7 +142,7 @@ public class CommonUtil {
     StringBuilder sb = new StringBuilder();
     for (int j = 0; j < csvResults.size(); j++) {
       String csvResult = csvResults.get(j);
-      String[] result = csvResult.split(",");
+      String[] result = csvResult.split(COMMA_SPLIT_REGEX);
       String symbol = removeDoubleQuotes(result[0], false);
       String participation = participations.get(symbol) ? "*" : " ";
       sb.append(participation);
@@ -286,7 +288,7 @@ public class CommonUtil {
     
     for (String csvResult : csvResults) {
       sb.append("    <tr>\n");
-      String[] results = csvResult.split(",");
+      String[] results = csvResult.split(COMMA_SPLIT_REGEX);
       for (String result : results) {
         sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</td>\n");
       }
@@ -310,7 +312,7 @@ public class CommonUtil {
     
     String symbol = null;
     for (String csvResult : csvResults) {
-      String[] splitResults = csvResult.split(",");
+      String[] splitResults = csvResult.split(COMMA_SPLIT_REGEX);
       try {
       symbol = URLEncoder.encode(removeDoubleQuotes(splitResults[0], true), "UTF-8");
       } catch (Exception ex) {

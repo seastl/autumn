@@ -328,7 +328,7 @@ public class SecurityServiceImpl implements SecurityService {
   private List<String> sortByColumn(List<String> csvStrings, int sortColIndex, boolean isAcending) {
     Map<Float,String> unsortedMap = new HashMap();
     for (String csvString : csvStrings) {
-      String[] splittedStrings = csvString.split(",");
+      String[] splittedStrings = csvString.split(CommonUtil.COMMA_SPLIT_REGEX);
       Float key = convertToFloat(splittedStrings[sortColIndex]);
       if (unsortedMap.containsKey(key)) {
         unsortedMap.put(key+0.0001F, csvString);
