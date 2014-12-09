@@ -102,6 +102,8 @@ public class SecurityServiceImpl implements SecurityService {
     String message = commonUtil.buildHtmlMessage(HEADERS, csvResults);
     if (sendEmail) {
       emailUtil.sendHtmlEmailThruGoogle("-", message);
+    } else {
+      commonUtil.writeToFile("test_test.html", message);
     }
     System.out.println(new Date() + message);
   }
@@ -116,9 +118,11 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
     
-    String message = commonUtil.buildMessage(HEADERS, csvResults);
+    String message = commonUtil.buildHtmlMessage(HEADERS, csvResults);
     if (sendEmail) {
       emailUtil.sendHtmlEmailThruGoogle("--", message);
+    } else {
+      commonUtil.writeToFile("test_test.html", message);
     }
     System.out.println(new Date() + message);
   }
@@ -133,9 +137,11 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
 
-    String message = commonUtil.buildMessage(HEADERS, csvResults);
+    String message = commonUtil.buildHtmlMessage(HEADERS, csvResults);
     if (sendEmail) {
       emailUtil.sendHtmlEmailThruGoogle("---", message);
+    } else {
+      commonUtil.writeToFile("test_test.html", message);
     }
     System.out.println(new Date() + message);
   }
@@ -295,6 +301,8 @@ public class SecurityServiceImpl implements SecurityService {
     
     if (sendEmail) {
       emailUtil.sendHtmlEmailThruGoogle("----", sb.toString());
+    } else {
+      commonUtil.writeToFile("test_test.html", sb.toString());
     }
     System.out.println(new Date() + sb.toString());
   }

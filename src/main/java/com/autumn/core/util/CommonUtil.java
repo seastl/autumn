@@ -1,6 +1,11 @@
 package com.autumn.core.util;
 
+import com.autumn.core.dao.YfDao;
 import com.autumn.core.model.HistoricalQuote;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
@@ -321,6 +326,23 @@ public class CommonUtil {
       String lastQuote = removeDoubleQuotes(splitResults[2], true);
       
       sb.append("    <tr>\n");
+      for (int i = 0; i < splitResults.length; i++) {
+        String splitResult = splitResults[i];
+        if (participations.get(symbol)) {
+          if (i == 0) {
+            sb.append("      <td><b><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(splitResult, true)).append("</a></b></td>\n");
+          } else {
+            sb.append("      <td><b>").append(removeDoubleQuotes(splitResult, true)).append("</b></td>\n");
+          }
+        } else {
+          if (i == 0) {
+            sb.append("      <td><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(splitResult, true)).append("</a></td>\n");
+          } else {
+            sb.append("      <td>").append(removeDoubleQuotes(splitResult, true)).append("</td>\n");
+          }
+        }
+      }
+  /*    
       for (String splitResult : splitResults) {
         if (participations.get(symbol)) {
           sb.append("      <td><b>").append(removeDoubleQuotes(splitResult, true)).append("</b></td>\n");
@@ -328,6 +350,7 @@ public class CommonUtil {
           sb.append("      <td>").append(removeDoubleQuotes(splitResult, true)).append("</td>\n");
         }
       }
+    */
       
       Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
       if (participations.get(symbol)) {
@@ -360,6 +383,17 @@ public class CommonUtil {
     return sb;
   }
   
+
+  public void writeToFile(String filePathname, String contents) {
+    File file = new File(filePathname);
+    try (FileWriter fw = new FileWriter(file.getAbsoluteFile());
+         BufferedWriter bw = new BufferedWriter(fw); ) {
+      bw.write(contents);
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
+  }
+
   
   private String getShortTermIndex(String lastQuote, Map<Date,HistoricalQuote> securityHistQuotes) {
     String _5d = getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "5d", false);

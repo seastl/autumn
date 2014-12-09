@@ -8,6 +8,7 @@ import java.util.Map;
 public interface YfDao {
   public static final String BASE_QUOTE_URL = "http://download.finance.yahoo.com/d/";
   public static final String BASE_HISTORICAL_QUOTE_URL = "http://ichart.yahoo.com/table.csv";
+  public static final String BASE_QUOTE_DETAIL_URL = "https://finance.yahoo.com/q?s=";
 
   public static final String DAILY_INCREMENT = "d";
   public static final String WEEKLY_INCREMENT = "w";

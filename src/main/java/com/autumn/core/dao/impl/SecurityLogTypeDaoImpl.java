@@ -30,11 +30,31 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
+    security = new SecurityLogType(new Security(4, "Russell 1000 index", RUSSELL_1000, SecurityType.US_INDEX, Sector.RUSSELL_1000, false),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(5, "Russell 2000 index", RUSSELL_2000, SecurityType.US_INDEX, Sector.RUSSELL_2000, false),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(6, "Russell 3000 index", RUSSELL_3000, SecurityType.US_INDEX, Sector.RUSSELL_3000, false),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
     security = new SecurityLogType(new Security(7, "S&P 500 volatility index", SP500_VOLATILITY, SecurityType.US_INDEX, Sector.VOLATILITY, false),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    
+    security = new SecurityLogType(new Security(1822, "Microsoft", "MSFT", SecurityType.US_STOCK, Sector.TECHNOLOGY, true),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(9, "Facebook", "FB", SecurityType.US_STOCK, Sector.TECHNOLOGY, true),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+        
     return securities;
   }
 
@@ -562,11 +582,11 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1402, "", "FBGRX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+    security = new SecurityLogType(new Security(1402, "", "FBGRX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1403, "", "FCNTX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+    security = new SecurityLogType(new Security(1403, "", "FCNTX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -594,7 +614,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1410, "", "FDGFX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, false),
+    security = new SecurityLogType(new Security(1410, "", "FDGFX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);

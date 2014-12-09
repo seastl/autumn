@@ -29,11 +29,12 @@ public class Monitor {
       emailUtil.setToEmail(args[2]);
     }
 
-    
-    // The following is for testing only Actual code is triggered by scheduler.
     SecurityService securityService = ctx.getBean(SecurityService.class);
     securityService.setSendEmail(sendEmail);
+
     
+    
+    // The following is for testing only Actual code is triggered by scheduler.
     //securityService.check();
     //securityService.checkForDailyOpen();
     securityService.checkForEndOfDay();
