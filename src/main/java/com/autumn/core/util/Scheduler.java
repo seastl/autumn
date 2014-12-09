@@ -46,18 +46,18 @@ public class Scheduler {
 
 
   /**
-   * Executes Mon-Fri @5:05PM
+   * Executes Mon-Fri @4:05PM
    */
-  @Scheduled(cron = "0 5 17 * * MON-FRI")
+  @Scheduled(cron = "0 5 16 * * MON-FRI")
   public void executeForEndOfDay() {
     securityService.checkForEndOfDay();
   }
 
 
   /**
-   * Executes every hour at the 5th minute between 7AM and 1PM Mon-Fri
+   * Executes every hour at the 5th minute between 7AM and 12PM Mon-Fri
    */
-  @Scheduled(cron = "0 5 7-13 * * MON-FRI")
+  @Scheduled(cron = "0 5 7-12 * * MON-FRI")
   public void executeHourly() {
     securityService.checkForIntraDay();
   }
