@@ -342,15 +342,6 @@ public class CommonUtil {
           }
         }
       }
-  /*    
-      for (String splitResult : splitResults) {
-        if (participations.get(symbol)) {
-          sb.append("      <td><b>").append(removeDoubleQuotes(splitResult, true)).append("</b></td>\n");
-        } else {
-          sb.append("      <td>").append(removeDoubleQuotes(splitResult, true)).append("</td>\n");
-        }
-      }
-    */
       
       Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
       if (participations.get(symbol)) {
