@@ -150,7 +150,7 @@ public class SecurityServiceImpl implements SecurityService {
   @Override
   public void checkForEndOfDay() {
     final String REQUESTS = SYMBOL + NAME + LST_TRD + PCT_CHG;
-    final String[] HEADERS = {"Sym","Name","Close","%Chg","5d","10d","1m","3m","6m","9m","1y","STX","MTX","LTX"};
+    final String[] HEADERS = {"Sym","Name","Close","%Chg","5d","10d","1m","3m","6m","9m","1y","STX","MTX","LTX","Note"};
     
     StringBuilder sb = new StringBuilder();
     sb = commonUtil.createHtmlBegin(sb);
@@ -161,6 +161,7 @@ public class SecurityServiceImpl implements SecurityService {
     List<SecurityLogType> dailyCloseSecurities = securityLogTypeDao.getSecuritiesForDailyClose();
     List<String> dailyCloseSymbols = getSymbols(dailyCloseSecurities);
     Map<String, Boolean> dailyCloseParticipations = getParticipations(dailyCloseSecurities);
+    Map<String, String> dailyCloseNotes = getNotes(dailyCloseSecurities);
     List<String> dailyCloseCsvResults = yfDao.getQuote(dailyCloseSymbols, REQUESTS);
     dailyCloseCsvResults = sortByColumn(dailyCloseCsvResults, 3, true);
     
@@ -169,12 +170,13 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(dailyCloseSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(dailyCloseSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, dailyCloseParticipations, dailyCloseCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, dailyCloseParticipations, dailyCloseNotes, dailyCloseCsvResults, securitiesHistQuotes);
 
     // dow 30
     List<SecurityLogType> dowSecurities = securityLogTypeDao.getSecuritiesForDow30();
     List<String> dowSymbols = getSymbols(dowSecurities);
     Map<String, Boolean> dowParticipations = getParticipations(dowSecurities);
+    Map<String, String> dowNotes = getNotes(dowSecurities);
     List<String> dowCsvResults = yfDao.getQuote(dowSymbols, REQUESTS);
     dowCsvResults = sortByColumn(dowCsvResults, 3, true);
 
@@ -183,12 +185,13 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(dowSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(dowSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, dowParticipations, dowCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, dowParticipations, dowNotes, dowCsvResults, securitiesHistQuotes);
     
     // fid equity
     List<SecurityLogType> fidEqSecurities = securityLogTypeDao.getSecuritiesForFidEquity();
     List<String> fidEqSymbols = getSymbols(fidEqSecurities);
     Map<String, Boolean> fidEqParticipations = getParticipations(fidEqSecurities);
+    Map<String, String> fidEqNotes = getNotes(fidEqSecurities);
     List<String> fidEqCsvResults = yfDao.getQuote(fidEqSymbols, REQUESTS);
     fidEqCsvResults = sortByColumn(fidEqCsvResults, 3, true);
 
@@ -197,12 +200,13 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(fidEqSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(fidEqSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Fid Equity", HEADERS, fidEqParticipations, fidEqCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Fid Equity", HEADERS, fidEqParticipations, fidEqNotes, fidEqCsvResults, securitiesHistQuotes);
     
     // fid international
     List<SecurityLogType> fidInlSecurities = securityLogTypeDao.getSecuritiesForFidInternational();
     List<String> fidInlSymbols = getSymbols(fidInlSecurities);
     Map<String, Boolean> fidInlParticipations = getParticipations(fidInlSecurities);
+    Map<String, String> fidInlNotes = getNotes(fidInlSecurities);
     List<String> fidInlCsvResults = yfDao.getQuote(fidInlSymbols, REQUESTS);
     fidInlCsvResults = sortByColumn(fidInlCsvResults, 3, true);
 
@@ -211,12 +215,13 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(fidInlSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(fidInlSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Fid International", HEADERS, fidInlParticipations, fidInlCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Fid International", HEADERS, fidInlParticipations, fidInlNotes, fidInlCsvResults, securitiesHistQuotes);
     
     // fid sector
     List<SecurityLogType> fidSecSecurities = securityLogTypeDao.getSecuritiesForFidSector();
     List<String> fidSecSymbols = getSymbols(fidSecSecurities);
     Map<String, Boolean> fidSecParticipations = getParticipations(fidSecSecurities);
+    Map<String, String> fidSecNotes = getNotes(fidSecSecurities);
     List<String> fidSecCsvResults = yfDao.getQuote(fidSecSymbols, REQUESTS);
     fidSecCsvResults = sortByColumn(fidSecCsvResults, 3, true);
 
@@ -225,12 +230,13 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(fidSecSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(fidSecSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Fid Sector", HEADERS, fidSecParticipations, fidSecCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Fid Sector", HEADERS, fidSecParticipations, fidSecNotes, fidSecCsvResults, securitiesHistQuotes);
     
     // fid ishares
     List<SecurityLogType> fidIshrSecurities = securityLogTypeDao.getSecuritiesForFidIShares();
     List<String> fidIshrSymbols = getSymbols(fidIshrSecurities);
     Map<String, Boolean> fidIshrParticipations = getParticipations(fidIshrSecurities);
+    Map<String, String> fidIshrNotes = getNotes(fidIshrSecurities);
     List<String> fidIshrCsvResults = yfDao.getQuote(fidIshrSymbols, REQUESTS);
     fidIshrCsvResults = sortByColumn(fidIshrCsvResults, 3, true);
 
@@ -239,12 +245,13 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(fidIshrSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(fidIshrSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Fid iShares", HEADERS, fidIshrParticipations, fidIshrCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Fid iShares", HEADERS, fidIshrParticipations, fidIshrNotes, fidIshrCsvResults, securitiesHistQuotes);
     
     // nn
     List<SecurityLogType> nnSecurities = securityLogTypeDao.getSecuritiesForNn();
     List<String> nnSymbols = getSymbols(nnSecurities);
     Map<String, Boolean> nnParticipations = getParticipations(nnSecurities);
+    Map<String, String> nnNotes = getNotes(nnSecurities);
     List<String> nnCsvResults = yfDao.getQuote(nnSymbols, REQUESTS);
     nnCsvResults = sortByColumn(nnCsvResults, 3, true);
 
@@ -253,12 +260,13 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(nnSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(nnSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Nn Funds", HEADERS, nnParticipations, nnCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Nn Funds", HEADERS, nnParticipations, nnNotes, nnCsvResults, securitiesHistQuotes);
     
     // lb
     List<SecurityLogType> lbSecurities = securityLogTypeDao.getSecuritiesForLb();
     List<String> lbSymbols = getSymbols(lbSecurities);
     Map<String, Boolean> lbParticipations = getParticipations(lbSecurities);
+    Map<String, String> lbNotes = getNotes(lbSecurities);
     List<String> lbCsvResults = yfDao.getQuote(lbSymbols, REQUESTS);
     lbCsvResults = sortByColumn(lbCsvResults, 3, true);
 
@@ -267,12 +275,13 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(lbSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(lbSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Lb Funds", HEADERS, lbParticipations, lbCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Lb Funds", HEADERS, lbParticipations, lbNotes, lbCsvResults, securitiesHistQuotes);
     
     // Ic
     List<SecurityLogType> icSecurities = securityLogTypeDao.getSecuritiesForIc();
     List<String> icSymbols = getSymbols(icSecurities);
     Map<String, Boolean> icParticipations = getParticipations(icSecurities);
+    Map<String, String> icNotes = getNotes(icSecurities);
     List<String> icCsvResults = yfDao.getQuote(icSymbols, REQUESTS);
     icCsvResults = sortByColumn(icCsvResults, 3, true);
 
@@ -281,12 +290,13 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(icSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(icSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Ic Funds", HEADERS, icParticipations, icCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Ic Funds", HEADERS, icParticipations, icNotes, icCsvResults, securitiesHistQuotes);
     
     // sg
     List<SecurityLogType> sgSecurities = securityLogTypeDao.getSecuritiesForSg();
     List<String> sgSymbols = getSymbols(sgSecurities);
     Map<String, Boolean> sgParticipations = getParticipations(sgSecurities);
+    Map<String, String> sgNotes = getNotes(sgSecurities);
     List<String> sgCsvResults = yfDao.getQuote(sgSymbols, REQUESTS);
     sgCsvResults = sortByColumn(sgCsvResults, 3, true);
 
@@ -295,7 +305,7 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(sgSymbol, "1y", YfDao.DAILY_INCREMENT);
       securitiesHistQuotes.put(sgSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Sg Funds", HEADERS, sgParticipations, sgCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Sg Funds", HEADERS, sgParticipations, sgNotes, sgCsvResults, securitiesHistQuotes);
     
     sb = commonUtil.createHtmlEnd(sb);
     
@@ -323,6 +333,15 @@ public class SecurityServiceImpl implements SecurityService {
       participations.put(security.getSecurity().getYahooSymbol(), security.getSecurity().isParticipated());
     }
     return participations;
+  }
+  
+  
+  private Map<String,String> getNotes(List<SecurityLogType> securities) {
+    Map<String,String> notes = new HashMap();
+    for (SecurityLogType security : securities) {
+      notes.put(security.getSecurity().getYahooSymbol(), security.getSecurity().getNote());
+    }
+    return notes;
   }
   
   

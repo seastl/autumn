@@ -21,6 +21,15 @@ public class Security {
     this.sectorId = sectorId;
   }
 
+  public Security(Integer id, String description, String yahooSymbol, Integer typeId, Integer sectorId, String note) {
+    this.id = id;
+    this.description = description;
+    this.yahooSymbol = yahooSymbol;
+    this.typeId = typeId;
+    this.sectorId = sectorId;
+    this.note = note;
+  }
+
   public Security(Integer id, String description, String yahooSymbol, Integer typeId, Integer sectorId, boolean isParticipated, String note) {
     this.id = id;
     this.description = description;

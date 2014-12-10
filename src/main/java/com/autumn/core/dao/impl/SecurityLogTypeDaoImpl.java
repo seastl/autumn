@@ -128,55 +128,55 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(8, "Technology index", IDX_TECHOLOGY, SecurityType.US_INDEX, Sector.TECHNOLOGY),
+    security = new SecurityLogType(new Security(8, "Technology index", IDX_TECHOLOGY, SecurityType.US_INDEX, Sector.TECHNOLOGY, "Tech"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(9, "Consumer Discrete Select index", IDX_CONSUMER_DISCRETE_SELECT, SecurityType.US_INDEX, Sector.CONSUMER_SELECT),
+    security = new SecurityLogType(new Security(9, "Consumer Discrete Select index", IDX_CONSUMER_DISCRETE_SELECT, SecurityType.US_INDEX, Sector.CONSUMER_SELECT, "Cons Discrete"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(10, "Health Care index", IDX_HEALTH_CARE, SecurityType.US_INDEX, Sector.HEALTH_CARE),
+    security = new SecurityLogType(new Security(10, "Health Care index", IDX_HEALTH_CARE, SecurityType.US_INDEX, Sector.HEALTH_CARE, "Health Care"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(11, "Materials index", IDX_MATERIALS, SecurityType.US_INDEX, Sector.MATERIALS),
+    security = new SecurityLogType(new Security(11, "Materials index", IDX_MATERIALS, SecurityType.US_INDEX, Sector.MATERIALS, "Materials"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(12, "Industrial index", IDX_INDUSTIAL, SecurityType.US_INDEX, Sector.INDUSTRIAL),
+    security = new SecurityLogType(new Security(12, "Industrial index", IDX_INDUSTRIAL, SecurityType.US_INDEX, Sector.INDUSTRIAL, "Industrials"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(13, "Consumer Stables index", IDX_CONSUMER_STABLES, SecurityType.US_INDEX, Sector.CONSUMER_STAPLES),
+    security = new SecurityLogType(new Security(13, "Consumer Stables index", IDX_CONSUMER_STABLES, SecurityType.US_INDEX, Sector.CONSUMER_STAPLES, "Cons Stables"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(14, "Energy index", IDX_ENGERY, SecurityType.US_INDEX, Sector.ENERGY),
+    security = new SecurityLogType(new Security(14, "Energy index", IDX_ENGERY, SecurityType.US_INDEX, Sector.ENERGY, "Energy"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(15, "Utilities index", IDX_UTILITIES, SecurityType.US_INDEX, Sector.UTILITIES),
+    security = new SecurityLogType(new Security(15, "Utilities index", IDX_UTILITIES, SecurityType.US_INDEX, Sector.UTILITIES, "Utilities"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(15, "Finance index", IDX_FINANCE, SecurityType.US_INDEX, Sector.FINANCE),
+    security = new SecurityLogType(new Security(15, "Finance index", IDX_FINANCE, SecurityType.US_INDEX, Sector.FINANCE, "Finance"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(15, "Retail index", IDX_RETAIL, SecurityType.US_INDEX, Sector.RETAIL),
+    security = new SecurityLogType(new Security(15, "Retail index", IDX_RETAIL, SecurityType.US_INDEX, Sector.RETAIL, "Retail"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(16, "Home Builders index", IDX_HOME_BUILDERS, SecurityType.US_INDEX, Sector.HOME_BUILDERS),
+    security = new SecurityLogType(new Security(16, "Home Builders index", IDX_HOME_BUILDERS, SecurityType.US_INDEX, Sector.HOME_BUILDERS, "Home Builders"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(16, "Health Care Equipment index", IDX_HEALTH_CARE_EQUIPMENT, SecurityType.US_INDEX, Sector.HEALTH_CARE_EQUIPMENT),
+    security = new SecurityLogType(new Security(16, "Health Care Equipment index", IDX_HEALTH_CARE_EQUIPMENT, SecurityType.US_INDEX, Sector.HEALTH_CARE_EQUIPMENT, "Health Care Eqip"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(17, "Health Care Services index", IDX_HEALTH_CARE_SERVICES, SecurityType.US_INDEX, Sector.HEALTH_CARE_SERVICES),
+    security = new SecurityLogType(new Security(17, "Health Care Services index", IDX_HEALTH_CARE_SERVICES, SecurityType.US_INDEX, Sector.HEALTH_CARE_SERVICES, "Health Care Srv"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);

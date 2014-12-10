@@ -26,7 +26,7 @@ public interface YfDao {
   public static final String IDX_CONSUMER_DISCRETE_SELECT = "XLY";
   public static final String IDX_HEALTH_CARE = "XLV";
   public static final String IDX_MATERIALS = "XLB";
-  public static final String IDX_INDUSTIAL = "XLI";
+  public static final String IDX_INDUSTRIAL = "XLI";
   public static final String IDX_CONSUMER_STABLES = "XLP";
   public static final String IDX_ENGERY = "XLE";
   public static final String IDX_UTILITIES = "XLU";

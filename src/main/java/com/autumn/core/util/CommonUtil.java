@@ -305,7 +305,13 @@ public class CommonUtil {
   }
   
   
-  public StringBuilder createHtmlTable(StringBuilder sb, String caption, String[] headers, Map<String,Boolean> participations, List<String> csvResults, Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes) {
+  public StringBuilder createHtmlTable(StringBuilder sb, 
+                                       String caption, 
+                                       String[] headers, 
+                                       Map<String,Boolean> participations, 
+                                       Map<String,String> notes, 
+                                       List<String> csvResults, 
+                                       Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes) {
     sb.append("  <table id='t01' style='width:800px'>\n")
       .append("    <caption><h3>").append(caption).append("</h3></caption>\n")
       .append("    <tr>\n");
@@ -355,6 +361,7 @@ public class CommonUtil {
         sb.append("      <td><b>").append(getShortTermIndex(lastQuote, securityHistQuotes)).append("</b></td>\n");
         sb.append("      <td><b>").append(getMidTermIndex(lastQuote, securityHistQuotes)).append("</b></td>\n");
         sb.append("      <td><b>").append(getLongTermIndex(lastQuote, securityHistQuotes)).append("</b></td>\n");
+        sb.append("      <td><b>").append(disp(notes.get(symbol))).append("</b></td>\n");
       } else {
         sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "5d", true)).append("</td>\n");
         sb.append("      <td>").append(getPercentDisplayForWeekdaysAgo(lastQuote, securityHistQuotes, "10d", true)).append("</td>\n");
@@ -366,8 +373,9 @@ public class CommonUtil {
         sb.append("      <td>").append(getShortTermIndex(lastQuote, securityHistQuotes)).append("</b>\n");
         sb.append("      <td>").append(getMidTermIndex(lastQuote, securityHistQuotes)).append("</b>\n");
         sb.append("      <td>").append(getLongTermIndex(lastQuote, securityHistQuotes)).append("</b>\n");
+        sb.append("      <td>").append(disp(notes.get(symbol))).append("</b>\n");
       }
-      
+
       sb.append("    </tr>\n");
     }
     sb.append("  </table>\n");
@@ -432,4 +440,12 @@ public class CommonUtil {
     return indexString;
   }
 
+  
+  private String disp(String str) {
+    if (str == null) {
+      return "";
+    } else {
+      return str;
+    }
+  }
 }
