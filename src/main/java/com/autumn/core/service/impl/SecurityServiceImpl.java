@@ -114,7 +114,7 @@ public class SecurityServiceImpl implements SecurityService {
     final String REQUESTS = SYMBOL + NAME + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
     
-    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
+    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIntraDay();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
     
