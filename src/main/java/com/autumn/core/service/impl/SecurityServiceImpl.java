@@ -154,6 +154,7 @@ public class SecurityServiceImpl implements SecurityService {
     
     StringBuilder sb = new StringBuilder();
     sb = commonUtil.createHtmlBegin(sb);
+    sb = commonUtil.createInfoTable(sb);
 
     Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes = null;
     

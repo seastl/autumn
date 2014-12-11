@@ -96,82 +96,16 @@ public class CommonUtil {
   }
   
   
-  public String buildMessage(String[] headers, List<String> csvResults) {
-    StringBuilder sb = new StringBuilder();
-    for (String csvResult : csvResults) {
-      String[] result = csvResult.split(COMMA_SPLIT_REGEX);
-      for (int i = 0; i < headers.length; i++) {
-        if (headers[i] != null && !headers[i].isEmpty()) {
-          sb.append(headers[i] + ":" + result[i] + " ");
-        } else {
-          sb.append(result[i] + " ");
-        }
-      }
-      sb.append("\n");
-    }
-    return sb.toString();
-  }
-
-  
   public String buildHtmlMessage(String[] headers, List<String> csvResults) {
     StringBuilder sb = new StringBuilder();
     sb = createHtmlBegin(sb);
+    sb = createInfoTable(sb);
     sb = createHtmlTable(sb, "Indexes", headers, csvResults);
     sb = createHtmlEnd(sb);
     return sb.toString();
   }
 
   
-  public String buildMessage(String[] headers, Map<String,Boolean> participations, List<String> csvResults) {
-    StringBuilder sb = new StringBuilder();
-    for (int j = 0; j < csvResults.size(); j++) {
-      String csvResult = csvResults.get(j);
-      String[] result = csvResult.split(COMMA_SPLIT_REGEX);
-      String symbol = removeDoubleQuotes(result[0], false);
-      String participation = participations.get(symbol) ? "*" : " ";
-      sb.append(participation);
-      for (int i = 0; i < headers.length; i++) {
-        if (headers[i] != null && !headers[i].isEmpty()) {
-          sb.append(headers[i] + ":" + removeDoubleQuotes(result[i], false) + " ");
-        } else {
-          sb.append(removeDoubleQuotes(result[i], false) + " ");
-        }
-      }
-      sb.append("\n");
-    }
-    return sb.toString();
-  }
-  
-
-  public String buildMessage(String[] headers, Map<String,Boolean> participations, List<String> csvResults, Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes) {
-    StringBuilder sb = new StringBuilder();
-    for (int j = 0; j < csvResults.size(); j++) {
-      String csvResult = csvResults.get(j);
-      String[] result = csvResult.split(COMMA_SPLIT_REGEX);
-      String symbol = removeDoubleQuotes(result[0], false);
-      String participation = participations.get(symbol) ? "*" : " ";
-      sb.append(participation);
-      for (int i = 0; i < headers.length; i++) {
-        if (headers[i] != null && !headers[i].isEmpty()) {
-          sb.append(headers[i] + ":" + removeDoubleQuotes(result[i], false) + " ");
-        } else {
-          sb.append(removeDoubleQuotes(result[i], false) + " ");
-        }
-      }
-      Map<Date,HistoricalQuote> securityHistQuotes = securitiesHistQuotes.get(symbol);
-      sb.append("5d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "5d", true)).append(" ");
-      sb.append("10d" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "10d", true)).append(" ");
-      sb.append("1m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1m", true)).append(" ");
-      sb.append("3m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "3m", true)).append(" ");
-      sb.append("6m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "6m", true)).append(" ");
-      sb.append("9m" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "9m", true)).append(" ");
-      sb.append("1y" + getPercentDisplayForWeekdaysAgo(securityHistQuotes, "1y", true)).append(" ");
-      sb.append("\n");
-    }
-    return sb.toString();
-  }
-  
-
   /**
    * Remove double quotes from the string.
    * If includePhrase is false, double quotes won't be removed if it contains space.
@@ -283,7 +217,7 @@ public class CommonUtil {
   
   private StringBuilder createHtmlTable(StringBuilder sb, String caption, String[] headers, List<String> csvResults) {
     sb.append("  <table id='t01' style='width:500px'>\n")
-      .append("    <caption><h3>").append(caption).append("</h3></caption>\n")
+      .append("    <caption><h3 align='left'>").append(caption).append("</h3></caption>\n")
       .append("    <tr>\n");
     
     for (String header : headers) {
@@ -313,7 +247,7 @@ public class CommonUtil {
                                        List<String> csvResults, 
                                        Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes) {
     sb.append("  <table id='t01' style='width:800px'>\n")
-      .append("    <caption><h3>").append(caption).append("</h3></caption>\n")
+      .append("    <caption><h3 align='left'>").append(caption).append("</h3></caption>\n")
       .append("    <tr>\n");
     
     for (String header : headers) {
@@ -448,4 +382,20 @@ public class CommonUtil {
       return str;
     }
   }
+
+
+  public StringBuilder createInfoTable(StringBuilder sb) {
+    sb.append("  <table id='t01' style='width:500px'>\n")
+      .append("    <caption><h3 align='left'>").append("Info.").append("</h3></caption>\n")
+      .append("    <tr>\n")
+      .append("      <td><a href='http://mam.econoday.com/byweek.asp?cust=mam' target='_blank'>US Weekly Economic Calendar</a></td>\n")
+      .append("    </tr>\n")
+      .append("    <tr>\n")
+      .append("      <td><a href='http://globalbasic.econoday.com/byweek.asp?cust=global-basic' target='_blank'>Global Weekly Economic Calendar</a></td>\n")
+      .append("    </tr>\n")
+      .append("  </table>\n");
+    return sb;
+  }
+  
+  
 }
