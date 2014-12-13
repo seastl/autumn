@@ -415,7 +415,7 @@ public class CommonUtil {
     if (input != null) {
       try {
         float f = Float.parseFloat(input);
-        formattedFloat = String.format("%+.2f", f);
+        formattedFloat = String.format("%.2f", f);
       } catch (Exception ex) {
         formattedFloat = input;
       }
