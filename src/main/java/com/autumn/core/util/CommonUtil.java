@@ -215,7 +215,10 @@ public class CommonUtil {
   }
   
   
-  private StringBuilder createHtmlTable(StringBuilder sb, String caption, String[] headers, List<String> csvResults) {
+  private StringBuilder createHtmlTable(StringBuilder sb, 
+                                        String caption, 
+                                        String[] headers, 
+                                        List<String> csvResults) {
     sb.append("  <table id='t01' style='width:500px'>\n")
       .append("    <caption><h3 align='left'>").append(caption).append("</h3></caption>\n")
       .append("    <tr>\n");
@@ -228,8 +231,13 @@ public class CommonUtil {
     for (String csvResult : csvResults) {
       sb.append("    <tr>\n");
       String[] results = csvResult.split(COMMA_SPLIT_REGEX);
-      for (String result : results) {
-        sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</td>\n");
+      for (int i = 0; i < results.length; i++) {
+        String result = results[i];
+        if (i == 2) { // close
+          sb.append("      <td>").append(formatTo2Dec( removeDoubleQuotes(result, true))).append("</td>\n");
+        } else {
+          sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</td>\n");
+        }
       }
       sb.append("    </tr>\n");
     }
@@ -246,7 +254,7 @@ public class CommonUtil {
                                        Map<String,String> notes, 
                                        List<String> csvResults, 
                                        Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes) {
-    sb.append("  <table id='t01' style='width:800px'>\n")
+    sb.append("  <table id='t01' style='width:900px'>\n")
       .append("    <caption><h3 align='left'>").append(caption).append("</h3></caption>\n")
       .append("    <tr>\n");
     
@@ -269,14 +277,18 @@ public class CommonUtil {
       for (int i = 0; i < splitResults.length; i++) {
         String splitResult = splitResults[i];
         if (participations.get(symbol)) {
-          if (i == 0) {
+          if (i == 0) { // symbol
             sb.append("      <td><b><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(splitResult, true)).append("</a></b></td>\n");
+          } else if (i == 2) { // close
+            sb.append("      <td><b>").append( formatTo2Dec( removeDoubleQuotes(splitResult, true))).append("</b></td>\n");
           } else {
             sb.append("      <td><b>").append(removeDoubleQuotes(splitResult, true)).append("</b></td>\n");
           }
         } else {
-          if (i == 0) {
+          if (i == 0) { // symbol
             sb.append("      <td><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(splitResult, true)).append("</a></td>\n");
+          } else if (i == 2) { // close
+            sb.append("      <td>").append( formatTo2Dec( removeDoubleQuotes(splitResult, true))).append("</td>\n");
           } else {
             sb.append("      <td>").append(removeDoubleQuotes(splitResult, true)).append("</td>\n");
           }
@@ -397,5 +409,20 @@ public class CommonUtil {
     return sb;
   }
   
+
+  private String formatTo2Dec(String input) {
+    String formattedFloat = null;
+    if (input != null) {
+      try {
+        float f = Float.parseFloat(input);
+        formattedFloat = String.format("%+.2f", f);
+      } catch (Exception ex) {
+        formattedFloat = input;
+      }
+    } else {
+      formattedFloat = input;
+    }
+    return formattedFloat;
+  }
   
 }
