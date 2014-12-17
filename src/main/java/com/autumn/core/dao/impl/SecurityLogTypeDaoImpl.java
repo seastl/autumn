@@ -846,171 +846,163 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
     List<SecurityLogType> securities = new ArrayList();
 
     SecurityLogType security = null;
-    security = new SecurityLogType(new Security(1601, "", "FBIOX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1601, "", "FBIOX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Biotech"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1602, "", "FBMPX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1602, "", "FBMPX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Multimedia"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1603, "", "FBSOX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1603, "", "FBSOX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "IT Services"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1604, "", "FCYIX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1604, "", "FCYIX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Industrials"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1605, "", "FDCPX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1605, "", "FDCPX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Computers"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1606, "", "FDFAX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1606, "", "FDFAX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Consumer Staples"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1607, "", "FDLSX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1607, "", "FDLSX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Leisure"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1608, "", "FIDSX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1608, "", "FIDSX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Financial Services"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1609, "", "FIUIX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1609, "", "FIUIX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Telecom & Utilities"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1610, "", "FNARX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1610, "", "FNARX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Natural Resources"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1611, "", "FNINX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1612, "", "FPHAX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Pharmaceuticals"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1612, "", "FPHAX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1613, "", "FSAGX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Gold"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1613, "", "FSAGX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1614, "", "FSAIX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Air Transportation"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1614, "", "FSAIX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1615, "", "FSAVX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Automotive"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1615, "", "FSAVX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1616, "", "FSCGX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Industrial Equipment"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1616, "", "FSCGX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1617, "", "FSCHX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Chemicals"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1617, "", "FSCHX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1618, "", "FSCPX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Consumer Descret"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1618, "", "FSCPX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1619, "", "FSCSX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Software & Computer"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1619, "", "FSCSX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1620, "", "FSDAX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Defense & Aerospace"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1620, "", "FSDAX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1621, "", "FSDCX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Communication Equipment"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1621, "", "FSDCX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1622, "", "FSDPX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Materials"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1622, "", "FSDPX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1623, "", "FSELX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Electronics"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1623, "", "FSELX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1624, "", "FSENX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Energy"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1624, "", "FSENX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1625, "", "FSESX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Energy Services"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1625, "", "FSESX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1626, "", "FSHCX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Medical Delivery"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1626, "", "FSHCX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1627, "", "FSHOX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Construction & Hsg"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1627, "", "FSHOX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1628, "", "FSLBX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Brokerage & Investment Mgmt"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1628, "", "FSLBX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1629, "", "FSLEX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Environment & Alt Energy"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1629, "", "FSLEX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1631, "", "FSMEX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Medical Equipment"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1630, "", "FSLXX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1632, "", "FSNGX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Natural Gas"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1631, "", "FSMEX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1633, "", "FSPCX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Insurance"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1632, "", "FSNGX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1634, "", "FSPHX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Health Care"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1633, "", "FSPCX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1635, "", "FSPTX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Technology"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1634, "", "FSPHX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1636, "", "FSRBX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Banking"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1635, "", "FSPTX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1637, "", "FSRFX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Transportation"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1636, "", "FSRBX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1638, "", "FSRPX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Retailing"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1637, "", "FSRFX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1639, "", "FSTCX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Telecommunications"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1638, "", "FSRPX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1640, "", "FSUTX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Utilities"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1639, "", "FSTCX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1641, "", "FSVLX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Consumer Finance"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1640, "", "FSUTX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1641, "", "FSVLX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1642, "", "FWRLX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1642, "", "FWRLX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Wireless"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -1024,123 +1016,123 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
     List<SecurityLogType> securities = new ArrayList();
 
     SecurityLogType security = null;
-    security = new SecurityLogType(new Security(1701, "", "DVY", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1701, "", "DVY", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Dividend"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1702, "", "IWF", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1702, "", "IWF", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Russell 1000 Growth"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1703, "", "IWB", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1703, "", "IWB", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Russell 1000"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1704, "", "IWD", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1704, "", "IWD", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Russell 1000 Value"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1705, "", "IWO", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1705, "", "IWO", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Russell 2000 Growth"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1706, "", "IWM", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1706, "", "IWM", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Russell 2000"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1707, "", "IWN", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1707, "", "IWN", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Russell 2000 Value"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1708, "", "IWV", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1708, "", "IWV", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Russell 3000"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1709, "", "IVW", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1709, "", "IVW", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "S&P 500 Growth"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1710, "", "IVV", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1710, "", "IVV", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Core S&P 500"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1711, "", "IVE", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1711, "", "IVE", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "S&P 500 Value"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1712, "", "IJK", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1712, "", "IJK", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "S&P Mid-Cap 400 Growth"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1713, "", "IJH", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1713, "", "IJH", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Core S&P Mid-Cap"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1714, "", "IJJ", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1714, "", "IJJ", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "S&P Mid-Cap 400 Value"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1715, "", "IJT", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1715, "", "IJT", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "S&P Small-Cap 600 Growth"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1716, "", "IJR", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1716, "", "IJR", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Core S&P Small-Cap"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1717, "", "IJS", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1717, "", "IJS", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "S&P Small-Cap 600 Value"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1718, "", "IDV", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1718, "", "IDV", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Intl Select Dividend"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1719, "", "ACWI", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1719, "", "ACWI", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "MSCI ACWI"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1720, "", "ACWX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1720, "", "ACWX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "MSCI ACWI ex US"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1721, "", "EFA", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1721, "", "EFA", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "MSCI EAFE"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1722, "", "SCZ", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1722, "", "SCZ", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "MSCI EAFE Small-Cap"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1723, "", "EEM", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1723, "", "EEM", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "MSCI Emerging Markets"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1724, "", "AGG", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1724, "", "AGG", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Core US Aggregate Bond"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1725, "", "TIP", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1725, "", "TIP", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "TIPS Bond"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1726, "", "LQD", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1726, "", "LQD", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Corp Bond"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1727, "", "HYG", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1727, "", "HYG", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Corp Bond"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1728, "", "EMB", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1728, "", "EMB", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Emerg Markets Bond"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1729, "", "MUB", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1729, "", "MUB", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "Muni BOnd"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1730, "", "IYR", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1730, "", "IYR", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, "US Real Estate"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
