@@ -22,6 +22,7 @@ public class Sector {
   public static final int HOME_BUILDERS = 18;
   public static final int HEALTH_CARE_EQUIPMENT = 19;
   public static final int HEALTH_CARE_SERVICES = 20;
+  public static final int SERVICES = 21;
   
   private Integer id;
   private String description;
