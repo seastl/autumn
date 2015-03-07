@@ -1,7 +1,26 @@
 package com.autumn.core.dao.impl;
 
 import com.autumn.core.dao.SecurityLogTypeDao;
-import static com.autumn.core.dao.YfDao.*;
+import static com.autumn.core.dao.YfDao.DOW;
+import static com.autumn.core.dao.YfDao.IDX_CONSUMER_DISCRETE_SELECT;
+import static com.autumn.core.dao.YfDao.IDX_CONSUMER_STABLES;
+import static com.autumn.core.dao.YfDao.IDX_ENGERY;
+import static com.autumn.core.dao.YfDao.IDX_FINANCE;
+import static com.autumn.core.dao.YfDao.IDX_HEALTH_CARE;
+import static com.autumn.core.dao.YfDao.IDX_HEALTH_CARE_EQUIPMENT;
+import static com.autumn.core.dao.YfDao.IDX_HEALTH_CARE_SERVICES;
+import static com.autumn.core.dao.YfDao.IDX_HOME_BUILDERS;
+import static com.autumn.core.dao.YfDao.IDX_INDUSTRIAL;
+import static com.autumn.core.dao.YfDao.IDX_MATERIALS;
+import static com.autumn.core.dao.YfDao.IDX_RETAIL;
+import static com.autumn.core.dao.YfDao.IDX_TECHOLOGY;
+import static com.autumn.core.dao.YfDao.IDX_UTILITIES;
+import static com.autumn.core.dao.YfDao.NASDAQ;
+import static com.autumn.core.dao.YfDao.RUSSELL_1000;
+import static com.autumn.core.dao.YfDao.RUSSELL_2000;
+import static com.autumn.core.dao.YfDao.RUSSELL_3000;
+import static com.autumn.core.dao.YfDao.SP500;
+import static com.autumn.core.dao.YfDao.SP500_VOLATILITY;
 import com.autumn.core.model.LogType;
 import com.autumn.core.model.Sector;
 import com.autumn.core.model.Security;
@@ -1158,7 +1177,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1804, "", "T", SecurityType.US_STOCK, Sector.TECHNOLOGY),
+    security = new SecurityLogType(new Security(1804, "", "AAPL", SecurityType.US_STOCK, Sector.TECHNOLOGY),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
