@@ -218,12 +218,21 @@ public class CommonUtil {
     }
     sb.append("    </tr>\n");
     
+    String symbol = null;
     for (String csvResult : csvResults) {
       sb.append("    <tr>\n");
       String[] results = csvResult.split(COMMA_SPLIT_REGEX);
+      try {
+        symbol = URLEncoder.encode(removeDoubleQuotes(results[0], true), "UTF-8");
+      } catch (Exception ex) {
+        throw new RuntimeException("Failed to URL encode " + removeDoubleQuotes(results[0], true) + ".", ex);
+      }
+      
       for (int i = 0; i < results.length; i++) {
         String result = results[i];
-        if (i == 2) { // close
+        if (i == 0) { // symbol
+          sb.append("      <td><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(result, true)).append("</a></td>\n");
+        } else if (i == 2) { // close
           sb.append("      <td>").append(formatTo2Dec( removeDoubleQuotes(result, true))).append("</td>\n");
         } else {
           sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</td>\n");
@@ -257,7 +266,7 @@ public class CommonUtil {
     for (String csvResult : csvResults) {
       String[] splitResults = csvResult.split(COMMA_SPLIT_REGEX);
       try {
-      symbol = URLEncoder.encode(removeDoubleQuotes(splitResults[0], true), "UTF-8");
+        symbol = URLEncoder.encode(removeDoubleQuotes(splitResults[0], true), "UTF-8");
       } catch (Exception ex) {
         throw new RuntimeException("Failed to URL encode " + removeDoubleQuotes(splitResults[0], true) + ".", ex);
       }

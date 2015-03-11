@@ -37,8 +37,8 @@ public class Monitor {
     // The following is for testing only Actual code is triggered by scheduler.
     //securityService.check();
     //securityService.checkForDailyOpen();
-    securityService.checkForDailyClose();
-    //securityService.checkForIntraDay();
+    //securityService.checkForDailyClose();
+    securityService.checkForIntraDay();
 
   }
   
