@@ -3,7 +3,11 @@ package com.autumn.core.service.impl;
 import com.autumn.core.dao.LogDao;
 import com.autumn.core.dao.SecurityLogTypeDao;
 import com.autumn.core.dao.YfDao;
-import static com.autumn.core.dao.YfDao.*;
+import static com.autumn.core.dao.YfDao.LST_TRD;
+import static com.autumn.core.dao.YfDao.NAME;
+import static com.autumn.core.dao.YfDao.PCT_CHG;
+import static com.autumn.core.dao.YfDao.PREVIOUS_CLOSE;
+import static com.autumn.core.dao.YfDao.SYMBOL;
 import com.autumn.core.model.HistoricalQuote;
 import com.autumn.core.model.SecurityLogType;
 import com.autumn.core.service.SecurityService;
@@ -99,7 +103,13 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
     
-    String message = commonUtil.buildHtmlMessage(HEADERS, csvResults);
+    StringBuilder sb = new StringBuilder();
+    sb = commonUtil.createHtmlBegin(sb);
+    sb = commonUtil.createInfoTable(sb);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults);
+    sb = commonUtil.createHtmlEnd(sb);
+    String message = sb.toString();
+    
     if (sendEmail) {
       emailUtil.sendHtmlEmailThruGoogle("-", message);
     } else {
@@ -114,11 +124,26 @@ public class SecurityServiceImpl implements SecurityService {
     final String REQUESTS = SYMBOL + NAME + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
     
+    StringBuilder sb = new StringBuilder();
+    sb = commonUtil.createHtmlBegin(sb);
+    sb = commonUtil.createInfoTable(sb);
+    
+    // Indexes
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIntraDay();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults);
+    sb = commonUtil.createHtmlEnd(sb);
     
-    String message = commonUtil.buildHtmlMessage(HEADERS, csvResults);
+    // Dow30
+    securities = securityLogTypeDao.getSecuritiesForDow30();
+    symbols = getSymbols(securities);
+    csvResults = yfDao.getQuote(symbols, REQUESTS);
+    sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, csvResults);
+    sb = commonUtil.createHtmlEnd(sb);
+    
+    String message = sb.toString();
+    
     if (sendEmail) {
       emailUtil.sendHtmlEmailThruGoogle("--", message);
     } else {
@@ -130,14 +155,20 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void checkForDailyClose() {
-    final String REQUESTS = SYMBOL + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
+    final String REQUESTS = SYMBOL + NAME + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
     
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
 
-    String message = commonUtil.buildHtmlMessage(HEADERS, csvResults);
+    StringBuilder sb = new StringBuilder();
+    sb = commonUtil.createHtmlBegin(sb);
+    sb = commonUtil.createInfoTable(sb);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults);
+    sb = commonUtil.createHtmlEnd(sb);
+    String message = sb.toString();
+    
     if (sendEmail) {
       emailUtil.sendHtmlEmailThruGoogle("---", message);
     } else {

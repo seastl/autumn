@@ -96,16 +96,6 @@ public class CommonUtil {
   }
   
   
-  public String buildHtmlMessage(String[] headers, List<String> csvResults) {
-    StringBuilder sb = new StringBuilder();
-    sb = createHtmlBegin(sb);
-    sb = createInfoTable(sb);
-    sb = createHtmlTable(sb, "Indexes", headers, csvResults);
-    sb = createHtmlEnd(sb);
-    return sb.toString();
-  }
-
-  
   /**
    * Remove double quotes from the string.
    * If includePhrase is false, double quotes won't be removed if it contains space.
@@ -215,7 +205,7 @@ public class CommonUtil {
   }
   
   
-  private StringBuilder createHtmlTable(StringBuilder sb, 
+  public StringBuilder createHtmlTable(StringBuilder sb, 
                                         String caption, 
                                         String[] headers, 
                                         List<String> csvResults) {
