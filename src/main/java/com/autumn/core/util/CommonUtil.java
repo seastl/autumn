@@ -232,7 +232,7 @@ public class CommonUtil {
         String result = results[i];
         if (i == 0) { // symbol
           sb.append("      <td><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(result, true)).append("</a></td>\n");
-        } else if (i == 2) { // close
+        } else if (i == 2 || i == 3) { // prv, ask
           sb.append("      <td>").append(formatTo2Dec( removeDoubleQuotes(result, true))).append("</td>\n");
         } else {
           sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</td>\n");
