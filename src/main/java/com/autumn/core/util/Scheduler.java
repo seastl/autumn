@@ -55,9 +55,9 @@ public class Scheduler {
 
 
   /**
-   * Executes every hour at the 5th minute between 7AM and 12PM Mon-Fri
+   * Executes every hour at the 55th minute between 6AM and 12PM Mon-Fri
    */
-  @Scheduled(cron = "0 5 7-12 * * MON-FRI")
+  @Scheduled(cron = "0 55 6-12 * * MON-FRI")
   public void executeHourly() {
     securityService.checkForIntraDay();
   }
