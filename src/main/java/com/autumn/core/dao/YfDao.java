@@ -15,7 +15,7 @@ public interface YfDao {
   public static final String MONTHLY_INCREMENT = "m";
   
   public static final String CARET = "%5E"; // character ^
-  public static final String DOW = CARET+"INDU";
+  public static final String DOW = CARET+"DJI";
   public static final String NASDAQ = CARET+"IXIC";
   public static final String SP500 = CARET+"GSPC";
   public static final String RUSSELL_1000 = CARET+"RUI";

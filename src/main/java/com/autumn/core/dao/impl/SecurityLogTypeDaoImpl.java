@@ -21,11 +21,7 @@ import static com.autumn.core.dao.YfDao.RUSSELL_2000;
 import static com.autumn.core.dao.YfDao.RUSSELL_3000;
 import static com.autumn.core.dao.YfDao.SP500;
 import static com.autumn.core.dao.YfDao.SP500_VOLATILITY;
-import com.autumn.core.model.LogType;
-import com.autumn.core.model.Sector;
-import com.autumn.core.model.Security;
-import com.autumn.core.model.SecurityLogType;
-import com.autumn.core.model.SecurityType;
+import com.autumn.core.model.*;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,15 +61,27 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1822, "Microsoft", "MSFT", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "200"),
+    security = new SecurityLogType(new Security(1822, "Microsoft", "MSFT", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "200@39"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(9, "Facebook", "FB", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "100"),
+    security = new SecurityLogType(new Security(9, "Facebook", "FB", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "100@40"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-        
+    security = new SecurityLogType(new Security(10, "Alcoa", "AA", SecurityType.US_STOCK, Sector.INDUSTRIAL, true, "1000@8.81"),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(11, "Chevron", "CVX", SecurityType.US_STOCK, Sector.MATERIALS, true, "200@77.14"),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(12, "Procter & Gamble", "PG", SecurityType.US_STOCK, Sector.CONSUMER_STAPLES, true, "130@72.59"),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    
     return securities;
   }
 
@@ -1169,7 +1177,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1802, "", "AA", SecurityType.US_STOCK, Sector.INDUSTRIAL),
+    security = new SecurityLogType(new Security(1802, "", "AA", SecurityType.US_STOCK, Sector.INDUSTRIAL, true, "1000@8.81"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -1193,7 +1201,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1808, "", "CVX", SecurityType.US_STOCK, Sector.MATERIALS),
+    security = new SecurityLogType(new Security(1808, "", "CVX", SecurityType.US_STOCK, Sector.MATERIALS, true, "200@77.14"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -1249,7 +1257,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1822, "", "MSFT", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "200"),
+    security = new SecurityLogType(new Security(1822, "", "MSFT", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "200@39"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -1257,7 +1265,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1824, "", "PG", SecurityType.US_STOCK, Sector.CONSUMER_STAPLES),
+    security = new SecurityLogType(new Security(1824, "", "PG", SecurityType.US_STOCK, Sector.CONSUMER_STAPLES, true, "130@72.59"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);

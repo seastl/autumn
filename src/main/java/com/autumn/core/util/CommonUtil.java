@@ -155,24 +155,29 @@ public class CommonUtil {
    */
   public String getPercentDisplayForWeekdaysAgo(String lastQuote, Map<Date, HistoricalQuote> historicalQuotes, String pastWorkPeriod, boolean formatToDisplay) {
     String percentForDaysAgo = null;
-    Date[] dateRange = getDateRangeForPastWorkPeriod(pastWorkPeriod);
-    HistoricalQuote quoteDaysAgo = historicalQuotes.get(dateRange[0]);
-    if (quoteDaysAgo != null && lastQuote != null) {
-      float openDaysAgo = quoteDaysAgo.getOpen();
-      float closeToday = Float.parseFloat(lastQuote);
-      float percentChange = ((closeToday - openDaysAgo) * 100) / openDaysAgo;
-      if (formatToDisplay) {
-        if (percentChange > 0.0) {
-          percentForDaysAgo = "<font color='green'>" + String.format("%+.2f%%", percentChange) + "</font>";
-        } else if (percentChange < 0.0) {
-          percentForDaysAgo = "<font color='red'>" + String.format("%+.2f%%", percentChange) + "</font>";
+    
+    try {
+      Date[] dateRange = getDateRangeForPastWorkPeriod(pastWorkPeriod);
+      HistoricalQuote quoteDaysAgo = historicalQuotes.get(dateRange[0]);
+      if (quoteDaysAgo != null && lastQuote != null) {
+        float openDaysAgo = quoteDaysAgo.getOpen();
+        float closeToday = Float.parseFloat(lastQuote);
+        float percentChange = ((closeToday - openDaysAgo) * 100) / openDaysAgo;
+        if (formatToDisplay) {
+          if (percentChange > 0.0) {
+            percentForDaysAgo = "<font color='green'>" + String.format("%+.2f%%", percentChange) + "</font>";
+          } else if (percentChange < 0.0) {
+            percentForDaysAgo = "<font color='red'>" + String.format("%+.2f%%", percentChange) + "</font>";
+          } else {
+            percentForDaysAgo = String.format("%+.2f%%", percentChange);
+          }
         } else {
-          percentForDaysAgo = String.format("%+.2f%%", percentChange);
+          percentForDaysAgo = String.format("%+.2f", percentChange);
         }
       } else {
-        percentForDaysAgo = String.format("%+.2f", percentChange);
+        percentForDaysAgo = "n/a";
       }
-    } else {
+    } catch (Exception ex) {
       percentForDaysAgo = "n/a";
     }
     
@@ -404,6 +409,9 @@ public class CommonUtil {
       .append("    <tr>\n")
       .append("      <td><a href='http://globalbasic.econoday.com/byweek.asp?cust=global-basic' target='_blank'>Global Weekly Economic Calendar</a></td>\n")
       .append("    </tr>\n")
+      .append("    <tr>\n")
+      .append("      <td><a href='" + getDividendUrl() + "' target='_blank'>Dividends</a></td>\n")
+      .append("    </tr>\n")
       .append("  </table>\n");
     return sb;
   }
@@ -424,4 +432,47 @@ public class CommonUtil {
     return formattedFloat;
   }
   
+  
+  /**
+   * URL for dividend
+   * symbol, name, div/sh, yield, prev date, next date
+   * @return 
+   */
+  private String getDividendUrl() {
+    StringBuilder divUrl = new StringBuilder();
+    divUrl.append("http://download.finance.yahoo.com/d/quotes.csv?s=");
+    divUrl.append("MMM,");
+    divUrl.append("AA,");
+    divUrl.append("AXP,");
+    divUrl.append("AAPL,");
+    divUrl.append("BAC,");
+    divUrl.append("BA,");
+    divUrl.append("CAT,");
+    divUrl.append("CVX,");
+    divUrl.append("CSCO,");
+    divUrl.append("DD,");
+    divUrl.append("XOM,");
+    divUrl.append("GE,");
+    divUrl.append("HPQ,");
+    divUrl.append("HD,");
+    divUrl.append("INTC,");
+    divUrl.append("IBM,");
+    divUrl.append("JNJ,");
+    divUrl.append("JPM,");
+    divUrl.append("GS,");
+    divUrl.append("MCD,");
+    divUrl.append("MRK,");
+    divUrl.append("MSFT,");
+    divUrl.append("PFE,");
+    divUrl.append("PG,");
+    divUrl.append("KO,");
+    divUrl.append("TRV,");
+    divUrl.append("UTX,");
+    divUrl.append("VZ,");
+    divUrl.append("WMT,");
+    divUrl.append("DIS");
+    divUrl.append("&f=sndyqr1");
+    
+    return divUrl.toString();
+  }
 }

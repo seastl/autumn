@@ -39,7 +39,7 @@ public class Monitor {
     //securityService.checkForDailyOpen();
     //securityService.checkForDailyClose();
     securityService.checkForIntraDay();
-
+    //securityService.checkForEndOfDay();
   }
   
 }
