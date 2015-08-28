@@ -13,13 +13,8 @@ import com.autumn.core.model.SecurityLogType;
 import com.autumn.core.service.SecurityService;
 import com.autumn.core.util.CommonUtil;
 import com.autumn.core.util.EmailUtil;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -112,7 +107,7 @@ public class SecurityServiceImpl implements SecurityService {
     String message = sb.toString();
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("-", message);
+      emailUtil.sendHtmlEmailThruGoogle("- " + getTimestamp(), message);
     } else {
       commonUtil.writeToFile("test_test.html", message);
     }
@@ -148,7 +143,7 @@ public class SecurityServiceImpl implements SecurityService {
     String message = sb.toString();
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("--", message);
+      emailUtil.sendHtmlEmailThruGoogle("-- " + getTimestamp(), message);
     } else {
       commonUtil.writeToFile("test_test.html", message);
     }
@@ -174,7 +169,7 @@ public class SecurityServiceImpl implements SecurityService {
     String message = sb.toString();
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("---", message);
+      emailUtil.sendHtmlEmailThruGoogle("--- " + getTimestamp(), message);
     } else {
       commonUtil.writeToFile("test_test.html", message);
     }
@@ -346,7 +341,7 @@ public class SecurityServiceImpl implements SecurityService {
     sb = commonUtil.createHtmlEnd(sb);
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("----", sb.toString());
+      emailUtil.sendHtmlEmailThruGoogle("---- " + getTimestamp(), sb.toString());
     } else {
       commonUtil.writeToFile("test_test.html", sb.toString());
     }
@@ -427,5 +422,15 @@ public class SecurityServiceImpl implements SecurityService {
     return convertedFloat;
   }
   
+
+  /**
+   * Get timestamp in 2015-08-28 Fri 12:59PM
+   * @return 
+   */
+  private String getTimestamp() {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd EEE hh:mm a");
+    String timestamp = sdf.format(new Date());
+    return timestamp;
+  }
   
 }
