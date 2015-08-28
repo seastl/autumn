@@ -213,7 +213,8 @@ public class CommonUtil {
   public StringBuilder createHtmlTable(StringBuilder sb, 
                                         String caption, 
                                         String[] headers, 
-                                        List<String> csvResults) {
+                                        List<String> csvResults,
+                                        Map<String,String> notes) {
     sb.append("  <table id='t01' style='width:500px'>\n")
       .append("    <caption><h3 align='left'>").append(caption).append("</h3></caption>\n")
       .append("    <tr>\n");
@@ -242,6 +243,12 @@ public class CommonUtil {
         } else {
           sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</td>\n");
         }
+      }
+      
+      if (notes != null) {
+        sb.append("      <td>").append(disp(notes.get(symbol))).append("</td>\n");
+      } else {
+        sb.append("      <td></td>\n");
       }
       sb.append("    </tr>\n");
     }

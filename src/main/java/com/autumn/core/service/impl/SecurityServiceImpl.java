@@ -102,7 +102,7 @@ public class SecurityServiceImpl implements SecurityService {
     StringBuilder sb = new StringBuilder();
     sb = commonUtil.createHtmlBegin(sb);
     sb = commonUtil.createInfoTable(sb);
-    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     String message = sb.toString();
     
@@ -118,7 +118,7 @@ public class SecurityServiceImpl implements SecurityService {
   @Override
   public void checkForIntraDay() {
     final String REQUESTS = SYMBOL + NAME + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
-    final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
+    final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg","Note"};
     
     StringBuilder sb = new StringBuilder();
     sb = commonUtil.createHtmlBegin(sb);
@@ -129,7 +129,8 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
     csvResults = sortByColumn(csvResults, 4, true);
-    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults);
+    Map<String, String> notes = getNotes(securities);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, notes);
     sb = commonUtil.createHtmlEnd(sb);
     
     // Dow30
@@ -137,7 +138,7 @@ public class SecurityServiceImpl implements SecurityService {
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols, REQUESTS);
     csvResults = sortByColumn(csvResults, 4, true);
-    sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, csvResults);
+    sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     
     String message = sb.toString();
@@ -164,7 +165,7 @@ public class SecurityServiceImpl implements SecurityService {
     StringBuilder sb = new StringBuilder();
     sb = commonUtil.createHtmlBegin(sb);
     sb = commonUtil.createInfoTable(sb);
-    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     String message = sb.toString();
     
