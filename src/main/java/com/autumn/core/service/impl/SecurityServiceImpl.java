@@ -429,7 +429,7 @@ public class SecurityServiceImpl implements SecurityService {
    * @return 
    */
   private String getTimestamp() {
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd EEE hh:mm a");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd EEE hh:mm a");
     String timestamp = sdf.format(new Date());
     return timestamp;
   }
