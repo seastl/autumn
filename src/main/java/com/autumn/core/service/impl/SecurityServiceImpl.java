@@ -144,7 +144,7 @@ public class SecurityServiceImpl implements SecurityService {
     String message = sb.toString();
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("-- " + getTimestamp(), message);
+      emailUtil.sendHtmlEmailThruGoogle("--     " + getTimestamp(), message);
     } else {
       commonUtil.writeToFile("test_test.html", message);
     }
@@ -170,7 +170,7 @@ public class SecurityServiceImpl implements SecurityService {
     String message = sb.toString();
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("--- " + getTimestamp(), message);
+      emailUtil.sendHtmlEmailThruGoogle("---     " + getTimestamp(), message);
     } else {
       commonUtil.writeToFile("test_test.html", message);
     }
@@ -342,7 +342,7 @@ public class SecurityServiceImpl implements SecurityService {
     sb = commonUtil.createHtmlEnd(sb);
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("---- " + getTimestamp(), sb.toString());
+      emailUtil.sendHtmlEmailThruGoogle("----     " + getTimestamp(), sb.toString());
     } else {
       commonUtil.writeToFile("test_test.html", sb.toString());
     }
@@ -429,7 +429,7 @@ public class SecurityServiceImpl implements SecurityService {
    * @return 
    */
   private String getTimestamp() {
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd EEE hh:mm a");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd EEE hh:mm a");
     String timestamp = sdf.format(new Date());
     return timestamp;
   }
