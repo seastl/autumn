@@ -411,18 +411,24 @@ public class CommonUtil {
     sb.append("  <table id='t01' style='width:500px'>\n")
       .append("    <caption><h3 align='left'>").append("Info.").append("</h3></caption>\n")
       .append("    <tr>\n")
+      .append("      <td><a href='http://finance.yahoo.com' target='_blank'>News</a></td>\n")
+      .append("    </tr>\n")
+      .append("    <tr>\n")
       .append("      <td><a href='http://mam.econoday.com/byweek.asp?cust=mam' target='_blank'>US Weekly Economic Calendar</a></td>\n")
       .append("    </tr>\n")
       .append("    <tr>\n")
       .append("      <td><a href='http://globalbasic.econoday.com/byweek.asp?cust=global-basic' target='_blank'>Global Weekly Economic Calendar</a></td>\n")
       .append("    </tr>\n")
       .append("    <tr>\n")
-      .append("      <td><a href='" + getDividendUrl() + "' target='_blank'>Dividends</a></td>\n")
+      .append("      <td><a href='" + getQuickInfoUrl() + "' target='_blank'>Quick Info</a><br>A-sym, B-nam, C-cap, D-pe, E-lastTrd, F-1yTgtPr, G-eps-cy, H-eps-nq, I-eps-ny, J-%50dAvg, K-%200dAvg</td>\n")
+      .append("    </tr>\n")
+      .append("    <tr>\n")
+      .append("      <td><a href='" + getDividendUrl() + "' target='_blank'>Dividends</a><br>A-sym, B-nam, C-div/sh, D-yield, E-prevPayDate, F-nextPayDate</td>\n")
       .append("    </tr>\n")
       .append("  </table>\n");
     return sb;
   }
-  
+
 
   private String formatTo2Dec(String input) {
     String formattedFloat = null;
@@ -442,44 +448,67 @@ public class CommonUtil {
   
   /**
    * URL for dividend
-   * symbol, name, div/sh, yield, prev date, next date
+   * sym, name, div/sh, yield, prev date, next date
    * @return 
    */
   private String getDividendUrl() {
     StringBuilder divUrl = new StringBuilder();
     divUrl.append("http://download.finance.yahoo.com/d/quotes.csv?s=");
-    divUrl.append("MMM,");
-    divUrl.append("AA,");
-    divUrl.append("AXP,");
-    divUrl.append("AAPL,");
-    divUrl.append("BAC,");
-    divUrl.append("BA,");
-    divUrl.append("CAT,");
-    divUrl.append("CVX,");
-    divUrl.append("CSCO,");
-    divUrl.append("DD,");
-    divUrl.append("XOM,");
-    divUrl.append("GE,");
-    divUrl.append("HPQ,");
-    divUrl.append("HD,");
-    divUrl.append("INTC,");
-    divUrl.append("IBM,");
-    divUrl.append("JNJ,");
-    divUrl.append("JPM,");
-    divUrl.append("GS,");
-    divUrl.append("MCD,");
-    divUrl.append("MRK,");
-    divUrl.append("MSFT,");
-    divUrl.append("PFE,");
-    divUrl.append("PG,");
-    divUrl.append("KO,");
-    divUrl.append("TRV,");
-    divUrl.append("UTX,");
-    divUrl.append("VZ,");
-    divUrl.append("WMT,");
-    divUrl.append("DIS");
+    divUrl.append(getSymbolsQuickLinks());
     divUrl.append("&f=sndyqr1");
     
     return divUrl.toString();
+  }
+  
+  
+  /**
+   * URL for quick info.
+   * sym, name, cap, pe, lastTrd, 1yTgtPr, eps-cy, eps-nq, eps-ny, %50dAvg, %200dAvg
+   * @return 
+   */
+  private String getQuickInfoUrl() {
+    StringBuilder divUrl = new StringBuilder();
+    divUrl.append("http://download.finance.yahoo.com/d/quotes.csv?s=");
+    divUrl.append(getSymbolsQuickLinks());
+    divUrl.append("&f=snj1rl1t8e7e9e8m8m6");
+    
+    return divUrl.toString();
+  }
+  
+  
+  private String getSymbolsQuickLinks() {
+    StringBuilder symbols = new StringBuilder();
+    symbols.append("MMM,");
+    symbols.append("AA,");
+    symbols.append("AXP,");
+    symbols.append("AAPL,");
+    symbols.append("BAC,");
+    symbols.append("BA,");
+    symbols.append("CAT,");
+    symbols.append("CVX,");
+    symbols.append("CSCO,");
+    symbols.append("DD,");
+    symbols.append("XOM,");
+    symbols.append("GE,");
+    symbols.append("HPQ,");
+    symbols.append("HD,");
+    symbols.append("INTC,");
+    symbols.append("IBM,");
+    symbols.append("JNJ,");
+    symbols.append("JPM,");
+    symbols.append("GS,");
+    symbols.append("MCD,");
+    symbols.append("MRK,");
+    symbols.append("MSFT,");
+    symbols.append("PFE,");
+    symbols.append("PG,");
+    symbols.append("KO,");
+    symbols.append("TRV,");
+    symbols.append("UTX,");
+    symbols.append("VZ,");
+    symbols.append("WMT,");
+    symbols.append("DIS");
+    
+    return symbols.toString();
   }
 }
