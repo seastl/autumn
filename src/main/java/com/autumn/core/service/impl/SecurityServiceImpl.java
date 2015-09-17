@@ -342,7 +342,7 @@ public class SecurityServiceImpl implements SecurityService {
     sb = commonUtil.createHtmlEnd(sb);
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("----&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + getTimestamp(), sb.toString());
+      emailUtil.sendHtmlEmailThruGoogle("----     " + getTimestamp(), sb.toString());
     } else {
       commonUtil.writeToFile("test_test.html", sb.toString());
     }
