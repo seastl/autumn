@@ -69,7 +69,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(10, "Alcoa", "AA", SecurityType.US_STOCK, Sector.INDUSTRIAL, true, "b1000@7.93"),
+    security = new SecurityLogType(new Security(10, "Alcoa", "AA", SecurityType.US_STOCK, Sector.INDUSTRIAL, true, "b100@6.93,b1000@7.93"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -82,6 +82,22 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    Boolean.TRUE);
     securities.add(security);
     security = new SecurityLogType(new Security(13, "Intel", "INTC", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "s200@32.50"),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(14, "HP", "HPQ", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b1000@9.61"),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(15, "WalMart", "WMT", SecurityType.US_STOCK, Sector.RETAIL, true, "b100@63.95"),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(16, "LinkedIn", "LNKD", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b50@109"),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(17, "Tableau", "DATA", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b100@39.34"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -1273,7 +1289,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1813, "", "HPQ", SecurityType.US_STOCK, Sector.TECHNOLOGY),
+    security = new SecurityLogType(new Security(1813, "", "HPQ", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b1000@9.61"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -1337,7 +1353,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1829, "", "WMT", SecurityType.US_STOCK, Sector.SERVICES),
+    security = new SecurityLogType(new Security(1829, "", "WMT", SecurityType.US_STOCK, Sector.SERVICES, true, "b100@63.95"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
