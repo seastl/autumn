@@ -665,7 +665,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1403, "", "FCNTX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true, "286"),
+    security = new SecurityLogType(new Security(1403, "", "FCNTX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true, "323"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -693,7 +693,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1410, "", "FDGFX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true, "2140"),
+    security = new SecurityLogType(new Security(1410, "", "FDGFX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true, "2417"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -842,6 +842,10 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    Boolean.TRUE);
     securities.add(security);
     security = new SecurityLogType(new Security(1447, "", "FVDFX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1410, "", "FBGRX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true, "325"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
