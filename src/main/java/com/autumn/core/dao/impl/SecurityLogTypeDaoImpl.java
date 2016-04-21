@@ -77,7 +77,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(12, "Procter & Gamble", "PG", SecurityType.US_STOCK, Sector.CONSUMER_STAPLES, true, "b130@72.59"),
+    security = new SecurityLogType(new Security(12, "Procter & Gamble", "PG", SecurityType.US_STOCK, Sector.CONSUMER_STAPLES, true, "s130@80.91"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -661,7 +661,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1402, "", "FBGRX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true, "306"),
+    security = new SecurityLogType(new Security(1402, "", "FBGRX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true, "325"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -842,10 +842,6 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    Boolean.TRUE);
     securities.add(security);
     security = new SecurityLogType(new Security(1447, "", "FVDFX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1410, "", "FBGRX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true, "325"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -1249,7 +1245,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1802, "", "AA", SecurityType.US_STOCK, Sector.INDUSTRIAL, true, "b1000@7.93"),
+    security = new SecurityLogType(new Security(1802, "", "AA", SecurityType.US_STOCK, Sector.INDUSTRIAL, true, "s2000@9.561"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -1337,7 +1333,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1824, "", "PG", SecurityType.US_STOCK, Sector.CONSUMER_STAPLES, true, "b130@72.59"),
+    security = new SecurityLogType(new Security(1824, "", "PG", SecurityType.US_STOCK, Sector.CONSUMER_STAPLES, true, "s130@80.91"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
