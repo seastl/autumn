@@ -280,7 +280,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1010, "Ivy Mid Cap Growth I", "IYMIX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
+    security = new SecurityLogType(new Security(1010, "JPMorgan Mid Cap Growth R6", "JMGMX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -301,6 +301,10 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    Boolean.TRUE);
     securities.add(security);
     security = new SecurityLogType(new Security(1015, "Vanguard Institutional Index I", "VINIX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true, "22.5%"),
+                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(1016, "AllianzGI NFJ International Value Instl", "ANJIX", SecurityType.US_MUTUAL_FUND, Sector.UNKNOWN, true, "22.5%"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
