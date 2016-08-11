@@ -93,7 +93,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(16, "LinkedIn", "LNKD", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b50@109"),
+    security = new SecurityLogType(new Security(16, "LinkedIn", "LNKD", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "s50@192.33"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
