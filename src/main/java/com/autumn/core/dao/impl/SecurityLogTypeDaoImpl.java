@@ -1301,7 +1301,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1813, "", "HPQ", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b1000@9.61, b1000@12.38"),
+    security = new SecurityLogType(new Security(1813, "", "HPQ", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b1000@9.61, b590@12.38"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
