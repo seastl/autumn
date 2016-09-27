@@ -85,7 +85,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(14, "HP", "HPQ", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b1000@9.61, b590@12.38"),
+    security = new SecurityLogType(new Security(14, "HP", "HPQ", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "s1590@14.39"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -101,7 +101,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(18, "Micron", "MU", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b1000@12.32"),
+    security = new SecurityLogType(new Security(18, "Micron", "MU", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "s1000@16.36"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -1301,7 +1301,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1813, "", "HPQ", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b1000@9.61, b590@12.38"),
+    security = new SecurityLogType(new Security(1813, "", "HPQ", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "s1590@14.39"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
