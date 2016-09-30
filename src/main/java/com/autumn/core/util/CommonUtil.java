@@ -215,7 +215,7 @@ public class CommonUtil {
                                         String[] headers, 
                                         List<String> csvResults,
                                         Map<String,String> notes) {
-    sb.append("  <table id='t01' style='width:900px'>\n")
+    sb.append("  <table id='t01' style='width:700px'>\n")
       .append("    <caption><h3 align='left'>").append(caption).append("</h3></caption>\n")
       .append("    <tr>\n");
     
