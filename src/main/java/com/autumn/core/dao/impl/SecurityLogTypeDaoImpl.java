@@ -93,11 +93,11 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(16, "LinkedIn", "LNKD", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "s50@192.33"),
+    security = new SecurityLogType(new Security(16, "Verizon", "VZ", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b200@47.96"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(17, "Tableau", "DATA", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "s100@55.69"),
+    security = new SecurityLogType(new Security(17, "Tableau", "DATA", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b100@43.87"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -106,6 +106,10 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    Boolean.TRUE);
     securities.add(security);
     security = new SecurityLogType(new Security(19, "Catapila", "CAT", SecurityType.US_STOCK, Sector.INDUSTRIAL, true, "s200@82"),
+                                   new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                   Boolean.TRUE);
+    securities.add(security);
+    security = new SecurityLogType(new Security(20, "Pfizer Inc.", "PFE", SecurityType.US_STOCK, Sector.HEALTH_CARE, true, "s300@32.13"),
                                    new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -1337,7 +1341,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1823, "", "PFE", SecurityType.US_STOCK, Sector.HEALTH_CARE),
+    security = new SecurityLogType(new Security(1823, "", "PFE", SecurityType.US_STOCK, Sector.HEALTH_CARE, true, "b300@32.13"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
@@ -1357,7 +1361,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
-    security = new SecurityLogType(new Security(1828, "", "VZ", SecurityType.US_STOCK, Sector.TECHNOLOGY),
+    security = new SecurityLogType(new Security(1828, "", "VZ", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b200@47.96"),
                                    new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
                                    Boolean.TRUE);
     securities.add(security);
