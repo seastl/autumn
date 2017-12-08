@@ -3,7 +3,9 @@ package com.autumn.core.dao.impl;
 import com.autumn.core.dao.LogDao;
 import com.autumn.core.model.EndOfDayLog;
 import com.autumn.core.model.IntraDayLog;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LogDaoImpl implements LogDao {
 
   @Override

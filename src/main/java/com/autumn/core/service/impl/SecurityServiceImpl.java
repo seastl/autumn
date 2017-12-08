@@ -15,12 +15,26 @@ import com.autumn.core.util.CommonUtil;
 import com.autumn.core.util.EmailUtil;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class SecurityServiceImpl implements SecurityService {
-
+  
+  @Value("${enableEmail}")
+  private String enableEmail; 
+          
+  @Value("${fromEmailAddress}")
+  private String fromEmailAddress; 
+          
+  @Value("${fromEmailPassword}")
+  private String fromEmailPassword; 
+          
+  @Value("${toEmailAddress}")
+  private String toEmailAddress; 
+          
   private SecurityLogTypeDao securityLogTypeDao;
   private LogDao logDao;
   private YfDao yfDao;
@@ -59,6 +73,15 @@ public class SecurityServiceImpl implements SecurityService {
     this.sendEmail = sendEmail;
   }
 
+  
+  @PostConstruct
+  public void postConstruct() throws Exception {
+    System.out.println("*** KL: enableEmail=" + enableEmail);
+    System.out.println("*** KL: fromEmailAddress=" + fromEmailAddress);
+    System.out.println("*** KL: toEmailAddress=" + toEmailAddress);
+    sendEmail = enableEmail.equalsIgnoreCase("true") ? true : false;
+  }
+  
   
   @Override
   public void check() {

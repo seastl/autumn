@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CommonUtil {
   
   public static final String COMMA_SPLIT_REGEX = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";

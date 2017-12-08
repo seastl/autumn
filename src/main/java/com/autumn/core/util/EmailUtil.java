@@ -4,7 +4,9 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EmailUtil {
   private static final String SMTP_HOST = "smtp.googlemail.com";
   private static final int SMTP_PORT = 465;
