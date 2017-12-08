@@ -35,37 +35,22 @@ public class SecurityServiceImpl implements SecurityService {
   @Value("${toEmailAddress}")
   private String toEmailAddress; 
           
+  @Autowired
   private SecurityLogTypeDao securityLogTypeDao;
+  
+  @Autowired
   private LogDao logDao;
+  
+  @Autowired
   private YfDao yfDao;
+  
+  @Autowired
   private EmailUtil emailUtil;
+  
+  @Autowired
   private CommonUtil commonUtil;
+  
   private boolean sendEmail = false;
-
-  @Autowired
-  public void setSecurityLogTypeDao(SecurityLogTypeDao securityLogTypeDao) {
-    this.securityLogTypeDao = securityLogTypeDao;
-  }
-
-  @Autowired
-  public void setLogDao(LogDao logDao) {
-    this.logDao = logDao;
-  }
-
-  @Autowired
-  public void setYfDao(YfDao yfDao) {
-    this.yfDao = yfDao;
-  }
-
-  @Autowired
-  public void setEmailUtil(EmailUtil emailUtil) {
-    this.emailUtil = emailUtil;
-  }
-
-  @Autowired
-  public void setCommonUtil(CommonUtil commonUtil) {
-    this.commonUtil = commonUtil;
-  }
 
   
   @Override
@@ -79,7 +64,15 @@ public class SecurityServiceImpl implements SecurityService {
     System.out.println("*** KL: enableEmail=" + enableEmail);
     System.out.println("*** KL: fromEmailAddress=" + fromEmailAddress);
     System.out.println("*** KL: toEmailAddress=" + toEmailAddress);
+    
     sendEmail = enableEmail.equalsIgnoreCase("true") ? true : false;
+    if (sendEmail) {
+      emailUtil.setGoogleUserName(fromEmailAddress);
+      emailUtil.setGooglePassword(fromEmailPassword);
+      emailUtil.setToEmail(toEmailAddress);
+    }
+
+    setSendEmail(sendEmail);
   }
   
   
