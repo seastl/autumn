@@ -24,12 +24,70 @@ public class AccessController {
   @Autowired
   private SecurityService securityService;
           
-  @RequestMapping("/openNE")
+  @RequestMapping("/mo")
+  public String checkForOpen(Map<String, Object> model) {
+    securityService.checkForDailyOpen();
+    model.put("message", "mo request finished.");
+    return "welcome";
+  }
+
+
+  @RequestMapping("/mone")
   public String checkForOpenNoEmail(Map<String, Object> model) {
     securityService.setSendEmail(false);
     securityService.checkForDailyOpen();
+    model.put("message", "mone request finished.");
+    return "welcome";
+  }
 
-    model.put("message", "checkForOpen finished.");
+
+  @RequestMapping("/mc")
+  public String checkForClose(Map<String, Object> model) {
+    securityService.checkForDailyClose();
+    model.put("message", "mc request finished.");
+    return "welcome";
+  }
+
+
+  @RequestMapping("/mcne")
+  public String checkForCloseNoEmail(Map<String, Object> model) {
+    securityService.setSendEmail(false);
+    securityService.checkForDailyClose();
+    model.put("message", "mcne request finished.");
+    return "welcome";
+  }
+
+
+  @RequestMapping("/id")
+  public String checkForIntraDay(Map<String, Object> model) {
+    securityService.checkForIntraDay();
+    model.put("message", "id request finished.");
+    return "welcome";
+  }
+
+
+  @RequestMapping("/idne")
+  public String checkForIntraDayNoEmail(Map<String, Object> model) {
+    securityService.setSendEmail(false);
+    securityService.checkForIntraDay();
+    model.put("message", "idne request finished.");
+    return "welcome";
+  }
+
+
+  @RequestMapping("/ed")
+  public String checkForEndDay(Map<String, Object> model) {
+    securityService.checkForEndOfDay();
+    model.put("message", "ed request finished.");
+    return "welcome";
+  }
+
+
+  @RequestMapping("/edne")
+  public String checkForEndDayNoEmail(Map<String, Object> model) {
+    securityService.setSendEmail(false);
+    securityService.checkForEndOfDay();
+    model.put("message", "edne request finished.");
     return "welcome";
   }
 
