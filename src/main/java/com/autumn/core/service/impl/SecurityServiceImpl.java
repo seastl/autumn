@@ -62,8 +62,8 @@ public class SecurityServiceImpl implements SecurityService {
   @PostConstruct
   public void postConstruct() throws Exception {
     System.out.println("*** KL: enableEmail=" + enableEmail);
-    System.out.println("*** KL: fromEmailAddress=" + fromEmailAddress);
-    System.out.println("*** KL: toEmailAddress=" + toEmailAddress);
+    System.out.println("*** KL: fromEmailAddress=[" + fromEmailAddress + "]");
+    System.out.println("*** KL: toEmailAddress=[" + toEmailAddress + "]");
     
     sendEmail = enableEmail.equalsIgnoreCase("true") ? true : false;
     if (sendEmail) {
