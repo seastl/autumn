@@ -1,26 +1,6 @@
 package com.autumn.core.dao.impl;
 
 import com.autumn.core.dao.SecurityLogTypeDao;
-import static com.autumn.core.dao.YfDao.DOW;
-import static com.autumn.core.dao.YfDao.IDX_CONSUMER_DISCRETE_SELECT;
-import static com.autumn.core.dao.YfDao.IDX_CONSUMER_STABLES;
-import static com.autumn.core.dao.YfDao.IDX_ENGERY;
-import static com.autumn.core.dao.YfDao.IDX_FINANCE;
-import static com.autumn.core.dao.YfDao.IDX_HEALTH_CARE;
-import static com.autumn.core.dao.YfDao.IDX_HEALTH_CARE_EQUIPMENT;
-import static com.autumn.core.dao.YfDao.IDX_HEALTH_CARE_SERVICES;
-import static com.autumn.core.dao.YfDao.IDX_HOME_BUILDERS;
-import static com.autumn.core.dao.YfDao.IDX_INDUSTRIAL;
-import static com.autumn.core.dao.YfDao.IDX_MATERIALS;
-import static com.autumn.core.dao.YfDao.IDX_RETAIL;
-import static com.autumn.core.dao.YfDao.IDX_TECHOLOGY;
-import static com.autumn.core.dao.YfDao.IDX_UTILITIES;
-import static com.autumn.core.dao.YfDao.NASDAQ;
-import static com.autumn.core.dao.YfDao.RUSSELL_1000;
-import static com.autumn.core.dao.YfDao.RUSSELL_2000;
-import static com.autumn.core.dao.YfDao.RUSSELL_3000;
-import static com.autumn.core.dao.YfDao.SP500;
-import static com.autumn.core.dao.YfDao.SP500_VOLATILITY;
 import com.autumn.core.model.*;
 import com.autumn.core.util.JsonUtils;
 import java.sql.Time;
@@ -43,8 +23,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
           
   @PostConstruct
   public void postConstruct() throws Exception {
-    System.out.println("*** KL: SecurityLogTypeDaoImpl postConstruct securitiesGeneral=" + securitiesGeneral);
-    
+    //System.out.println("*** KL: SecurityLogTypeDaoImpl postConstruct securitiesGeneral=" + securitiesGeneral);
     securitiesGeneralList = JsonUtils.getObjectListFromJSONStrings(securitiesGeneral, SecurityConf.class);
     securitiesNnList = JsonUtils.getObjectListFromJSONStrings(securitiesNn, SecurityConf.class);
   }
