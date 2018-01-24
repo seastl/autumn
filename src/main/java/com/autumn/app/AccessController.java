@@ -25,7 +25,7 @@ public class AccessController {
   private SecurityService securityService;
           
   @RequestMapping("/mo")
-  public String checkForOpen(Map<String, Object> model) {
+  public String checkForMarketOpen(Map<String, Object> model) {
     securityService.checkForDailyOpen();
     model.put("message", "mo request finished.");
     return "welcome";
@@ -33,7 +33,7 @@ public class AccessController {
 
 
   @RequestMapping("/mone")
-  public String checkForOpenNoEmail(Map<String, Object> model) {
+  public String checkForMarketOpenNoEmail(Map<String, Object> model) {
     securityService.setSendEmail(false);
     securityService.checkForDailyOpen();
     model.put("message", "mone request finished.");
@@ -42,7 +42,7 @@ public class AccessController {
 
 
   @RequestMapping("/mc")
-  public String checkForClose(Map<String, Object> model) {
+  public String checkForMarketClose(Map<String, Object> model) {
     securityService.checkForDailyClose();
     model.put("message", "mc request finished.");
     return "welcome";
@@ -50,7 +50,7 @@ public class AccessController {
 
 
   @RequestMapping("/mcne")
-  public String checkForCloseNoEmail(Map<String, Object> model) {
+  public String checkForMarketCloseNoEmail(Map<String, Object> model) {
     securityService.setSendEmail(false);
     securityService.checkForDailyClose();
     model.put("message", "mcne request finished.");
@@ -99,7 +99,7 @@ public class AccessController {
 
     //logger.debug("Welcome {}, {}, {}", app, global, microsoftShipment);
 
-    model.put("message", "Js test");
+    model.put("message", "Js test executed");
     return "welcome";
   }
 
@@ -111,7 +111,7 @@ public class AccessController {
 
     //logger.debug("Welcome {}, {}, {}", app, global, microsoftShipment);
 
-    model.put("message", "Selenium test");
+    model.put("message", "Selenium test executed");
     return "welcome";
   }
   
