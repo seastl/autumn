@@ -95,7 +95,8 @@ public class AccessController {
   @RequestMapping("/j")
   public String testJsoup(Map<String, Object> model) {
 
-    jsoupTest.simpleParse();
+    //jsoupTest.simpleParse();
+    jsoupTest.testParseLiveQuote();
 
     //logger.debug("Welcome {}, {}, {}", app, global, microsoftShipment);
 
