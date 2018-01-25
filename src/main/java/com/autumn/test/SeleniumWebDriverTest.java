@@ -42,30 +42,47 @@ public class SeleniumWebDriverTest {
 //      jse.executeScript("scrollTo(0, 50000);");
 //      jse.executeScript("scrollTo(0, 50000);");
 
-    WebElement element2 = driver.findElement(By.xpath("//*[@id=\"Col1-1-HistoricalDataTable-Proxy\"]/section/div[2]/table/tfoot/tr/td/span[1]"));
-    jse.executeScript("arguments[0].scrollIntoView(true);", element2);
+    // Scrolls to the bottom of page until the texts "Close price adjusted for splits" is shown
+    WebElement bottomElement = driver.findElement(By.xpath("//*[@id=\"Col1-1-HistoricalDataTable-Proxy\"]/section/div[2]/table/tfoot/tr/td/span[1]"));
+    jse.executeScript("arguments[0].scrollIntoView(true);", bottomElement);
     waitToLoad(driver, 100);
-    jse.executeScript("arguments[0].scrollIntoView(true);", element2);
+    jse.executeScript("arguments[0].scrollIntoView(true);", bottomElement);
     waitToLoad(driver, 200);
 
-    // tbody
-    WebElement tbody = driver.findElement(By.xpath("//*[@id='Col1-1-HistoricalDataTable-Proxy']/section/div[2]/table/tbody"));
-    List<WebElement> rows = tbody.findElements(By.tagName("tr"));
+    // Get the tbody element of the historic data
+    WebElement historicDataTbody = driver.findElement(By.xpath("//*[@id='Col1-1-HistoricalDataTable-Proxy']/section/div[2]/table/tbody"));
+    List<WebElement> rows = historicDataTbody.findElements(By.tagName("tr"));
     System.out.println("*** KL: size=" + rows.size());
+    
+    // Get 1st row from cols list
+    List<WebElement> cols = rows.get(0).findElements(By.tagName("td"));
+    System.out.println("*** KL: " +
+                       "date="   + cols.get(0).findElement(By.tagName("span")).getText() + " " + 
+                       "open="   + cols.get(1).findElement(By.tagName("span")).getText() + " " + 
+                       "close="  + cols.get(4).findElement(By.tagName("span")).getText() + " " +
+                       "volume=" + cols.get(4).findElement(By.tagName("span")).getText());
 
-    // 1st row
+    // Get 1st row from xpath
     WebElement eDate  = driver.findElement(By.xpath("//*[@id='Col1-1-HistoricalDataTable-Proxy']/section/div[2]/table/tbody/tr[1]/td[1]/span"));
     WebElement eClose = driver.findElement(By.xpath("//*[@id='Col1-1-HistoricalDataTable-Proxy']/section/div[2]/table/tbody/tr[1]/td[5]/span"));
-    System.out.println("*** KL: test=" + eDate.getText() + " " + eClose.getText());
+    System.out.println("*** KL: date=" + eDate.getText() + " close" + eClose.getText());
 
-    // last row
+    // Get last row from cols list
+    cols = rows.get(rows.size()-1).findElements(By.tagName("td"));
+    System.out.println("*** KL: " +
+                       "date="   + cols.get(0).findElement(By.tagName("span")).getText() + " " + 
+                       "open="   + cols.get(1).findElement(By.tagName("span")).getText() + " " + 
+                       "close="  + cols.get(4).findElement(By.tagName("span")).getText() + " " +
+                       "volume=" + cols.get(4).findElement(By.tagName("span")).getText());
+
+    // Get last row from xpath
     eDate  = driver.findElement(By.xpath("//*[@id='Col1-1-HistoricalDataTable-Proxy']/section/div[2]/table/tbody/tr[" + rows.size() + "]/td[1]/span\n"));
     eClose = driver.findElement(By.xpath("//*[@id='Col1-1-HistoricalDataTable-Proxy']/section/div[2]/table/tbody/tr[" + rows.size() + "]/td[5]/span\n"));
     System.out.println("*** KL: test=" + eDate.getText() + " " + eClose.getText());
   }
 
 
-  private void waitToLoad(WebDriver driver, int rowNumToWait) {
+  private void waitToLoad(WebDriver driver, final int rowNumToWait) {
     // Wait
     WebDriverWait myWait = new WebDriverWait(driver, 5); // 60sec timeout
     ExpectedCondition<Boolean> condition = new ExpectedCondition<Boolean>() {
