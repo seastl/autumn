@@ -49,7 +49,7 @@ public class JsoupTest {
 
     // Get from yahoo
     try {
-      String yUrl = "https://finance.yahoo.com/quote/goog";
+      String yUrl = "https://finance.yahoo.com/quote/rad";
       //Document doc = Jsoup.connect(yUrl).timeout(60000).maxBodySize(0).get();
       Document doc = Jsoup.connect(yUrl)
               .header("Accept-Encoding", "gzip, defalte")
@@ -68,6 +68,10 @@ public class JsoupTest {
       if (percent == null || percent.size() == 0) {
         percent = doc.getElementsByClass("Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($dataRed)");
       }
+      if (percent == null || percent.size() == 0) {
+        percent = doc.getElementsByClass("Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)");
+      }
+      
       System.out.println("*** KL: percent=" + percent.get(0).text());
     } catch (Exception ex) {
       ex.printStackTrace();
