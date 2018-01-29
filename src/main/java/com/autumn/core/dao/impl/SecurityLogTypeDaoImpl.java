@@ -1220,6 +1220,8 @@ class SecurityConf{
   private boolean intraDay;
   private boolean close;
   private boolean endOfDay;
+  private boolean participated;
+  private String note;
 
   public String getName() {
     return name;
@@ -1267,6 +1269,22 @@ class SecurityConf{
 
   public void setEndOfDay(boolean endOfDay) {
     this.endOfDay = endOfDay;
+  }
+
+  public boolean isParticipated() {
+    return participated;
+  }
+
+  public void setParticipated(boolean participated) {
+    this.participated = participated;
+  }
+
+  public String getNote() {
+    return note;
+  }
+
+  public void setNote(String note) {
+    this.note = note;
   }
   
 }
