@@ -12,6 +12,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,6 +60,82 @@ public class YfDaoImpl implements YfDao {
     return results;
   }
 
+  
+  /**
+   * Retrives results in csv format: symbol,name,previous_close,last_trade,percent_change
+   * @param symbols
+   * @return 
+   */
+  @Override
+  public List<String> getQuote(List<String> symbols) {
+    final String baseUrl = "https://finance.yahoo.com/quote/";
+    List<String> results = new ArrayList();
+    
+
+    // Get from yahoo
+    try {
+      StringBuilder csvResult = new StringBuilder();
+      for (String symbol : symbols) {
+        String yUrl = baseUrl + symbol;
+        //Document doc = Jsoup.connect(yUrl).timeout(60000).maxBodySize(0).get();
+        Document doc = Jsoup.connect(yUrl)
+                .header("Accept-Encoding", "gzip, defalte")
+                .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
+                .timeout(60000)
+                .maxBodySize(0)
+                .get();
+
+        // Symbol
+        csvResult.append(symbol);
+        csvResult.append(",");
+
+        // Name
+        Elements names = doc.getElementsByClass("D(ib) Fz(18px)");
+        csvResult.append(names.get(0).text());
+        csvResult.append(",");
+
+        // Previous close
+        Elements preCloses = doc.getElementsByClass("Trsdu(0.3s) ");
+        csvResult.append(preCloses.get(0).text());
+        csvResult.append(",");
+
+        // Last trade
+        Elements quotes = doc.getElementsByClass("Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)");
+        csvResult.append(quotes.get(0).text());
+        csvResult.append(",");
+
+        // Percent change
+        Elements percents = doc.getElementsByClass("Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($dataGreen)");
+        if (percents == null || percents.size() == 0) {
+          percents = doc.getElementsByClass("Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($dataRed)");
+        }
+        if (percents == null || percents.size() == 0) {
+          percents = doc.getElementsByClass("Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)");
+        }
+        csvResult.append(getPercent(percents.get(0).text()));
+        
+        results.add(csvResult.toString());
+      }
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+
+    
+    return results;
+  }
+
+
+  /**
+   * Input (+0.67%)
+   * Output +0.67
+   * @return 
+   */
+  private String getPercent(String in) {
+    String out = in.replace("(", "");
+    out = out.replace("%)", "");
+    return out;
+  }
+  
   
   @Override
   public Map<Date, HistoricalQuote> getHisoricalQuotes(String symbol, Date startDate, Date endDate, String increment) {

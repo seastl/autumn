@@ -143,7 +143,7 @@ public class SecurityServiceImpl implements SecurityService {
     // Indexes
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIntraDay();
     List<String> symbols = getSymbols(securities);
-    List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
+    List<String> csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 4, true);
     Map<String, String> notes = getNotes(securities);
     sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, notes);
@@ -152,7 +152,7 @@ public class SecurityServiceImpl implements SecurityService {
     // Dow30
     securities = securityLogTypeDao.getSecuritiesForDow30();
     symbols = getSymbols(securities);
-    csvResults = yfDao.getQuote(symbols, REQUESTS);
+    csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 4, true);
     sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);

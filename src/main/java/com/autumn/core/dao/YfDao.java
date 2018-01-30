@@ -122,7 +122,12 @@ public interface YfDao {
   public static final String STOCK_EXCHANGE = "x";
   public static final String DIV_YIELD = "y";
   
+  // Get quote using old yahoo finance api
   public List<String> getQuote(List<String> symbols, String requests);
+  
+  // Get quote from yahoo screen using jsoup
+  public List<String> getQuote(List<String> symbols);
+  
   public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbol, Date startDate, Date endDate, String increment);
   public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbol, String pastPeriod, String increment);
 }
