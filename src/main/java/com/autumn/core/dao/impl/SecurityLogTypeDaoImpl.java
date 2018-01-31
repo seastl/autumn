@@ -23,9 +23,11 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
           
   @PostConstruct
   public void postConstruct() throws Exception {
-    //System.out.println("*** KL: SecurityLogTypeDaoImpl postConstruct securitiesGeneral=" + securitiesGeneral);
     securitiesGeneralList = JsonUtils.getObjectListFromJSONStrings(securitiesGeneral, SecurityConf.class);
     securitiesNnList = JsonUtils.getObjectListFromJSONStrings(securitiesNn, SecurityConf.class);
+    
+    System.out.println("*** KL: SecurityLogTypeDaoImpl postConstruct securitiesGeneral=" + securitiesGeneral);
+    System.out.println("*** KL: name=" + securitiesGeneralList.get(30).getName() + " note=" + securitiesGeneralList.get(30).getNote());
   }
   
 
