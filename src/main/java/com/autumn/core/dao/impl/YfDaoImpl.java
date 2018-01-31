@@ -74,8 +74,9 @@ public class YfDaoImpl implements YfDao {
 
     // Get from yahoo
     try {
-      StringBuilder csvResult = new StringBuilder();
+      StringBuilder csvResult = null;
       for (String symbol : symbols) {
+        csvResult = new StringBuilder();
         String yUrl = baseUrl + symbol;
         //Document doc = Jsoup.connect(yUrl).timeout(60000).maxBodySize(0).get();
         Document doc = Jsoup.connect(yUrl)
@@ -86,22 +87,22 @@ public class YfDaoImpl implements YfDao {
                 .get();
 
         // Symbol
-        csvResult.append(symbol);
+        csvResult.append(removeComma(symbol));
         csvResult.append(",");
 
         // Name
         Elements names = doc.getElementsByClass("D(ib) Fz(18px)");
-        csvResult.append(names.get(0).text());
+        csvResult.append(removeComma(names.get(0).text()));
         csvResult.append(",");
 
         // Previous close
         Elements preCloses = doc.getElementsByClass("Trsdu(0.3s) ");
-        csvResult.append(preCloses.get(0).text());
+        csvResult.append(removeComma(preCloses.get(0).text()));
         csvResult.append(",");
 
         // Last trade
         Elements quotes = doc.getElementsByClass("Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)");
-        csvResult.append(quotes.get(0).text());
+        csvResult.append(removeComma(quotes.get(0).text()));
         csvResult.append(",");
 
         // Percent change
@@ -112,7 +113,7 @@ public class YfDaoImpl implements YfDao {
         if (percents == null || percents.size() == 0) {
           percents = doc.getElementsByClass("Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)");
         }
-        csvResult.append(getPercent(percents.get(0).text()));
+        csvResult.append(removeComma(formatPercent(percents.get(0).text())));
         
         results.add(csvResult.toString());
       }
@@ -126,14 +127,19 @@ public class YfDaoImpl implements YfDao {
 
 
   /**
-   * Input (+0.67%)
-   * Output +0.67
+   * Input:  +1.23 (+0.67%)  -1.23 (-0.67%)  0.00 (0.00%)
+   * Output: +0.67           -0.67           0.00
    * @return 
    */
-  private String getPercent(String in) {
-    String out = in.replace("(", "");
-    out = out.replace("%)", "");
-    return out;
+  private String formatPercent(String in) {
+    int start = in.indexOf("(")+1;
+    int end= in.indexOf("%)");
+    return in.substring(start, end);
+  }
+
+
+  private String removeComma(String str) {
+    return str.replaceAll(",", "");
   }
   
   
