@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
   private List<SecurityConf> securitiesGeneralList = new ArrayList();
   private List<SecurityConf> securitiesNnList = new ArrayList();
+  private List<SecurityConf> securitiesDow30List = new ArrayList();
   
   @Value("${autumn.securitiesGeneral}")
   private String securitiesGeneral; 
@@ -21,13 +22,17 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
   @Value("${autumn.securitiesNn}")
   private String securitiesNn; 
           
+  @Value("${autumn.securitiesDow30}")
+  private String securitiesDow30; 
+          
   @PostConstruct
   public void postConstruct() throws Exception {
     securitiesGeneralList = JsonUtils.getObjectListFromJSONStrings(securitiesGeneral, SecurityConf.class);
     securitiesNnList = JsonUtils.getObjectListFromJSONStrings(securitiesNn, SecurityConf.class);
+    securitiesDow30List = JsonUtils.getObjectListFromJSONStrings(securitiesDow30, SecurityConf.class);
     
-    System.out.println("*** KL: SecurityLogTypeDaoImpl postConstruct securitiesGeneral=" + securitiesGeneral);
-    System.out.println("*** KL: name=" + securitiesGeneralList.get(30).getName() + " note=" + securitiesGeneralList.get(30).getNote());
+    //System.out.println("*** KL: SecurityLogTypeDaoImpl postConstruct securitiesGeneral=" + securitiesGeneral);
+    //System.out.println("*** KL: name=" + securitiesGeneralList.get(30).getName() + " note=" + securitiesGeneralList.get(30).getNote());
   }
   
 
@@ -1087,130 +1092,17 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
   @Override
   public List<SecurityLogType> getSecuritiesForDow30() {
     List<SecurityLogType> securities = new ArrayList();
-
     SecurityLogType security = null;
-    security = new SecurityLogType(new Security(1801, "", "MMM", SecurityType.US_STOCK, Sector.INDUSTRIAL),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1802, "", "AA", SecurityType.US_STOCK, Sector.INDUSTRIAL, true, "s2000@9.561"),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1803, "", "AXP", SecurityType.US_STOCK, Sector.FINANCE),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1804, "", "AAPL", SecurityType.US_STOCK, Sector.TECHNOLOGY),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1805, "", "BAC", SecurityType.US_STOCK, Sector.FINANCE),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1806, "", "BA", SecurityType.US_STOCK, Sector.INDUSTRIAL),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1807, "", "CAT", SecurityType.US_STOCK, Sector.INDUSTRIAL, true, "s200@82"),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1808, "", "CVX", SecurityType.US_STOCK, Sector.MATERIALS, true, "b200@77.14, b200@101.93"),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1809, "", "CSCO", SecurityType.US_STOCK, Sector.TECHNOLOGY),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1810, "", "DD", SecurityType.US_STOCK, Sector.MATERIALS),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1811, "", "XOM", SecurityType.US_STOCK, Sector.INDUSTRIAL),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1812, "", "GE", SecurityType.US_STOCK, Sector.INDUSTRIAL),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1813, "", "HPQ", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "s1590@14.39"),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1814, "", "HD", SecurityType.US_STOCK, Sector.SERVICES),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1815, "", "INTC", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "s200@32.50"),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1816, "", "IBM", SecurityType.US_STOCK, Sector.TECHNOLOGY),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1817, "", "JNJ", SecurityType.US_STOCK, Sector.HEALTH_CARE),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1818, "", "JPM", SecurityType.US_STOCK, Sector.FINANCE),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1819, "", "GS", SecurityType.US_STOCK, Sector.FINANCE),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1820, "", "MCD", SecurityType.US_STOCK, Sector.SERVICES),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1821, "", "MRK", SecurityType.US_STOCK, Sector.HEALTH_CARE),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1822, "", "MSFT", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "s200@46.77"),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1823, "", "PFE", SecurityType.US_STOCK, Sector.HEALTH_CARE, true, "b300@32.13"),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1824, "", "PG", SecurityType.US_STOCK, Sector.CONSUMER_STAPLES, true, "s130@80.91"),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1825, "", "KO", SecurityType.US_STOCK, Sector.CONSUMER_STAPLES),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1826, "", "TRV", SecurityType.US_STOCK, Sector.FINANCE),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1827, "", "UTX", SecurityType.US_STOCK, Sector.INDUSTRIAL),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1828, "", "VZ", SecurityType.US_STOCK, Sector.TECHNOLOGY, true, "b200@47.96"),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1829, "", "WMT", SecurityType.US_STOCK, Sector.SERVICES, true, "b100@63.95"),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
-    security = new SecurityLogType(new Security(1830, "", "DIS", SecurityType.US_STOCK, Sector.SERVICES),
-                                   new LogType(LogType.END_DAY_LOG, "Start of day log", null, null, null, Time.valueOf("13:05:00")),
-                                   Boolean.TRUE);
-    securities.add(security);
     
-    return securities;  
+    for (SecurityConf sec : securitiesDow30List) {
+      if (sec.isIntraDay()) {
+        security = new SecurityLogType(new Security(0, sec.getName(), sec.getSymbol(), null, null),
+                                       new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
+                                       Boolean.TRUE);
+        securities.add(security);
+      }
+    }
+    return securities;
   }
 
 }
