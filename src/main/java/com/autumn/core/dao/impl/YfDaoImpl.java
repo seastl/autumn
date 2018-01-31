@@ -73,9 +73,9 @@ public class YfDaoImpl implements YfDao {
     
 
     // Get from yahoo
-    try {
-      StringBuilder csvResult = null;
-      for (String symbol : symbols) {
+    for (String symbol : symbols) {
+      try {
+        StringBuilder csvResult = null;
         csvResult = new StringBuilder();
         String yUrl = baseUrl + symbol;
         //Document doc = Jsoup.connect(yUrl).timeout(60000).maxBodySize(0).get();
@@ -86,13 +86,14 @@ public class YfDaoImpl implements YfDao {
                 .maxBodySize(0)
                 .get();
 
+        Elements names = doc.getElementsByClass("D(ib) Fz(18px)");
+        String name = removeComma(names.get(0).text());
         // Symbol
-        csvResult.append(removeComma(symbol));
+        csvResult.append(getSymbol(name));
         csvResult.append(",");
 
         // Name
-        Elements names = doc.getElementsByClass("D(ib) Fz(18px)");
-        csvResult.append(removeComma(names.get(0).text()));
+        csvResult.append(getName(name));
         csvResult.append(",");
 
         // Previous close
@@ -113,27 +114,52 @@ public class YfDaoImpl implements YfDao {
         if (percents == null || percents.size() == 0) {
           percents = doc.getElementsByClass("Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)");
         }
-        csvResult.append(removeComma(formatPercent(percents.get(0).text())));
+        csvResult.append(removeComma(getPercent(percents.get(0).text())));
         
         results.add(csvResult.toString());
+      } catch (Exception ex) {
+        throw new RuntimeException("Unable to get quote for symbol " + symbol, ex);
       }
-    } catch (Exception ex) {
-      ex.printStackTrace();
     }
-
     
     return results;
   }
 
 
   /**
-   * Input:  +1.23 (+0.67%)  -1.23 (-0.67%)  0.00 (0.00%)
-   * Output: +0.67           -0.67           0.00
+   * Input:  S&P 500 (^GSPC)
+   * Output: ^GSPC
+   * @param in
    * @return 
    */
-  private String formatPercent(String in) {
+  private String getSymbol(String in) {
     int start = in.indexOf("(")+1;
-    int end= in.indexOf("%)");
+    int end= in.indexOf(")");
+    return in.substring(start, end);
+  }
+  
+  
+  /**
+   * Input:  S&P 500 (^GSPC)
+   * Output: S&P 500
+   * @param in
+   * @return 
+   */
+  private String getName(String in) {
+    int start = 0;
+    int end= in.indexOf("(")-1;
+    return in.substring(start, end);
+  }
+  
+  
+  /**
+   * Input:  +1.23 (+0.67%)  -1.23 (-0.67%)  0.00 (0.00%)
+   * Output: +0.67%          -0.67%          0.00%
+   * @return 
+   */
+  private String getPercent(String in) {
+    int start = in.indexOf("(")+1;
+    int end= in.indexOf(")");
     return in.substring(start, end);
   }
 
