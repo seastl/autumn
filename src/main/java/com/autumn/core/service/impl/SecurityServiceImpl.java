@@ -6,7 +6,6 @@ import com.autumn.core.dao.YfDao;
 import static com.autumn.core.dao.YfDao.LST_TRD;
 import static com.autumn.core.dao.YfDao.NAME;
 import static com.autumn.core.dao.YfDao.PCT_CHG;
-import static com.autumn.core.dao.YfDao.PREVIOUS_CLOSE;
 import static com.autumn.core.dao.YfDao.SYMBOL;
 import com.autumn.core.model.HistoricalQuote;
 import com.autumn.core.model.SecurityLogType;
@@ -107,12 +106,11 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void checkForDailyOpen() {
-    final String REQUESTS = SYMBOL + NAME + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
     
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
     List<String> symbols = getSymbols(securities);
-    List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
+    List<String> csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 4, true);
     
     StringBuilder sb = new StringBuilder();
@@ -133,7 +131,6 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void checkForIntraDay() {
-    final String REQUESTS = SYMBOL + NAME + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg","Note"};
     
     StringBuilder sb = new StringBuilder();
@@ -170,12 +167,11 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void checkForDailyClose() {
-    final String REQUESTS = SYMBOL + NAME + PREVIOUS_CLOSE + LST_TRD + PCT_CHG;
     final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
     
-    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
+    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyClose();
     List<String> symbols = getSymbols(securities);
-    List<String> csvResults = yfDao.getQuote(symbols, REQUESTS);
+    List<String> csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 4, true);
 
     StringBuilder sb = new StringBuilder();
