@@ -43,7 +43,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
     
     for (SecurityConf sec : securitiesGeneralList) {
       if (sec.isIntraDay()) {
-        security = new SecurityLogType(new Security(0, sec.getName(), sec.getSymbol(), null, null),
+        security = new SecurityLogType(new Security(0, sec.getName(), sec.getSymbol(), null, null, sec.isParticipated(), sec.getNote()),
                                        new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                        Boolean.TRUE);
         securities.add(security);
@@ -59,7 +59,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
     
     for (SecurityConf sec : securitiesGeneralList) {
       if (sec.isOpen()) {
-        security = new SecurityLogType(new Security(0, sec.getName(), sec.getSymbol(), null, null),
+        security = new SecurityLogType(new Security(0, sec.getName(), sec.getSymbol(), null, null, sec.isParticipated(), sec.getNote()),
                                        new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00:00"), null),
                                        Boolean.TRUE);
         securities.add(security);
@@ -75,7 +75,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
     
     for (SecurityConf sec : securitiesGeneralList) {
       if (sec.isClose()) {
-        security = new SecurityLogType(new Security(0, sec.getName(), sec.getSymbol(), null, null),
+        security = new SecurityLogType(new Security(0, sec.getName(), sec.getSymbol(), null, null, sec.isParticipated(), sec.getNote()),
                                        new LogType(LogType.END_DAY_LOG, "End of day log", null, null, Time.valueOf("06:00:00"), null),
                                        Boolean.TRUE);
         securities.add(security);
