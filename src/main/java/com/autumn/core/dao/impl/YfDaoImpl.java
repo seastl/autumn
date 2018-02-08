@@ -245,21 +245,21 @@ public class YfDaoImpl implements YfDao {
       WebElement historicDataTbody = driver.findElement(By.xpath("//*[@id='Col1-1-HistoricalDataTable-Proxy']/section/div[2]/table/tbody"));
       List<WebElement> rows = historicDataTbody.findElements(By.tagName("tr"));
       for (WebElement row : rows) {
-        List<WebElement> cols = rows.get(0).findElements(By.tagName("td"));
+        List<WebElement> cols = row.findElements(By.tagName("td"));
         String dateStr = cols.get(0).findElement(By.tagName("span")).getText(); 
         String openStr = cols.get(1).findElement(By.tagName("span")).getText();
         String highStr = cols.get(2).findElement(By.tagName("span")).getText();
         String lowStr = cols.get(3).findElement(By.tagName("span")).getText();
         String closeStr = cols.get(4).findElement(By.tagName("span")).getText();
-        String adjCloseStr = cols.get(5).findElement(By.tagName("span")).getText();
-        String volumeStr = cols.get(6).findElement(By.tagName("span")).getText();
+        //String adjCloseStr = cols.get(5).findElement(By.tagName("span")).getText();
+        //String volumeStr = cols.get(6).findElement(By.tagName("span")).getText();
         Date date = sdf.parse(dateStr);
-        Float open = Float.parseFloat(openStr);
-        Float high = Float.parseFloat(highStr);
-        Float low = Float.parseFloat(lowStr);
-        Float close = Float.parseFloat(closeStr);
-        Float adjClose = Float.parseFloat(adjCloseStr);
-        Long volume = Long.parseLong(volumeStr);
+        Float open = Float.parseFloat(openStr.replace(",", ""));
+        Float high = Float.parseFloat(highStr.replace(",", ""));
+        Float low = Float.parseFloat(lowStr.replace(",", ""));
+        Float close = Float.parseFloat(closeStr.replace(",", ""));
+        Float adjClose = 0F; //Float.parseFloat(adjCloseStr.replace(",", ""));
+        Long volume = 0L; //Long.parseLong(volumeStr.replace(",", ""));
         histQuotes.put(date, new HistoricalQuote(date, open, high, low, close, adjClose, volume));
       }
       

@@ -207,7 +207,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> dailyCloseParticipations = getParticipations(dailyCloseSecurities);
     Map<String, String> dailyCloseNotes = getNotes(dailyCloseSecurities);
     List<String> dailyCloseCsvResults = yfDao.getQuote(dailyCloseSymbols);
-    dailyCloseCsvResults = sortByColumn(dailyCloseCsvResults, 4, true);
+    dailyCloseCsvResults = sortByColumn(dailyCloseCsvResults, 3, true);
     
     securitiesHistQuotes = new HashMap();
     for (String dailyCloseSymbol : dailyCloseSymbols) {
