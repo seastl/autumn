@@ -15,6 +15,13 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -209,6 +216,62 @@ public class YfDaoImpl implements YfDao {
   }
   
   
+  /**
+   * Get historic quotes using selenium
+   * @param symbol
+   * @return 
+   */
+  @Override
+  public Map<Date, HistoricalQuote> getHisoricalQuotes(String symbol) {
+    final String baseUrl = "https://finance.yahoo.com/quote/";
+    final SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+    Map<Date, HistoricalQuote> histQuotes = new TreeMap();
+    
+    String url = baseUrl + symbol + "/history";
+    
+    WebDriver driver = new ChromeDriver();
+    driver.get(url);
+    JavascriptExecutor jse = (JavascriptExecutor) driver;
+
+    try {
+      // Scrolls to the bottom of page until the texts "Close price adjusted for splits" is shown
+      WebElement bottomElement = driver.findElement(By.xpath("//*[@id=\"Col1-1-HistoricalDataTable-Proxy\"]/section/div[2]/table/tfoot/tr/td/span[1]"));
+      jse.executeScript("arguments[0].scrollIntoView(true);", bottomElement);
+      waitToLoad(driver, 100);
+      jse.executeScript("arguments[0].scrollIntoView(true);", bottomElement);
+      waitToLoad(driver, 200);
+
+      // Get the tbody element of the historic data
+      WebElement historicDataTbody = driver.findElement(By.xpath("//*[@id='Col1-1-HistoricalDataTable-Proxy']/section/div[2]/table/tbody"));
+      List<WebElement> rows = historicDataTbody.findElements(By.tagName("tr"));
+      for (WebElement row : rows) {
+        List<WebElement> cols = rows.get(0).findElements(By.tagName("td"));
+        String dateStr = cols.get(0).findElement(By.tagName("span")).getText(); 
+        String openStr = cols.get(1).findElement(By.tagName("span")).getText();
+        String highStr = cols.get(2).findElement(By.tagName("span")).getText();
+        String lowStr = cols.get(3).findElement(By.tagName("span")).getText();
+        String closeStr = cols.get(4).findElement(By.tagName("span")).getText();
+        String adjCloseStr = cols.get(5).findElement(By.tagName("span")).getText();
+        String volumeStr = cols.get(6).findElement(By.tagName("span")).getText();
+        Date date = sdf.parse(dateStr);
+        Float open = Float.parseFloat(openStr);
+        Float high = Float.parseFloat(highStr);
+        Float low = Float.parseFloat(lowStr);
+        Float close = Float.parseFloat(closeStr);
+        Float adjClose = Float.parseFloat(adjCloseStr);
+        Long volume = Long.parseLong(volumeStr);
+        histQuotes.put(date, new HistoricalQuote(date, open, high, low, close, adjClose, volume));
+      }
+      
+      driver.quit();
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+    
+    return histQuotes;
+  }
+
+  
   private String buildQuoteUrl(List<String> symbols, String requests) {
     StringBuilder sb = new StringBuilder(YfDao.BASE_QUOTE_URL);
     sb.append("?s=");
@@ -264,5 +327,19 @@ public class YfDaoImpl implements YfDao {
                                    .append("&g=").append(interval).append("&ignore=.cvs");
     return sb.toString();
   }
+
+  
+  private void waitToLoad(WebDriver driver, final int rowNumToWait) {
+    // Wait
+    WebDriverWait myWait = new WebDriverWait(driver, 5); // 60sec timeout
+    ExpectedCondition<Boolean> condition = new ExpectedCondition<Boolean>() {
+      @Override
+      public Boolean apply(WebDriver webDriver) {
+        return !webDriver.findElement(By.xpath("//*[@id='Col1-1-HistoricalDataTable-Proxy']/section/div[2]/table/tbody/tr[" + rowNumToWait + "]/td[1]/span")).getText().isEmpty();
+      }
+    };
+    myWait.until(condition);
+  }
+
   
 }

@@ -11,6 +11,19 @@ public class HistoricalQuote {
   private Long volume;
   private Float adjClose;
 
+  public HistoricalQuote() {
+  }
+  
+  public HistoricalQuote(Date date, Float open, Float high, Float low, Float close, Float adjClose, Long volume) {
+    this.date = date;
+    this.open = open;
+    this.high = high;
+    this.low = low;
+    this.close = close;
+    this.adjClose = adjClose;
+    this.volume = volume;
+  }
+  
   public Date getDate() {
     return date;
   }

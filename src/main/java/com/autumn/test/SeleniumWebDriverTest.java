@@ -22,9 +22,7 @@ public class SeleniumWebDriverTest {
 
       doWork(driver, "https://finance.yahoo.com/quote/GOOG/history?p=GOOG");
       doWork(driver, "https://finance.yahoo.com/quote/MSFT/history?p=MSFT");
-      doWork(driver, "https://finance.yahoo.com/quote/AMZN/history?p=AMZN");
-      doWork(driver, "https://finance.yahoo.com/quote/FB/history?p=FB");
-      doWork(driver, "https://finance.yahoo.com/quote/FUSVX/history?p=FUSVX");
+      doWork(driver, "https://finance.yahoo.com/quote/%5EDJI/history?p=%5EDJI");
       driver.quit();
     } catch (Exception ex) {
       ex.printStackTrace();

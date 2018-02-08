@@ -206,16 +206,17 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> dailyCloseSymbols = getSymbols(dailyCloseSecurities);
     Map<String, Boolean> dailyCloseParticipations = getParticipations(dailyCloseSecurities);
     Map<String, String> dailyCloseNotes = getNotes(dailyCloseSecurities);
-    List<String> dailyCloseCsvResults = yfDao.getQuote(dailyCloseSymbols, REQUESTS);
-    dailyCloseCsvResults = sortByColumn(dailyCloseCsvResults, 3, true);
+    List<String> dailyCloseCsvResults = yfDao.getQuote(dailyCloseSymbols);
+    dailyCloseCsvResults = sortByColumn(dailyCloseCsvResults, 4, true);
     
     securitiesHistQuotes = new HashMap();
     for (String dailyCloseSymbol : dailyCloseSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(dailyCloseSymbol, "1y", YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(dailyCloseSymbol);
       securitiesHistQuotes.put(dailyCloseSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, dailyCloseParticipations, dailyCloseNotes, dailyCloseCsvResults, securitiesHistQuotes);
 
+/*    
     // dow 30
     List<SecurityLogType> dowSecurities = securityLogTypeDao.getSecuritiesForDow30();
     List<String> dowSymbols = getSymbols(dowSecurities);
@@ -350,7 +351,8 @@ public class SecurityServiceImpl implements SecurityService {
       securitiesHistQuotes.put(sgSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Sg Funds", HEADERS, sgParticipations, sgNotes, sgCsvResults, securitiesHistQuotes);
-    
+    */
+
     sb = commonUtil.createHtmlEnd(sb);
     
     if (sendEmail) {

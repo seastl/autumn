@@ -34,8 +34,8 @@ public class Scheduler {
    */
   @Scheduled(cron = "0 35 6 * * MON-FRI")
   public void executeForDailyOpen() {
-    //securityService.checkForDailyOpen();
-    securityService.checkForIntraDay();
+    securityService.checkForDailyOpen();
+    //securityService.checkForIntraDay();
   }
 
 
@@ -44,8 +44,8 @@ public class Scheduler {
    */
   @Scheduled(cron = "0 5 13 * * MON-FRI")
   public void executeForDailyClose() {
-    //securityService.checkForDailyClose();
-    securityService.checkForIntraDay();
+    securityService.checkForDailyClose();
+    //securityService.checkForIntraDay();
   }
 
 

@@ -130,4 +130,6 @@ public interface YfDao {
   
   public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbol, Date startDate, Date endDate, String increment);
   public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbol, String pastPeriod, String increment);
+  // Get historic quotes from yahoo screen using selenium
+  public Map<Date,HistoricalQuote> getHisoricalQuotes(String symbol);
 }
