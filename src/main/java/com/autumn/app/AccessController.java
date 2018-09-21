@@ -1,5 +1,6 @@
 package com.autumn.app;
 
+import com.autumn.core.dao.impl.AlphaVantageQuoteDaoImpl;
 import com.autumn.core.service.SecurityService;
 import com.autumn.test.JsoupTest;
 import com.autumn.test.SeleniumWebDriverTest;
@@ -21,6 +22,9 @@ public class AccessController {
   @Autowired
   private SeleniumWebDriverTest seleniumWebDriverTest;
 
+  @Autowired
+  private AlphaVantageQuoteDaoImpl avQuoatDao;
+          
   @Autowired
   private SecurityService securityService;
           
@@ -113,6 +117,18 @@ public class AccessController {
     //logger.debug("Welcome {}, {}, {}", app, global, microsoftShipment);
 
     model.put("message", "Selenium test executed");
+    return "welcome";
+  }
+
+
+  @RequestMapping("/av")
+  public String testAlphaVantage(Map<String, Object> model) {
+
+    avQuoatDao.getHisoricalQuotes("Test");
+            
+    //logger.debug("Welcome {}, {}, {}", app, global, microsoftShipment);
+
+    model.put("message", "AV test executed");
     return "welcome";
   }
   
