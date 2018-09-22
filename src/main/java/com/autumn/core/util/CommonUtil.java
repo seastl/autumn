@@ -161,7 +161,7 @@ public class CommonUtil {
     try {
       Date[] dateRange = getDateRangeForPastWorkPeriod(pastWorkPeriod);
       HistoricalQuote quoteDaysAgo = historicalQuotes.get(dateRange[0]);
-      if (quoteDaysAgo != null && lastQuote != null) {
+      if (quoteDaysAgo != null && quoteDaysAgo.getOpen() > 0.0 && lastQuote != null) {
         float openDaysAgo = quoteDaysAgo.getOpen();
         float closeToday = Float.parseFloat(lastQuote);
         float percentChange = ((closeToday - openDaysAgo) * 100) / openDaysAgo;

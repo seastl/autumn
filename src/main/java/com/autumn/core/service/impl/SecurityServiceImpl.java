@@ -7,6 +7,7 @@ import static com.autumn.core.dao.YfDao.LST_TRD;
 import static com.autumn.core.dao.YfDao.NAME;
 import static com.autumn.core.dao.YfDao.PCT_CHG;
 import static com.autumn.core.dao.YfDao.SYMBOL;
+import com.autumn.core.dao.impl.AlphaVantageQuoteDaoImpl;
 import com.autumn.core.model.HistoricalQuote;
 import com.autumn.core.model.SecurityLogType;
 import com.autumn.core.service.SecurityService;
@@ -15,12 +16,15 @@ import com.autumn.core.util.EmailUtil;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SecurityServiceImpl implements SecurityService {
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
   
   @Value("${enableEmail}")
   private String enableEmail; 
@@ -42,6 +46,9 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Autowired
   private YfDao yfDao;
+
+  @Autowired
+  private AlphaVantageQuoteDaoImpl avDao;
   
   @Autowired
   private EmailUtil emailUtil;
@@ -60,9 +67,9 @@ public class SecurityServiceImpl implements SecurityService {
   
   @PostConstruct
   public void postConstruct() throws Exception {
-    System.out.println("*** KL: enableEmail=" + enableEmail);
-    System.out.println("*** KL: fromEmailAddress=[" + fromEmailAddress + "]");
-    System.out.println("*** KL: toEmailAddress=[" + toEmailAddress + "]");
+    logger.info("*** KL: enableEmail=" + enableEmail);
+    logger.info("*** KL: fromEmailAddress=[" + fromEmailAddress + "]");
+    logger.info("*** KL: toEmailAddress=[" + toEmailAddress + "]");
     
     sendEmail = enableEmail.equalsIgnoreCase("true") ? true : false;
     if (sendEmail) {
@@ -92,7 +99,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
     */
     
-    Map<Date, HistoricalQuote> quotes = yfDao.getHisoricalQuotes("dodgx", "1y", YfDao.DAILY_INCREMENT);
+    Map<Date, HistoricalQuote> quotes = avDao.getHisoricalQuotes("MSFT");
     for (Map.Entry<Date, HistoricalQuote> quote : quotes.entrySet()) {
       System.out.println(quote.getKey() + ": " + quote.getValue().getClose());
     }
@@ -202,6 +209,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes = null;
     
     // indexes
+    logger.info("*** KL: EndOfDay indexes");
     List<SecurityLogType> dailyCloseSecurities = securityLogTypeDao.getSecuritiesForDailyClose();
     List<String> dailyCloseSymbols = getSymbols(dailyCloseSecurities);
     Map<String, Boolean> dailyCloseParticipations = getParticipations(dailyCloseSecurities);
@@ -211,148 +219,157 @@ public class SecurityServiceImpl implements SecurityService {
     
     securitiesHistQuotes = new HashMap();
     for (String dailyCloseSymbol : dailyCloseSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(dailyCloseSymbol);
+      Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(dailyCloseSymbol);
       securitiesHistQuotes.put(dailyCloseSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, dailyCloseParticipations, dailyCloseNotes, dailyCloseCsvResults, securitiesHistQuotes);
-
-/*    
+    
     // dow 30
+    logger.info("*** KL: EndOfDay dow 30");
     List<SecurityLogType> dowSecurities = securityLogTypeDao.getSecuritiesForDow30();
     List<String> dowSymbols = getSymbols(dowSecurities);
     Map<String, Boolean> dowParticipations = getParticipations(dowSecurities);
     Map<String, String> dowNotes = getNotes(dowSecurities);
-    List<String> dowCsvResults = yfDao.getQuote(dowSymbols, REQUESTS);
+    List<String> dowCsvResults = yfDao.getQuote(dowSymbols);
     dowCsvResults = sortByColumn(dowCsvResults, 3, true);
 
     securitiesHistQuotes = new HashMap();
     for (String dowSymbol : dowSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(dowSymbol, "1y", YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(dowSymbol);
       securitiesHistQuotes.put(dowSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, dowParticipations, dowNotes, dowCsvResults, securitiesHistQuotes);
     
+/*    
     // fid equity
+    logger.info("*** KL: EndOfDay fid equity");
     List<SecurityLogType> fidEqSecurities = securityLogTypeDao.getSecuritiesForFidEquity();
     List<String> fidEqSymbols = getSymbols(fidEqSecurities);
     Map<String, Boolean> fidEqParticipations = getParticipations(fidEqSecurities);
     Map<String, String> fidEqNotes = getNotes(fidEqSecurities);
-    List<String> fidEqCsvResults = yfDao.getQuote(fidEqSymbols, REQUESTS);
+    List<String> fidEqCsvResults = yfDao.getQuote(fidEqSymbols);
     fidEqCsvResults = sortByColumn(fidEqCsvResults, 3, true);
 
     securitiesHistQuotes = new HashMap();
     for (String fidEqSymbol : fidEqSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(fidEqSymbol, "1y", YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(fidEqSymbol);
       securitiesHistQuotes.put(fidEqSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Fid Equity", HEADERS, fidEqParticipations, fidEqNotes, fidEqCsvResults, securitiesHistQuotes);
     
     // fid international
+    logger.info("*** KL: EndOfDay fid international");
     List<SecurityLogType> fidInlSecurities = securityLogTypeDao.getSecuritiesForFidInternational();
     List<String> fidInlSymbols = getSymbols(fidInlSecurities);
     Map<String, Boolean> fidInlParticipations = getParticipations(fidInlSecurities);
     Map<String, String> fidInlNotes = getNotes(fidInlSecurities);
-    List<String> fidInlCsvResults = yfDao.getQuote(fidInlSymbols, REQUESTS);
+    List<String> fidInlCsvResults = yfDao.getQuote(fidInlSymbols);
     fidInlCsvResults = sortByColumn(fidInlCsvResults, 3, true);
 
     securitiesHistQuotes = new HashMap();
     for (String fidInlSymbol : fidInlSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(fidInlSymbol, "1y", YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(fidInlSymbol);
       securitiesHistQuotes.put(fidInlSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Fid International", HEADERS, fidInlParticipations, fidInlNotes, fidInlCsvResults, securitiesHistQuotes);
     
     // fid sector
+    logger.info("*** KL: EndOfDay fid sector");
     List<SecurityLogType> fidSecSecurities = securityLogTypeDao.getSecuritiesForFidSector();
     List<String> fidSecSymbols = getSymbols(fidSecSecurities);
     Map<String, Boolean> fidSecParticipations = getParticipations(fidSecSecurities);
     Map<String, String> fidSecNotes = getNotes(fidSecSecurities);
-    List<String> fidSecCsvResults = yfDao.getQuote(fidSecSymbols, REQUESTS);
+    List<String> fidSecCsvResults = yfDao.getQuote(fidSecSymbols);
     fidSecCsvResults = sortByColumn(fidSecCsvResults, 3, true);
 
     securitiesHistQuotes = new HashMap();
     for (String fidSecSymbol : fidSecSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(fidSecSymbol, "1y", YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(fidSecSymbol);
       securitiesHistQuotes.put(fidSecSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Fid Sector", HEADERS, fidSecParticipations, fidSecNotes, fidSecCsvResults, securitiesHistQuotes);
     
     // fid ishares
+    logger.info("*** KL: EndOfDay fid ishares");
     List<SecurityLogType> fidIshrSecurities = securityLogTypeDao.getSecuritiesForFidIShares();
     List<String> fidIshrSymbols = getSymbols(fidIshrSecurities);
     Map<String, Boolean> fidIshrParticipations = getParticipations(fidIshrSecurities);
     Map<String, String> fidIshrNotes = getNotes(fidIshrSecurities);
-    List<String> fidIshrCsvResults = yfDao.getQuote(fidIshrSymbols, REQUESTS);
+    List<String> fidIshrCsvResults = yfDao.getQuote(fidIshrSymbols);
     fidIshrCsvResults = sortByColumn(fidIshrCsvResults, 3, true);
 
     securitiesHistQuotes = new HashMap();
     for (String fidIshrSymbol : fidIshrSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(fidIshrSymbol, "1y", YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(fidIshrSymbol);
       securitiesHistQuotes.put(fidIshrSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Fid iShares", HEADERS, fidIshrParticipations, fidIshrNotes, fidIshrCsvResults, securitiesHistQuotes);
     
     // nn
+    logger.info("*** KL: EndOfDay nn");
     List<SecurityLogType> nnSecurities = securityLogTypeDao.getSecuritiesForNn();
     List<String> nnSymbols = getSymbols(nnSecurities);
     Map<String, Boolean> nnParticipations = getParticipations(nnSecurities);
     Map<String, String> nnNotes = getNotes(nnSecurities);
-    List<String> nnCsvResults = yfDao.getQuote(nnSymbols, REQUESTS);
+    List<String> nnCsvResults = yfDao.getQuote(nnSymbols);
     nnCsvResults = sortByColumn(nnCsvResults, 3, true);
 
     securitiesHistQuotes = new HashMap();
     for (String nnSymbol : nnSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(nnSymbol, "1y", YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(nnSymbol);
       securitiesHistQuotes.put(nnSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Nn Funds", HEADERS, nnParticipations, nnNotes, nnCsvResults, securitiesHistQuotes);
     
     // lb
+    logger.info("*** KL: EndOfDay lb");
     List<SecurityLogType> lbSecurities = securityLogTypeDao.getSecuritiesForLb();
     List<String> lbSymbols = getSymbols(lbSecurities);
     Map<String, Boolean> lbParticipations = getParticipations(lbSecurities);
     Map<String, String> lbNotes = getNotes(lbSecurities);
-    List<String> lbCsvResults = yfDao.getQuote(lbSymbols, REQUESTS);
+    List<String> lbCsvResults = yfDao.getQuote(lbSymbols);
     lbCsvResults = sortByColumn(lbCsvResults, 3, true);
 
     securitiesHistQuotes = new HashMap();
     for (String lbSymbol : lbSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(lbSymbol, "1y", YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(lbSymbol);
       securitiesHistQuotes.put(lbSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Lb Funds", HEADERS, lbParticipations, lbNotes, lbCsvResults, securitiesHistQuotes);
     
-    // Ic
+    // ic
+    logger.info("*** KL: EndOfDay ic");
     List<SecurityLogType> icSecurities = securityLogTypeDao.getSecuritiesForIc();
     List<String> icSymbols = getSymbols(icSecurities);
     Map<String, Boolean> icParticipations = getParticipations(icSecurities);
     Map<String, String> icNotes = getNotes(icSecurities);
-    List<String> icCsvResults = yfDao.getQuote(icSymbols, REQUESTS);
+    List<String> icCsvResults = yfDao.getQuote(icSymbols);
     icCsvResults = sortByColumn(icCsvResults, 3, true);
 
     securitiesHistQuotes = new HashMap();
     for (String icSymbol : icSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(icSymbol, "1y", YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(icSymbol);
       securitiesHistQuotes.put(icSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Ic Funds", HEADERS, icParticipations, icNotes, icCsvResults, securitiesHistQuotes);
     
     // sg
+    logger.info("*** KL: EndOfDay sg");
     List<SecurityLogType> sgSecurities = securityLogTypeDao.getSecuritiesForSg();
     List<String> sgSymbols = getSymbols(sgSecurities);
     Map<String, Boolean> sgParticipations = getParticipations(sgSecurities);
     Map<String, String> sgNotes = getNotes(sgSecurities);
-    List<String> sgCsvResults = yfDao.getQuote(sgSymbols, REQUESTS);
+    List<String> sgCsvResults = yfDao.getQuote(sgSymbols);
     sgCsvResults = sortByColumn(sgCsvResults, 3, true);
 
     securitiesHistQuotes = new HashMap();
     for (String sgSymbol : sgSymbols) {
-      Map<Date, HistoricalQuote> securityHistQuotes = yfDao.getHisoricalQuotes(sgSymbol, "1y", YfDao.DAILY_INCREMENT);
+      Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(sgSymbol);
       securitiesHistQuotes.put(sgSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Sg Funds", HEADERS, sgParticipations, sgNotes, sgCsvResults, securitiesHistQuotes);
-    */
-
+*/
+    
     sb = commonUtil.createHtmlEnd(sb);
     
     if (sendEmail) {

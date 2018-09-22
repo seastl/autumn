@@ -22,11 +22,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class YfDaoImpl implements YfDao {
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private CommonUtil commonUtil;
   
@@ -69,12 +72,14 @@ public class YfDaoImpl implements YfDao {
 
   
   /**
-   * Retrives results in csv format: symbol,name,previous_close,last_trade,percent_change
+   * Retrives results in csv format: symbol,name,last_trade,percent_change
    * @param symbols
    * @return 
    */
   @Override
   public List<String> getQuote(List<String> symbols) {
+    logger.info("*** KL: Yf for " + symbols + ".");
+    
     final String baseUrl = "https://finance.yahoo.com/quote/";
     List<String> results = new ArrayList();
     
@@ -104,9 +109,10 @@ public class YfDaoImpl implements YfDao {
         csvResult.append(",");
 
         // Previous close
-        Elements preCloses = doc.getElementsByClass("Trsdu(0.3s) ");
-        csvResult.append(removeComma(preCloses.get(0).text()));
-        csvResult.append(",");
+        // 9/22/2018: commented out because it's not needed
+//        Elements preCloses = doc.getElementsByClass("Trsdu(0.3s) ");
+//        csvResult.append(removeComma(preCloses.get(0).text()));
+//        csvResult.append(",");
 
         // Last trade
         Elements quotes = doc.getElementsByClass("Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)");
