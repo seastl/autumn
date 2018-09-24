@@ -26,7 +26,7 @@ public class AlphaVantageQuoteDaoImpl implements QuoteDao {
   private static int size = 0;
   
   private static final int BATCH_SIZE = 4;
-  private static final long SLEEP_MILLI = 1000*60; // 1min
+  private static final long SLEEP_MILLI = 1000*65; // 1min
   private static final String apiKey = "G0KZMSNUA281CM53";
   private static final int timeout = 3000;
   private final AlphaVantageConnector apiConnector = new AlphaVantageConnector(apiKey, timeout);
@@ -50,7 +50,18 @@ public class AlphaVantageQuoteDaoImpl implements QuoteDao {
       }
       
       logger.info("*** KL: AlphaVantage for " + symbol + ".");
-      Daily response = stockTimeSeries.daily(symbol, OutputSize.FULL);
+      
+      // If the AlphaVantage api fails, need to sleep. Otherwise the api will continues to fail for a minute.
+      Daily response = null;
+      try {
+        response = stockTimeSeries.daily(symbol, OutputSize.FULL);
+      } catch (Exception ex) {
+        logger.info("*** KL: AlphaVantage api failed. Sleep for " + SLEEP_MILLI + "ms.");
+        Thread.sleep(SLEEP_MILLI);
+        throw new AlphaVantageException("Failed executing AlphaVantage API for symbol " + symbol + ".");
+      }
+      
+      
       List<StockData> stockData = response.getStockData();
       LocalDateTime oneYearAgo = stockData.get(0).getDateTime().minusYears(1);
       stockData.forEach(sd -> {
@@ -69,9 +80,9 @@ public class AlphaVantageQuoteDaoImpl implements QuoteDao {
       });
       size++;
     } catch (AlphaVantageException ex1) {
-      logger.error("Failed executing AlphaVantage API for symbol " + symbol + ".", ex1);
+      logger.error("Failed executing AlphaVantage API for symbol " + symbol + ".");
     } catch (InterruptedException ex2) {
-      logger.error("Exception while sleeping.", ex2);
+      logger.error("Exception while sleeping.");
     }
     
     return results;
