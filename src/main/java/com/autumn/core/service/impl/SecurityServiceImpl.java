@@ -240,7 +240,6 @@ public class SecurityServiceImpl implements SecurityService {
     }
     sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, dowParticipations, dowNotes, dowCsvResults, securitiesHistQuotes);
     
-/*    
     // fid equity
     logger.info("*** KL: EndOfDay fid equity");
     List<SecurityLogType> fidEqSecurities = securityLogTypeDao.getSecuritiesForFidEquity();
@@ -368,7 +367,6 @@ public class SecurityServiceImpl implements SecurityService {
       securitiesHistQuotes.put(sgSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Sg Funds", HEADERS, sgParticipations, sgNotes, sgCsvResults, securitiesHistQuotes);
-*/
     
     sb = commonUtil.createHtmlEnd(sb);
     
