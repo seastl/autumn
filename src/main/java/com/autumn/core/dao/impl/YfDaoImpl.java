@@ -131,7 +131,7 @@ public class YfDaoImpl implements YfDao {
         
         results.add(csvResult.toString());
       } catch (Exception ex) {
-        throw new RuntimeException("Unable to get quote for symbol " + symbol, ex);
+        logger.error("Unable to get quote for symbol " + symbol);
       }
     }
     
