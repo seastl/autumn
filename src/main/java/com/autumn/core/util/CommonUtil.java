@@ -284,7 +284,7 @@ public class CommonUtil {
       } catch (Exception ex) {
         throw new RuntimeException("Failed to URL encode " + removeDoubleQuotes(splitResults[0], true) + ".", ex);
       }
-      String lastQuote = removeDoubleQuotes(splitResults[2], true);
+      String lastQuote = removeDoubleQuotes(splitResults[3], true);
       
       sb.append("    <tr>\n");
       for (int i = 0; i < splitResults.length; i++) {
@@ -292,17 +292,21 @@ public class CommonUtil {
         if (participations.get(symbol)) {
           if (i == 0) { // symbol
             sb.append("      <td><b><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(splitResult, true)).append("</a></b></td>\n");
-          } else if (i == 2) { // close
+          } else if (i == 1) { // name
+            sb.append("      <td><b>").append(removeDoubleQuotes(splitResult, true)).append("</b></td>\n");
+          } else if (i == 3) { // close
             sb.append("      <td><b>").append( formatTo2Dec( removeDoubleQuotes(splitResult, true))).append("</b></td>\n");
-          } else {
+          } else if (i == 4) { // %chg
             sb.append("      <td><b>").append(removeDoubleQuotes(splitResult, true)).append("</b></td>\n");
           }
         } else {
           if (i == 0) { // symbol
             sb.append("      <td><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(splitResult, true)).append("</a></td>\n");
-          } else if (i == 2) { // close
+          } else if (i == 1) { // name
+            sb.append("      <td>").append(removeDoubleQuotes(splitResult, true)).append("</td>\n");
+          } else if (i == 3) { // close
             sb.append("      <td>").append( formatTo2Dec( removeDoubleQuotes(splitResult, true))).append("</td>\n");
-          } else {
+          } else if (i == 4) { // %chg
             sb.append("      <td>").append(removeDoubleQuotes(splitResult, true)).append("</td>\n");
           }
         }

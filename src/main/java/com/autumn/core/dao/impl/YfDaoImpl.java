@@ -72,7 +72,7 @@ public class YfDaoImpl implements YfDao {
 
   
   /**
-   * Retrives results in csv format: symbol,name,last_trade,percent_change
+   * Retrives results in csv format: symbol,name,prev_close,last_trade,percent_change
    * @param symbols
    * @return 
    */
@@ -109,10 +109,9 @@ public class YfDaoImpl implements YfDao {
         csvResult.append(",");
 
         // Previous close
-        // 9/22/2018: commented out because it's not needed
-//        Elements preCloses = doc.getElementsByClass("Trsdu(0.3s) ");
-//        csvResult.append(removeComma(preCloses.get(0).text()));
-//        csvResult.append(",");
+        Elements preCloses = doc.getElementsByClass("Trsdu(0.3s) ");
+        csvResult.append(removeComma(preCloses.get(0).text()));
+        csvResult.append(",");
 
         // Last trade
         Elements quotes = doc.getElementsByClass("Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)");
