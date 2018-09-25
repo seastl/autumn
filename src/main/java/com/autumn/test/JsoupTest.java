@@ -49,7 +49,7 @@ public class JsoupTest {
 
     // Get from yahoo
     try {
-      String yUrl = "https://finance.yahoo.com/quote/rad";
+      String yUrl = "https://finance.yahoo.com/quote/msft";
       //Document doc = Jsoup.connect(yUrl).timeout(60000).maxBodySize(0).get();
       Document doc = Jsoup.connect(yUrl)
               .header("Accept-Encoding", "gzip, defalte")
@@ -71,8 +71,23 @@ public class JsoupTest {
       if (percent == null || percent.size() == 0) {
         percent = doc.getElementsByClass("Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)");
       }
-      
       System.out.println("*** KL: percent=" + percent.get(0).text());
+      
+      // Test getting dividend yield
+      String dy = null;
+      Elements elements = doc.getElementsByClass("C(black) W(51%)");
+      if (elements != null && elements.size() > 0) {
+        for (Element e : elements) {
+          if (e.text().equals("Yield") || e.text().equals("Forward Dividend & Yield")) {
+            dy = e.text();
+            Element value = e.nextElementSibling();
+            dy = value.text();
+            break;
+          }
+        }
+      }
+      System.out.println("*** KL: dividendYield=" + dy);
+      
     } catch (Exception ex) {
       ex.printStackTrace();
     }

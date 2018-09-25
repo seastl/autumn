@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.apache.commons.lang3.StringUtils;
 import static org.apache.http.HttpHeaders.USER_AGENT;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -14,6 +15,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -127,6 +129,25 @@ public class YfDaoImpl implements YfDao {
           percents = doc.getElementsByClass("Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)");
         }
         csvResult.append(removeComma(getPercent(percents.get(0).text())));
+        csvResult.append(",");
+        
+        // Dividend yield
+        String dy = null;
+        Elements elements = doc.getElementsByClass("C(black) W(51%)");
+        if (elements != null && elements.size() > 0) {
+          for (Element e : elements) {
+            if (e.text().equals("Yield") || e.text().equals("Forward Dividend & Yield")) {
+              Element value = e.nextElementSibling();
+              dy = value.text();
+              break;
+            }
+          }
+        }
+        if (StringUtils.isNotEmpty(dy)) {
+          csvResult.append(dy);
+        } else {
+          csvResult.append("n/a");
+        }
         
         results.add(csvResult.toString());
       } catch (Exception ex) {

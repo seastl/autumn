@@ -200,7 +200,7 @@ public class SecurityServiceImpl implements SecurityService {
   @Override
   public void checkForEndOfDay() {
     final String REQUESTS = SYMBOL + NAME + LST_TRD + PCT_CHG;
-    final String[] HEADERS = {"Sym","Name","Close","%Chg","5d","10d","1m","3m","6m","9m","1y","STX","MTX","LTX","Note"};
+    final String[] HEADERS = {"Sym","Name","Close","%Chg","Div","5d","10d","1m","3m","6m","9m","1y","STX","MTX","LTX","Note"};
     
     StringBuilder sb = new StringBuilder();
     sb = commonUtil.createHtmlBegin(sb);
@@ -224,7 +224,6 @@ public class SecurityServiceImpl implements SecurityService {
     }
     sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, dailyCloseParticipations, dailyCloseNotes, dailyCloseCsvResults, securitiesHistQuotes);
     
-    /*
     // dow 30
     logger.info("*** KL: EndOfDay dow 30");
     List<SecurityLogType> dowSecurities = securityLogTypeDao.getSecuritiesForDow30();
@@ -368,7 +367,6 @@ public class SecurityServiceImpl implements SecurityService {
       securitiesHistQuotes.put(sgSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Sg Funds", HEADERS, sgParticipations, sgNotes, sgCsvResults, securitiesHistQuotes);
-    */
     
     sb = commonUtil.createHtmlEnd(sb);
     
