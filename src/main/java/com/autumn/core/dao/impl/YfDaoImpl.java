@@ -146,7 +146,7 @@ public class YfDaoImpl implements YfDao {
         if (StringUtils.isNotEmpty(dy)) {
           csvResult.append(dy);
         } else {
-          csvResult.append("n/a");
+          csvResult.append("&nbsp;");
         }
         
         results.add(csvResult.toString());

@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.springframework.stereotype.Component;
@@ -104,7 +105,7 @@ public class CommonUtil {
    * @param in
    * @return 
    */
-  public String removeDoubleQuotes(String in, boolean includePhrase) {
+  private String removeDoubleQuotes(String in, boolean includePhrase) {
     if (in.contains(" ")) {
       if (includePhrase) {
         return in.replace("\"", "");
@@ -114,6 +115,23 @@ public class CommonUtil {
     } else {
       return in.replace("\"", "");
     }
+  }
+  
+
+  /**
+   * Remove not-needed texts for dividend.
+   * 
+   * @param in: "4.48 (3.7%)
+   * @return: "3.7%"
+   */
+  private String removeForDividend(String in) {
+    String out = null;
+    if (StringUtils.isNotEmpty(in) && in.contains("(") && in.contains(")")) {
+      out = StringUtils.substringBetween(in, "(", ")");
+    } else {
+      out = in;
+    }
+    return out;
   }
   
 
@@ -301,7 +319,7 @@ public class CommonUtil {
           } else if (i == 4) { // %chg
             sb.append("      <td><b>").append(removeDoubleQuotes(splitResult, true)).append("</b></td>\n");
           } else if (i == 5) { // dividend
-            sb.append("      <td><b>").append(splitResult).append("</b></td>\n");
+            sb.append("      <td><b>").append(removeForDividend(splitResult)).append("</b></td>\n");
           }
         } else {
           if (i == 0) { // symbol
@@ -313,7 +331,7 @@ public class CommonUtil {
           } else if (i == 4) { // %chg
             sb.append("      <td>").append(removeDoubleQuotes(splitResult, true)).append("</td>\n");
           } else if (i == 5) { // dividend
-            sb.append("      <td>").append(splitResult).append("</td>\n");
+            sb.append("      <td>").append(removeForDividend(splitResult)).append("</td>\n");
           }
         }
       }
