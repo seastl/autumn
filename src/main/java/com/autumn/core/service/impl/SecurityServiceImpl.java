@@ -115,7 +115,7 @@ public class SecurityServiceImpl implements SecurityService {
   public void checkForDailyOpen() {
     final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
     
-    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyOpen();
+    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIndexesAndSectors();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 4, true);
@@ -144,13 +144,12 @@ public class SecurityServiceImpl implements SecurityService {
     sb = commonUtil.createHtmlBegin(sb);
     sb = commonUtil.createInfoTable(sb);
     
-    // Indexes
-    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIntraDay();
+    // Indexes & Sectors
+    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIndexesAndSectors();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 4, true);
-    Map<String, String> notes = getNotes(securities);
-    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, notes);
+    sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     
     // Dow30
@@ -159,6 +158,15 @@ public class SecurityServiceImpl implements SecurityService {
     csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 4, true);
     sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlEnd(sb);
+    
+    // General
+    securities = securityLogTypeDao.getSecuritiesForGeneral();
+    symbols = getSymbols(securities);
+    csvResults = yfDao.getQuote(symbols);
+    csvResults = sortByColumn(csvResults, 4, true);
+    Map<String, String> notes = getNotes(securities);
+    sb = commonUtil.createHtmlTable(sb, "General", HEADERS, csvResults, notes);
     sb = commonUtil.createHtmlEnd(sb);
     
     String message = sb.toString();
@@ -174,22 +182,41 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void checkForDailyClose() {
-    final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
+    final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg","Note"};
     
-    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForDailyClose();
-    List<String> symbols = getSymbols(securities);
-    List<String> csvResults = yfDao.getQuote(symbols);
-    csvResults = sortByColumn(csvResults, 4, true);
-
     StringBuilder sb = new StringBuilder();
     sb = commonUtil.createHtmlBegin(sb);
     sb = commonUtil.createInfoTable(sb);
-    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, null);
+    
+    // Indexes & Sectors
+    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIndexesAndSectors();
+    List<String> symbols = getSymbols(securities);
+    List<String> csvResults = yfDao.getQuote(symbols);
+    csvResults = sortByColumn(csvResults, 4, true);
+    sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
+    
+    // Dow30
+    securities = securityLogTypeDao.getSecuritiesForDow30();
+    symbols = getSymbols(securities);
+    csvResults = yfDao.getQuote(symbols);
+    csvResults = sortByColumn(csvResults, 4, true);
+    sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlEnd(sb);
+    
+    // General
+    securities = securityLogTypeDao.getSecuritiesForGeneral();
+    symbols = getSymbols(securities);
+    csvResults = yfDao.getQuote(symbols);
+    csvResults = sortByColumn(csvResults, 4, true);
+    Map<String, String> notes = getNotes(securities);
+    sb = commonUtil.createHtmlTable(sb, "General", HEADERS, csvResults, notes);
+    sb = commonUtil.createHtmlEnd(sb);
+    
     String message = sb.toString();
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("---     " + getTimestamp(), message);
+      emailUtil.sendHtmlEmailThruGoogle("--     " + getTimestamp(), message);
     } else {
       commonUtil.writeToFile("test_test.html", message);
     }
@@ -208,9 +235,9 @@ public class SecurityServiceImpl implements SecurityService {
 
     Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes = null;
     
-    // indexes
+    // Indexes & Sectors
     logger.info("*** KL: EndOfDay indexes");
-    List<SecurityLogType> dailyCloseSecurities = securityLogTypeDao.getSecuritiesForDailyClose();
+    List<SecurityLogType> dailyCloseSecurities = securityLogTypeDao.getSecuritiesForIndexesAndSectors();
     List<String> dailyCloseSymbols = getSymbols(dailyCloseSecurities);
     Map<String, Boolean> dailyCloseParticipations = getParticipations(dailyCloseSecurities);
     Map<String, String> dailyCloseNotes = getNotes(dailyCloseSecurities);
@@ -224,7 +251,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
     sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, dailyCloseParticipations, dailyCloseNotes, dailyCloseCsvResults, securitiesHistQuotes);
     
-    // dow 30
+    // Dow 30
     logger.info("*** KL: EndOfDay dow 30");
     List<SecurityLogType> dowSecurities = securityLogTypeDao.getSecuritiesForDow30();
     List<String> dowSymbols = getSymbols(dowSecurities);
@@ -239,6 +266,22 @@ public class SecurityServiceImpl implements SecurityService {
       securitiesHistQuotes.put(dowSymbol, securityHistQuotes);
     }
     sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, dowParticipations, dowNotes, dowCsvResults, securitiesHistQuotes);
+    
+    // General
+    logger.info("*** KL: EndOfDay general");
+    List<SecurityLogType> generalEqSecurities = securityLogTypeDao.getSecuritiesForGeneral();
+    List<String> generalEqSymbols = getSymbols(generalEqSecurities);
+    Map<String, Boolean> generalEqParticipations = getParticipations(generalEqSecurities);
+    Map<String, String> generalEqNotes = getNotes(generalEqSecurities);
+    List<String> generalEqCsvResults = yfDao.getQuote(generalEqSymbols);
+    generalEqCsvResults = sortByColumn(generalEqCsvResults, 4, true);
+
+    securitiesHistQuotes = new HashMap();
+    for (String generalEqSymbol : generalEqSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(generalEqSymbol);
+      securitiesHistQuotes.put(generalEqSymbol, securityHistQuotes);
+    }
+    sb = commonUtil.createHtmlTable(sb, "Fid Equity", HEADERS, generalEqParticipations, generalEqNotes, generalEqCsvResults, securitiesHistQuotes);
     
     // fid equity
     logger.info("*** KL: EndOfDay fid equity");

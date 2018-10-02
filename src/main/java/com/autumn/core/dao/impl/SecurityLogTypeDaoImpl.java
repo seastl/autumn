@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
+  private List<SecurityConf> securitiesIndexesAndSectorsList = new ArrayList();
+  private List<SecurityConf> securitiesDow30List = new ArrayList();
   private List<SecurityConf> securitiesGeneralList = new ArrayList();
   private List<SecurityConf> securitiesNnList = new ArrayList();
   private List<SecurityConf> securitiesLbList = new ArrayList();
@@ -21,8 +23,13 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
   private List<SecurityConf> securitiesFidIntrList = new ArrayList();
   private List<SecurityConf> securitiesFidSectorList = new ArrayList();
   private List<SecurityConf> securitiesFidISharesList = new ArrayList();
-  private List<SecurityConf> securitiesDow30List = new ArrayList();
   
+  @Value("${autumn.securitiesIndexesAndSectors}")
+  private String securitiesIndexesAndSectors; 
+          
+  @Value("${autumn.securitiesDow30}")
+  private String securitiesDow30; 
+          
   @Value("${autumn.securitiesGeneral}")
   private String securitiesGeneral; 
           
@@ -50,11 +57,10 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
   @Value("${autumn.securitiesFidIShares}")
   private String securitiesFidIShares; 
           
-  @Value("${autumn.securitiesDow30}")
-  private String securitiesDow30; 
-          
   @PostConstruct
   public void postConstruct() throws Exception {
+    securitiesIndexesAndSectorsList = JsonUtils.getObjectListFromJSONStrings(securitiesIndexesAndSectors, SecurityConf.class);
+    securitiesDow30List = JsonUtils.getObjectListFromJSONStrings(securitiesDow30, SecurityConf.class);
     securitiesGeneralList = JsonUtils.getObjectListFromJSONStrings(securitiesGeneral, SecurityConf.class);
     securitiesNnList = JsonUtils.getObjectListFromJSONStrings(securitiesNn, SecurityConf.class);
     securitiesLbList = JsonUtils.getObjectListFromJSONStrings(securitiesLb, SecurityConf.class);
@@ -64,7 +70,6 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
     securitiesFidIntrList = JsonUtils.getObjectListFromJSONStrings(securitiesFidInternational, SecurityConf.class);
     securitiesFidSectorList = JsonUtils.getObjectListFromJSONStrings(securitiesFidSector, SecurityConf.class);
     securitiesFidISharesList = JsonUtils.getObjectListFromJSONStrings(securitiesFidIShares, SecurityConf.class);
-    securitiesDow30List = JsonUtils.getObjectListFromJSONStrings(securitiesDow30, SecurityConf.class);
     
     //System.out.println("*** KL: SecurityLogTypeDaoImpl postConstruct securitiesGeneral=" + securitiesGeneral);
     //System.out.println("*** KL: name=" + securitiesGeneralList.get(30).getName() + " note=" + securitiesGeneralList.get(30).getNote());
@@ -72,13 +77,30 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
   
 
   @Override
-  public List<SecurityLogType> getSecuritiesForIntraDay() {
+  public List<SecurityLogType> getSecuritiesForIndexesAndSectors() {
     List<SecurityLogType> securities = new ArrayList();
     SecurityLogType security = null;
     
-    for (SecurityConf sec : securitiesGeneralList) {
-      if (sec.isIntraDay()) {
+    for (SecurityConf sec : securitiesIndexesAndSectorsList) {
+      if (sec.isOpen()) {
         security = new SecurityLogType(new Security(0, sec.getName(), sec.getSymbol(), null, null, sec.isParticipated(), sec.getNote()),
+                                       new LogType(LogType.START_DAY_LOG, "Start of day log", null, null, Time.valueOf("06:00:00"), null),
+                                       Boolean.TRUE);
+        securities.add(security);
+      }
+    }
+    return securities;
+  }
+  
+
+  @Override
+  public List<SecurityLogType> getSecuritiesForDow30() {
+    List<SecurityLogType> securities = new ArrayList();
+    SecurityLogType security = null;
+    
+    for (SecurityConf sec : securitiesDow30List) {
+      if (sec.isIntraDay()) {
+        security = new SecurityLogType(new Security(0, sec.getName(), sec.getSymbol(), null, null),
                                        new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
                                        Boolean.TRUE);
         securities.add(security);
@@ -87,8 +109,9 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
     return securities;
   }
 
+  
   @Override
-  public List<SecurityLogType> getSecuritiesForDailyOpen() {
+  public List<SecurityLogType> getSecuritiesForGeneral() {
     List<SecurityLogType> securities = new ArrayList();
     SecurityLogType security = null;
     
@@ -102,22 +125,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
     }
     return securities;
   }
-
-  @Override
-  public List<SecurityLogType> getSecuritiesForDailyClose() {
-    List<SecurityLogType> securities = new ArrayList();
-    SecurityLogType security = null;
-    
-    for (SecurityConf sec : securitiesGeneralList) {
-      if (sec.isClose()) {
-        security = new SecurityLogType(new Security(0, sec.getName(), sec.getSymbol(), null, null, sec.isParticipated(), sec.getNote()),
-                                       new LogType(LogType.END_DAY_LOG, "End of day log", null, null, Time.valueOf("06:00:00"), null),
-                                       Boolean.TRUE);
-        securities.add(security);
-      }
-    }
-    return securities;
-  }
+  
 
   @Override
   public List<SecurityLogType> getSecuritiesForNn() {
@@ -135,6 +143,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
      return securities;
   }
 
+  
   @Override
   public List<SecurityLogType> getSecuritiesForLb() {
     List<SecurityLogType> securities = new ArrayList();
@@ -151,6 +160,7 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
     return securities;  
   }
 
+  
   @Override
   public List<SecurityLogType> getSecuritiesForIc() {
     List<SecurityLogType> securities = new ArrayList();
@@ -249,23 +259,6 @@ public class SecurityLogTypeDaoImpl implements SecurityLogTypeDao {
       }
     }
     return securities;  
-  }
-
-  
-  @Override
-  public List<SecurityLogType> getSecuritiesForDow30() {
-    List<SecurityLogType> securities = new ArrayList();
-    SecurityLogType security = null;
-    
-    for (SecurityConf sec : securitiesDow30List) {
-      if (sec.isIntraDay()) {
-        security = new SecurityLogType(new Security(0, sec.getName(), sec.getSymbol(), null, null),
-                                       new LogType(LogType.INTRA_DAY_LOG_ALWAYS, "Intra day log - always", 0F, -0F, Time.valueOf("06:00:00"), Time.valueOf("13:05:00")),
-                                       Boolean.TRUE);
-        securities.add(security);
-      }
-    }
-    return securities;
   }
 
 }

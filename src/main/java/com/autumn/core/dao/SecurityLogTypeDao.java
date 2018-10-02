@@ -4,9 +4,9 @@ import com.autumn.core.model.SecurityLogType;
 import java.util.List;
 
 public interface SecurityLogTypeDao {
-  List<SecurityLogType> getSecuritiesForIntraDay();
-  List<SecurityLogType> getSecuritiesForDailyOpen();
-  List<SecurityLogType> getSecuritiesForDailyClose();
+  List<SecurityLogType> getSecuritiesForIndexesAndSectors();
+  List<SecurityLogType> getSecuritiesForDow30();
+  List<SecurityLogType> getSecuritiesForGeneral();
   List<SecurityLogType> getSecuritiesForNn();
   List<SecurityLogType> getSecuritiesForLb();
   List<SecurityLogType> getSecuritiesForSg();
@@ -15,6 +15,5 @@ public interface SecurityLogTypeDao {
   List<SecurityLogType> getSecuritiesForFidInternational();
   List<SecurityLogType> getSecuritiesForFidSector();
   List<SecurityLogType> getSecuritiesForFidIShares();
-  List<SecurityLogType> getSecuritiesForDow30();
   
 }
