@@ -4,7 +4,8 @@ import com.autumn.core.model.SecurityLogType;
 import java.util.List;
 
 public interface SecurityLogTypeDao {
-  List<SecurityLogType> getSecuritiesForIndexesAndSectors();
+  List<SecurityLogType> getSecuritiesForIndexes();
+  List<SecurityLogType> getSecuritiesForSectors();
   List<SecurityLogType> getSecuritiesForDow30();
   List<SecurityLogType> getSecuritiesForGeneral();
   List<SecurityLogType> getSecuritiesForNn();

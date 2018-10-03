@@ -115,20 +115,30 @@ public class SecurityServiceImpl implements SecurityService {
   public void checkForDailyOpen() {
     final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
     
-    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIndexesAndSectors();
-    List<String> symbols = getSymbols(securities);
-    List<String> csvResults = yfDao.getQuote(symbols);
-    csvResults = sortByColumn(csvResults, 4, true);
-    
     StringBuilder sb = new StringBuilder();
     sb = commonUtil.createHtmlBegin(sb);
     sb = commonUtil.createInfoTable(sb);
+    
+    // Indexes
+    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIndexes();
+    List<String> symbols = getSymbols(securities);
+    List<String> csvResults = yfDao.getQuote(symbols);
+    csvResults = sortByColumn(csvResults, 4, true);
     sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
+    
+    // Sectors
+    securities = securityLogTypeDao.getSecuritiesForSectors();
+    symbols = getSymbols(securities);
+    csvResults = yfDao.getQuote(symbols);
+    csvResults = sortByColumn(csvResults, 4, true);
+    sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlEnd(sb);
+    
     String message = sb.toString();
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("- " + getTimestamp(), message);
+      emailUtil.sendHtmlEmailThruGoogle("* " + getTimestamp(), message);
     } else {
       commonUtil.writeToFile("test_test.html", message);
     }
@@ -144,12 +154,20 @@ public class SecurityServiceImpl implements SecurityService {
     sb = commonUtil.createHtmlBegin(sb);
     sb = commonUtil.createInfoTable(sb);
     
-    // Indexes & Sectors
-    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIndexesAndSectors();
+    // Indexes
+    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIndexes();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 4, true);
-    sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlEnd(sb);
+    
+    // Sectors
+    securities = securityLogTypeDao.getSecuritiesForSectors();
+    symbols = getSymbols(securities);
+    csvResults = yfDao.getQuote(symbols);
+    csvResults = sortByColumn(csvResults, 4, true);
+    sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     
     // Dow30
@@ -172,7 +190,7 @@ public class SecurityServiceImpl implements SecurityService {
     String message = sb.toString();
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("--     " + getTimestamp(), message);
+      emailUtil.sendHtmlEmailThruGoogle("** " + getTimestamp(), message);
     } else {
       commonUtil.writeToFile("test_test.html", message);
     }
@@ -188,12 +206,20 @@ public class SecurityServiceImpl implements SecurityService {
     sb = commonUtil.createHtmlBegin(sb);
     sb = commonUtil.createInfoTable(sb);
     
-    // Indexes & Sectors
-    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIndexesAndSectors();
+    // Indexes
+    List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIndexes();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 4, true);
-    sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlEnd(sb);
+    
+    // Sectors
+    securities = securityLogTypeDao.getSecuritiesForSectors();
+    symbols = getSymbols(securities);
+    csvResults = yfDao.getQuote(symbols);
+    csvResults = sortByColumn(csvResults, 4, true);
+    sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     
     // Dow30
@@ -216,7 +242,7 @@ public class SecurityServiceImpl implements SecurityService {
     String message = sb.toString();
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("--     " + getTimestamp(), message);
+      emailUtil.sendHtmlEmailThruGoogle("*** " + getTimestamp(), message);
     } else {
       commonUtil.writeToFile("test_test.html", message);
     }
@@ -235,9 +261,9 @@ public class SecurityServiceImpl implements SecurityService {
 
     Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes = null;
     
-    // Indexes & Sectors
+    // Indexes
     logger.info("*** KL: EndOfDay indexes");
-    List<SecurityLogType> dailyCloseSecurities = securityLogTypeDao.getSecuritiesForIndexesAndSectors();
+    List<SecurityLogType> dailyCloseSecurities = securityLogTypeDao.getSecuritiesForIndexes();
     List<String> dailyCloseSymbols = getSymbols(dailyCloseSecurities);
     Map<String, Boolean> dailyCloseParticipations = getParticipations(dailyCloseSecurities);
     Map<String, String> dailyCloseNotes = getNotes(dailyCloseSecurities);
@@ -249,7 +275,23 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(dailyCloseSymbol);
       securitiesHistQuotes.put(dailyCloseSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Indexes & Sectors", HEADERS, dailyCloseParticipations, dailyCloseNotes, dailyCloseCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, dailyCloseParticipations, dailyCloseNotes, dailyCloseCsvResults, securitiesHistQuotes);
+    
+    // Indexes
+    logger.info("*** KL: EndOfDay sectors");
+    List<SecurityLogType> sectorSecurities = securityLogTypeDao.getSecuritiesForSectors();
+    List<String> sectorSymbols = getSymbols(sectorSecurities);
+    Map<String, Boolean> sectorParticipations = getParticipations(sectorSecurities);
+    Map<String, String> sectorNotes = getNotes(sectorSecurities);
+    List<String> sectorCsvResults = yfDao.getQuote(sectorSymbols);
+    sectorCsvResults = sortByColumn(sectorCsvResults, 4, true);
+    
+    securitiesHistQuotes = new HashMap();
+    for (String sectorSymbol : sectorSymbols) {
+      Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(sectorSymbol);
+      securitiesHistQuotes.put(sectorSymbol, securityHistQuotes);
+    }
+    sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, dailyCloseParticipations, dailyCloseNotes, dailyCloseCsvResults, securitiesHistQuotes);
     
     // Dow 30
     logger.info("*** KL: EndOfDay dow 30");
@@ -414,7 +456,7 @@ public class SecurityServiceImpl implements SecurityService {
     sb = commonUtil.createHtmlEnd(sb);
     
     if (sendEmail) {
-      emailUtil.sendHtmlEmailThruGoogle("----     " + getTimestamp(), sb.toString());
+      emailUtil.sendHtmlEmailThruGoogle("**** " + getTimestamp(), sb.toString());
     } else {
       commonUtil.writeToFile("test_test.html", sb.toString());
     }
