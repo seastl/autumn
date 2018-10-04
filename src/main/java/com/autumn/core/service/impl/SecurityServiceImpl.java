@@ -113,7 +113,7 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void checkForDailyOpen() {
-    final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg"};
+    final String[] HEADERS = {"Sym","Name","Div","Prv","Ask","%Chg"};
     
     StringBuilder sb = new StringBuilder();
     sb = commonUtil.createHtmlBegin(sb);
@@ -123,7 +123,7 @@ public class SecurityServiceImpl implements SecurityService {
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIndexes();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols);
-    csvResults = sortByColumn(csvResults, 4, true);
+    csvResults = sortByColumn(csvResults, 5, true);
     sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     
@@ -131,7 +131,7 @@ public class SecurityServiceImpl implements SecurityService {
     securities = securityLogTypeDao.getSecuritiesForSectors();
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols);
-    csvResults = sortByColumn(csvResults, 4, true);
+    csvResults = sortByColumn(csvResults, 5, true);
     sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     
@@ -148,7 +148,7 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void checkForIntraDay() {
-    final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg","Note"};
+    final String[] HEADERS = {"Sym","Name","Div","Prv","Ask","%Chg","Note"};
     
     StringBuilder sb = new StringBuilder();
     sb = commonUtil.createHtmlBegin(sb);
@@ -158,7 +158,7 @@ public class SecurityServiceImpl implements SecurityService {
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIndexes();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols);
-    csvResults = sortByColumn(csvResults, 4, true);
+    csvResults = sortByColumn(csvResults, 5, true);
     sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     
@@ -166,7 +166,7 @@ public class SecurityServiceImpl implements SecurityService {
     securities = securityLogTypeDao.getSecuritiesForSectors();
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols);
-    csvResults = sortByColumn(csvResults, 4, true);
+    csvResults = sortByColumn(csvResults, 5, true);
     sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     
@@ -174,7 +174,7 @@ public class SecurityServiceImpl implements SecurityService {
     securities = securityLogTypeDao.getSecuritiesForDow30();
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols);
-    csvResults = sortByColumn(csvResults, 4, true);
+    csvResults = sortByColumn(csvResults, 5, true);
     sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     
@@ -182,7 +182,7 @@ public class SecurityServiceImpl implements SecurityService {
     securities = securityLogTypeDao.getSecuritiesForGeneral();
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols);
-    csvResults = sortByColumn(csvResults, 4, true);
+    csvResults = sortByColumn(csvResults, 5, true);
     Map<String, String> notes = getNotes(securities);
     sb = commonUtil.createHtmlTable(sb, "General", HEADERS, csvResults, notes);
     sb = commonUtil.createHtmlEnd(sb);
@@ -200,7 +200,7 @@ public class SecurityServiceImpl implements SecurityService {
   
   @Override
   public void checkForDailyClose() {
-    final String[] HEADERS = {"Sym","Name","Prv","Ask","%Chg","Note"};
+    final String[] HEADERS = {"Sym","Name","Div","Prv","Ask","%Chg","Note"};
     
     StringBuilder sb = new StringBuilder();
     sb = commonUtil.createHtmlBegin(sb);
@@ -210,7 +210,7 @@ public class SecurityServiceImpl implements SecurityService {
     List<SecurityLogType> securities = securityLogTypeDao.getSecuritiesForIndexes();
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols);
-    csvResults = sortByColumn(csvResults, 4, true);
+    csvResults = sortByColumn(csvResults, 5, true);
     sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     
@@ -218,7 +218,7 @@ public class SecurityServiceImpl implements SecurityService {
     securities = securityLogTypeDao.getSecuritiesForSectors();
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols);
-    csvResults = sortByColumn(csvResults, 4, true);
+    csvResults = sortByColumn(csvResults, 5, true);
     sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     
@@ -226,7 +226,7 @@ public class SecurityServiceImpl implements SecurityService {
     securities = securityLogTypeDao.getSecuritiesForDow30();
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols);
-    csvResults = sortByColumn(csvResults, 4, true);
+    csvResults = sortByColumn(csvResults, 5, true);
     sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, csvResults, null);
     sb = commonUtil.createHtmlEnd(sb);
     
@@ -234,7 +234,7 @@ public class SecurityServiceImpl implements SecurityService {
     securities = securityLogTypeDao.getSecuritiesForGeneral();
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols);
-    csvResults = sortByColumn(csvResults, 4, true);
+    csvResults = sortByColumn(csvResults, 5, true);
     Map<String, String> notes = getNotes(securities);
     sb = commonUtil.createHtmlTable(sb, "General", HEADERS, csvResults, notes);
     sb = commonUtil.createHtmlEnd(sb);
@@ -253,7 +253,7 @@ public class SecurityServiceImpl implements SecurityService {
   @Override
   public void checkForEndOfDay() {
     final String REQUESTS = SYMBOL + NAME + LST_TRD + PCT_CHG;
-    final String[] HEADERS = {"Sym","Name","Close","%Chg","Div","5d","10d","1m","3m","6m","9m","1y","STX","MTX","LTX","Note"};
+    final String[] HEADERS = {"Sym","Name","Div","Close","1d","5d","10d","1m","3m","6m","9m","1y","STX","MTX","LTX","Note"};
     
     StringBuilder sb = new StringBuilder();
     sb = commonUtil.createHtmlBegin(sb);
@@ -268,7 +268,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> dailyCloseParticipations = getParticipations(dailyCloseSecurities);
     Map<String, String> dailyCloseNotes = getNotes(dailyCloseSecurities);
     List<String> dailyCloseCsvResults = yfDao.getQuote(dailyCloseSymbols);
-    dailyCloseCsvResults = sortByColumn(dailyCloseCsvResults, 4, true);
+    dailyCloseCsvResults = sortByColumn(dailyCloseCsvResults, 5, true);
     
     securitiesHistQuotes = new HashMap();
     for (String dailyCloseSymbol : dailyCloseSymbols) {
@@ -284,7 +284,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> sectorParticipations = getParticipations(sectorSecurities);
     Map<String, String> sectorNotes = getNotes(sectorSecurities);
     List<String> sectorCsvResults = yfDao.getQuote(sectorSymbols);
-    sectorCsvResults = sortByColumn(sectorCsvResults, 4, true);
+    sectorCsvResults = sortByColumn(sectorCsvResults, 5, true);
     
     securitiesHistQuotes = new HashMap();
     for (String sectorSymbol : sectorSymbols) {
@@ -300,7 +300,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> dowParticipations = getParticipations(dowSecurities);
     Map<String, String> dowNotes = getNotes(dowSecurities);
     List<String> dowCsvResults = yfDao.getQuote(dowSymbols);
-    dowCsvResults = sortByColumn(dowCsvResults, 4, true);
+    dowCsvResults = sortByColumn(dowCsvResults, 5, true);
 
     securitiesHistQuotes = new HashMap();
     for (String dowSymbol : dowSymbols) {
@@ -316,7 +316,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> generalEqParticipations = getParticipations(generalEqSecurities);
     Map<String, String> generalEqNotes = getNotes(generalEqSecurities);
     List<String> generalEqCsvResults = yfDao.getQuote(generalEqSymbols);
-    generalEqCsvResults = sortByColumn(generalEqCsvResults, 4, true);
+    generalEqCsvResults = sortByColumn(generalEqCsvResults, 5, true);
 
     securitiesHistQuotes = new HashMap();
     for (String generalEqSymbol : generalEqSymbols) {
@@ -332,7 +332,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> fidEqParticipations = getParticipations(fidEqSecurities);
     Map<String, String> fidEqNotes = getNotes(fidEqSecurities);
     List<String> fidEqCsvResults = yfDao.getQuote(fidEqSymbols);
-    fidEqCsvResults = sortByColumn(fidEqCsvResults, 4, true);
+    fidEqCsvResults = sortByColumn(fidEqCsvResults, 5, true);
 
     securitiesHistQuotes = new HashMap();
     for (String fidEqSymbol : fidEqSymbols) {
@@ -348,7 +348,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> fidInlParticipations = getParticipations(fidInlSecurities);
     Map<String, String> fidInlNotes = getNotes(fidInlSecurities);
     List<String> fidInlCsvResults = yfDao.getQuote(fidInlSymbols);
-    fidInlCsvResults = sortByColumn(fidInlCsvResults, 4, true);
+    fidInlCsvResults = sortByColumn(fidInlCsvResults, 5, true);
 
     securitiesHistQuotes = new HashMap();
     for (String fidInlSymbol : fidInlSymbols) {
@@ -364,7 +364,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> fidSecParticipations = getParticipations(fidSecSecurities);
     Map<String, String> fidSecNotes = getNotes(fidSecSecurities);
     List<String> fidSecCsvResults = yfDao.getQuote(fidSecSymbols);
-    fidSecCsvResults = sortByColumn(fidSecCsvResults, 4, true);
+    fidSecCsvResults = sortByColumn(fidSecCsvResults, 5, true);
 
     securitiesHistQuotes = new HashMap();
     for (String fidSecSymbol : fidSecSymbols) {
@@ -380,7 +380,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> fidIshrParticipations = getParticipations(fidIshrSecurities);
     Map<String, String> fidIshrNotes = getNotes(fidIshrSecurities);
     List<String> fidIshrCsvResults = yfDao.getQuote(fidIshrSymbols);
-    fidIshrCsvResults = sortByColumn(fidIshrCsvResults, 4, true);
+    fidIshrCsvResults = sortByColumn(fidIshrCsvResults, 5, true);
 
     securitiesHistQuotes = new HashMap();
     for (String fidIshrSymbol : fidIshrSymbols) {
@@ -396,7 +396,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> nnParticipations = getParticipations(nnSecurities);
     Map<String, String> nnNotes = getNotes(nnSecurities);
     List<String> nnCsvResults = yfDao.getQuote(nnSymbols);
-    nnCsvResults = sortByColumn(nnCsvResults, 4, true);
+    nnCsvResults = sortByColumn(nnCsvResults, 5, true);
 
     securitiesHistQuotes = new HashMap();
     for (String nnSymbol : nnSymbols) {
@@ -412,7 +412,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> lbParticipations = getParticipations(lbSecurities);
     Map<String, String> lbNotes = getNotes(lbSecurities);
     List<String> lbCsvResults = yfDao.getQuote(lbSymbols);
-    lbCsvResults = sortByColumn(lbCsvResults, 4, true);
+    lbCsvResults = sortByColumn(lbCsvResults, 5, true);
 
     securitiesHistQuotes = new HashMap();
     for (String lbSymbol : lbSymbols) {
@@ -428,7 +428,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> icParticipations = getParticipations(icSecurities);
     Map<String, String> icNotes = getNotes(icSecurities);
     List<String> icCsvResults = yfDao.getQuote(icSymbols);
-    icCsvResults = sortByColumn(icCsvResults, 4, true);
+    icCsvResults = sortByColumn(icCsvResults, 5, true);
 
     securitiesHistQuotes = new HashMap();
     for (String icSymbol : icSymbols) {
@@ -444,7 +444,7 @@ public class SecurityServiceImpl implements SecurityService {
     Map<String, Boolean> sgParticipations = getParticipations(sgSecurities);
     Map<String, String> sgNotes = getNotes(sgSecurities);
     List<String> sgCsvResults = yfDao.getQuote(sgSymbols);
-    sgCsvResults = sortByColumn(sgCsvResults, 4, true);
+    sgCsvResults = sortByColumn(sgCsvResults, 5, true);
 
     securitiesHistQuotes = new HashMap();
     for (String sgSymbol : sgSymbols) {

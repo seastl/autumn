@@ -260,9 +260,11 @@ public class CommonUtil {
           sb.append("      <td><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(result, true)).append("</a></td>\n");
         } else if (i == 1) { // name
           sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</td>\n");
-        } else if (i == 2 || i == 3) { // prv, ask
+        } else if (i == 2) { // dividend
+          sb.append("      <td>").append(removeForDividend(result)).append("</td>\n");
+        } else if (i == 3 || i == 4) { // prv, ask
           sb.append("      <td>").append(formatTo2Dec( removeDoubleQuotes(result, true))).append("</td>\n");
-        } else if (i == 4) { // %chg
+        } else if (i == 5) { // %chg
           sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</td>\n");
         }
       }
@@ -314,24 +316,24 @@ public class CommonUtil {
             sb.append("      <td><b><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(splitResult, true)).append("</a></b></td>\n");
           } else if (i == 1) { // name
             sb.append("      <td><b>").append(removeDoubleQuotes(splitResult, true)).append("</b></td>\n");
-          } else if (i == 3) { // close
-            sb.append("      <td><b>").append( formatTo2Dec( removeDoubleQuotes(splitResult, true))).append("</b></td>\n");
-          } else if (i == 4) { // %chg
-            sb.append("      <td><b>").append(removeDoubleQuotes(splitResult, true)).append("</b></td>\n");
-          } else if (i == 5) { // dividend
+          } else if (i == 2) { // dividend
             sb.append("      <td><b>").append(removeForDividend(splitResult)).append("</b></td>\n");
+          } else if (i == 4) { // close
+            sb.append("      <td><b>").append( formatTo2Dec( removeDoubleQuotes(splitResult, true))).append("</b></td>\n");
+          } else if (i == 5) { // %chg
+            sb.append("      <td><b>").append(removeDoubleQuotes(splitResult, true)).append("</b></td>\n");
           }
         } else {
           if (i == 0) { // symbol
             sb.append("      <td><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(splitResult, true)).append("</a></td>\n");
           } else if (i == 1) { // name
             sb.append("      <td>").append(removeDoubleQuotes(splitResult, true)).append("</td>\n");
-          } else if (i == 3) { // close
-            sb.append("      <td>").append( formatTo2Dec( removeDoubleQuotes(splitResult, true))).append("</td>\n");
-          } else if (i == 4) { // %chg
-            sb.append("      <td>").append(removeDoubleQuotes(splitResult, true)).append("</td>\n");
-          } else if (i == 5) { // dividend
+          } else if (i == 2) { // dividend
             sb.append("      <td>").append(removeForDividend(splitResult)).append("</td>\n");
+          } else if (i == 4) { // close
+            sb.append("      <td>").append( formatTo2Dec( removeDoubleQuotes(splitResult, true))).append("</td>\n");
+          } else if (i == 5) { // %chg
+            sb.append("      <td>").append(removeDoubleQuotes(splitResult, true)).append("</td>\n");
           }
         }
       }

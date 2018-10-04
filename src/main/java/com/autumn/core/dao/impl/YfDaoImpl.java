@@ -74,7 +74,7 @@ public class YfDaoImpl implements YfDao {
 
   
   /**
-   * Retrives results in csv format: symbol,name,prev_close,last_trade,percent_change
+   * Retrives results in csv format: symbol,name,div,prev_close,last_trade,percent_change
    * @param symbols
    * @return 
    */
@@ -110,6 +110,25 @@ public class YfDaoImpl implements YfDao {
         csvResult.append(getName(name));
         csvResult.append(",");
 
+        // Dividend yield
+        String dy = null;
+        Elements elements = doc.getElementsByClass("C(black) W(51%)");
+        if (elements != null && elements.size() > 0) {
+          for (Element e : elements) {
+            if (e.text().equals("Yield") || e.text().equals("Forward Dividend & Yield")) {
+              Element value = e.nextElementSibling();
+              dy = value.text();
+              break;
+            }
+          }
+        }
+        if (StringUtils.isNotEmpty(dy)) {
+          csvResult.append(dy);
+        } else {
+          csvResult.append("&nbsp;");
+        }
+        csvResult.append(",");
+        
         // Previous close
         Elements preCloses = doc.getElementsByClass("Trsdu(0.3s) ");
         csvResult.append(removeComma(preCloses.get(0).text()));
@@ -129,25 +148,6 @@ public class YfDaoImpl implements YfDao {
           percents = doc.getElementsByClass("Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)");
         }
         csvResult.append(removeComma(getPercent(percents.get(0).text())));
-        csvResult.append(",");
-        
-        // Dividend yield
-        String dy = null;
-        Elements elements = doc.getElementsByClass("C(black) W(51%)");
-        if (elements != null && elements.size() > 0) {
-          for (Element e : elements) {
-            if (e.text().equals("Yield") || e.text().equals("Forward Dividend & Yield")) {
-              Element value = e.nextElementSibling();
-              dy = value.text();
-              break;
-            }
-          }
-        }
-        if (StringUtils.isNotEmpty(dy)) {
-          csvResult.append(dy);
-        } else {
-          csvResult.append("&nbsp;");
-        }
         
         results.add(csvResult.toString());
       } catch (Exception ex) {
