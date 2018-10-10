@@ -263,21 +263,21 @@ public class SecurityServiceImpl implements SecurityService {
     
     // Indexes
     logger.info("*** KL: EndOfDay indexes");
-    List<SecurityLogType> dailyCloseSecurities = securityLogTypeDao.getSecuritiesForIndexes();
-    List<String> dailyCloseSymbols = getSymbols(dailyCloseSecurities);
-    Map<String, Boolean> dailyCloseParticipations = getParticipations(dailyCloseSecurities);
-    Map<String, String> dailyCloseNotes = getNotes(dailyCloseSecurities);
-    List<String> dailyCloseCsvResults = yfDao.getQuote(dailyCloseSymbols);
-    dailyCloseCsvResults = sortByColumn(dailyCloseCsvResults, 5, true);
+    List<SecurityLogType> indexesSecurities = securityLogTypeDao.getSecuritiesForIndexes();
+    List<String> indexesCloseSymbols = getSymbols(indexesSecurities);
+    Map<String, Boolean> indexesParticipations = getParticipations(indexesSecurities);
+    Map<String, String> indexesNotes = getNotes(indexesSecurities);
+    List<String> indexesCsvResults = yfDao.getQuote(indexesCloseSymbols);
+    indexesCsvResults = sortByColumn(indexesCsvResults, 5, true);
     
     securitiesHistQuotes = new HashMap();
-    for (String dailyCloseSymbol : dailyCloseSymbols) {
+    for (String dailyCloseSymbol : indexesCloseSymbols) {
       Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(dailyCloseSymbol);
       securitiesHistQuotes.put(dailyCloseSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, dailyCloseParticipations, dailyCloseNotes, dailyCloseCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, indexesParticipations, indexesNotes, indexesCsvResults, securitiesHistQuotes);
     
-    // Indexes
+    // Sectors
     logger.info("*** KL: EndOfDay sectors");
     List<SecurityLogType> sectorSecurities = securityLogTypeDao.getSecuritiesForSectors();
     List<String> sectorSymbols = getSymbols(sectorSecurities);
@@ -291,7 +291,7 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(sectorSymbol);
       securitiesHistQuotes.put(sectorSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, dailyCloseParticipations, dailyCloseNotes, dailyCloseCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, sectorParticipations, sectorNotes, sectorCsvResults, securitiesHistQuotes);
     
     // Dow 30
     logger.info("*** KL: EndOfDay dow 30");
@@ -323,7 +323,7 @@ public class SecurityServiceImpl implements SecurityService {
       Map<Date, HistoricalQuote> securityHistQuotes = avDao.getHisoricalQuotes(generalEqSymbol);
       securitiesHistQuotes.put(generalEqSymbol, securityHistQuotes);
     }
-    sb = commonUtil.createHtmlTable(sb, "Fid Equity", HEADERS, generalEqParticipations, generalEqNotes, generalEqCsvResults, securitiesHistQuotes);
+    sb = commonUtil.createHtmlTable(sb, "General", HEADERS, generalEqParticipations, generalEqNotes, generalEqCsvResults, securitiesHistQuotes);
     
     // fid equity
     logger.info("*** KL: EndOfDay fid equity");
