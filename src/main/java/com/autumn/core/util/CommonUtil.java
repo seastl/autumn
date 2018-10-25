@@ -231,10 +231,11 @@ public class CommonUtil {
   
   
   public StringBuilder createHtmlTable(StringBuilder sb, 
-                                        String caption, 
-                                        String[] headers, 
-                                        List<String> csvResults,
-                                        Map<String,String> notes) {
+                                       String caption, 
+                                       String[] headers,
+                                       Map<String,Boolean> participations, 
+                                       Map<String,String> notes,
+                                       List<String> csvResults) {
     sb.append("  <table id='t01' style='width:700px'>\n")
       .append("    <caption><h3 align='left'>").append(caption).append("</h3></caption>\n")
       .append("    <tr>\n");
@@ -256,21 +257,39 @@ public class CommonUtil {
       
       for (int i = 0; i < results.length; i++) {
         String result = results[i];
-        if (i == 0) { // symbol
-          sb.append("      <td><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(result, true)).append("</a></td>\n");
-        } else if (i == 1) { // name
-          sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</td>\n");
-        } else if (i == 2) { // dividend
-          sb.append("      <td>").append(removeForDividend(result)).append("</td>\n");
-        } else if (i == 3 || i == 4) { // prv, ask
-          sb.append("      <td>").append(formatTo2Dec( removeDoubleQuotes(result, true))).append("</td>\n");
-        } else if (i == 5) { // %chg
-          sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</td>\n");
+        if (participations != null && participations.get(symbol)) {
+          if (i == 0) { // symbol
+            sb.append("      <td><b><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(result, true)).append("</a></b></td>\n");
+          } else if (i == 1) { // name
+            sb.append("      <td><b>").append(removeDoubleQuotes(result, true)).append("</b></td>\n");
+          } else if (i == 2) { // dividend
+            sb.append("      <td><b>").append(removeForDividend(result)).append("</b></td>\n");
+          } else if (i == 3 || i == 4) { // prv, ask
+            sb.append("      <td><b>").append(formatTo2Dec( removeDoubleQuotes(result, true))).append("</b></td>\n");
+          } else if (i == 5) { // %chg
+            sb.append("      <td><b>").append(removeDoubleQuotes(result, true)).append("</b></td>\n");
+          }
+        } else {
+          if (i == 0) { // symbol
+            sb.append("      <td><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(result, true)).append("</a></b></td>\n");
+          } else if (i == 1) { // name
+            sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</b></td>\n");
+          } else if (i == 2) { // dividend
+            sb.append("      <td>").append(removeForDividend(result)).append("</b></td>\n");
+          } else if (i == 3 || i == 4) { // prv, ask
+            sb.append("      <td>").append(formatTo2Dec( removeDoubleQuotes(result, true))).append("</b></td>\n");
+          } else if (i == 5) { // %chg
+            sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</b></td>\n");
+          }
         }
       }
       
       if (notes != null) {
-        sb.append("      <td>").append(disp(notes.get(symbol))).append("</td>\n");
+        if (participations != null && participations.get(symbol)) {
+          sb.append("      <td><b>").append(disp(notes.get(symbol))).append("</b></td>\n");
+        } else {
+          sb.append("      <td>").append(disp(notes.get(symbol))).append("</td>\n");
+        }
       } else {
         sb.append("      <td></td>\n");
       }
@@ -311,7 +330,7 @@ public class CommonUtil {
       sb.append("    <tr>\n");
       for (int i = 0; i < splitResults.length; i++) {
         String splitResult = splitResults[i];
-        if (participations.get(symbol)) {
+        if (participations != null && participations.get(symbol)) {
           if (i == 0) { // symbol
             sb.append("      <td><b><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(splitResult, true)).append("</a></b></td>\n");
           } else if (i == 1) { // name

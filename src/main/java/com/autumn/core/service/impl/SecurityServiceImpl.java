@@ -124,7 +124,7 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 5, true);
-    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, null, null, csvResults);
     sb = commonUtil.createHtmlEnd(sb);
     
     // Sectors
@@ -132,7 +132,7 @@ public class SecurityServiceImpl implements SecurityService {
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 5, true);
-    sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, null, null, csvResults);
     sb = commonUtil.createHtmlEnd(sb);
     
     String message = sb.toString();
@@ -159,7 +159,7 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 5, true);
-    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, null, null, csvResults);
     sb = commonUtil.createHtmlEnd(sb);
     
     // Sectors
@@ -167,7 +167,7 @@ public class SecurityServiceImpl implements SecurityService {
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 5, true);
-    sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, null, null, csvResults);
     sb = commonUtil.createHtmlEnd(sb);
     
     // Dow30
@@ -175,16 +175,17 @@ public class SecurityServiceImpl implements SecurityService {
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 5, true);
-    sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, null, null, csvResults);
     sb = commonUtil.createHtmlEnd(sb);
     
     // General
     securities = securityLogTypeDao.getSecuritiesForGeneral();
     symbols = getSymbols(securities);
+    Map<String, Boolean> participations = getParticipations(securities);
     csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 5, true);
     Map<String, String> notes = getNotes(securities);
-    sb = commonUtil.createHtmlTable(sb, "General", HEADERS, csvResults, notes);
+    sb = commonUtil.createHtmlTable(sb, "General", HEADERS, participations, null, csvResults);
     sb = commonUtil.createHtmlEnd(sb);
     
     String message = sb.toString();
@@ -211,7 +212,7 @@ public class SecurityServiceImpl implements SecurityService {
     List<String> symbols = getSymbols(securities);
     List<String> csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 5, true);
-    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlTable(sb, "Indexes", HEADERS, null, null, csvResults);
     sb = commonUtil.createHtmlEnd(sb);
     
     // Sectors
@@ -219,7 +220,7 @@ public class SecurityServiceImpl implements SecurityService {
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 5, true);
-    sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlTable(sb, "Sectors", HEADERS, null, null, csvResults);
     sb = commonUtil.createHtmlEnd(sb);
     
     // Dow30
@@ -227,16 +228,17 @@ public class SecurityServiceImpl implements SecurityService {
     symbols = getSymbols(securities);
     csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 5, true);
-    sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, csvResults, null);
+    sb = commonUtil.createHtmlTable(sb, "Dow30", HEADERS, null, null, csvResults);
     sb = commonUtil.createHtmlEnd(sb);
     
     // General
     securities = securityLogTypeDao.getSecuritiesForGeneral();
     symbols = getSymbols(securities);
+    Map<String, Boolean> participations = getParticipations(securities);
     csvResults = yfDao.getQuote(symbols);
     csvResults = sortByColumn(csvResults, 5, true);
     Map<String, String> notes = getNotes(securities);
-    sb = commonUtil.createHtmlTable(sb, "General", HEADERS, csvResults, notes);
+    sb = commonUtil.createHtmlTable(sb, "General", HEADERS, participations, notes, csvResults);
     sb = commonUtil.createHtmlEnd(sb);
     
     String message = sb.toString();
