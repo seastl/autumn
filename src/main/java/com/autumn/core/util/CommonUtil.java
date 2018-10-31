@@ -135,6 +135,27 @@ public class CommonUtil {
   }
   
 
+  /**
+   * Truncate string to maxLength.
+   * e.g. Intel -> Intel
+   *      International Business Machine -> International Bus...
+   *      Technology Select Sector SPDR ETF -> Technology Sel...ETF
+   * @param in
+   * @return 
+   */
+  private String trunc(String in, int maxLength) {
+    String out = null;
+    if (in.length() <= maxLength) {
+      out = in;
+    } else if (in.endsWith(" ETF")) {
+      out = in.substring(0, maxLength-6) + "...ETF";
+    } else {
+      out = in.substring(0, maxLength-3) + "...";
+    }
+    return out;
+  }
+  
+  
   public String getPercentDisplayForWeekdaysAgo(Map<Date, HistoricalQuote> historicalQuotes, String pastWorkPeriod, boolean formatToDisplay) {
     String percentForDaysAgo = null;
     Date[] dateRange = getDateRangeForPastWorkPeriod(pastWorkPeriod);
@@ -236,7 +257,7 @@ public class CommonUtil {
                                        Map<String,Boolean> participations, 
                                        Map<String,String> notes,
                                        List<String> csvResults) {
-    sb.append("  <table id='t01' style='width:700px'>\n")
+    sb.append("  <table id='t01'>\n")
       .append("    <caption><h3 align='left'>").append(caption).append("</h3></caption>\n")
       .append("    <tr>\n");
     
@@ -261,7 +282,7 @@ public class CommonUtil {
           if (i == 0) { // symbol
             sb.append("      <td><b><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(result, true)).append("</a></b></td>\n");
           } else if (i == 1) { // name
-            sb.append("      <td><b>").append(removeDoubleQuotes(result, true)).append("</b></td>\n");
+            sb.append("      <td><b>").append(trunc(removeDoubleQuotes(result, true), 20)).append("</b></td>\n");
           } else if (i == 2) { // dividend
             sb.append("      <td><b>").append(removeForDividend(result)).append("</b></td>\n");
           } else if (i == 3 || i == 4) { // prv, ask
@@ -273,7 +294,7 @@ public class CommonUtil {
           if (i == 0) { // symbol
             sb.append("      <td><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(result, true)).append("</a></b></td>\n");
           } else if (i == 1) { // name
-            sb.append("      <td>").append(removeDoubleQuotes(result, true)).append("</b></td>\n");
+            sb.append("      <td>").append(trunc(removeDoubleQuotes(result, true), 20)).append("</b></td>\n");
           } else if (i == 2) { // dividend
             sb.append("      <td>").append(removeForDividend(result)).append("</b></td>\n");
           } else if (i == 3 || i == 4) { // prv, ask
@@ -308,7 +329,7 @@ public class CommonUtil {
                                        Map<String,String> notes, 
                                        List<String> csvResults, 
                                        Map<String,Map<Date,HistoricalQuote>> securitiesHistQuotes) {
-    sb.append("  <table id='t01' style='width:900px'>\n")
+    sb.append("  <table id='t01'>\n")
       .append("    <caption><h3 align='left'>").append(caption).append("</h3></caption>\n")
       .append("    <tr>\n");
     
@@ -334,7 +355,7 @@ public class CommonUtil {
           if (i == 0) { // symbol
             sb.append("      <td><b><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(splitResult, true)).append("</a></b></td>\n");
           } else if (i == 1) { // name
-            sb.append("      <td><b>").append(removeDoubleQuotes(splitResult, true)).append("</b></td>\n");
+            sb.append("      <td><b>").append(trunc(removeDoubleQuotes(splitResult, true), 20)).append("</b></td>\n");
           } else if (i == 2) { // dividend
             sb.append("      <td><b>").append(removeForDividend(splitResult)).append("</b></td>\n");
           } else if (i == 4) { // close
@@ -346,7 +367,7 @@ public class CommonUtil {
           if (i == 0) { // symbol
             sb.append("      <td><a href='" + YfDao.BASE_QUOTE_DETAIL_URL + symbol + "' target='_blank'>").append(removeDoubleQuotes(splitResult, true)).append("</a></td>\n");
           } else if (i == 1) { // name
-            sb.append("      <td>").append(removeDoubleQuotes(splitResult, true)).append("</td>\n");
+            sb.append("      <td>").append(trunc(removeDoubleQuotes(splitResult, true), 20)).append("</td>\n");
           } else if (i == 2) { // dividend
             sb.append("      <td>").append(removeForDividend(splitResult)).append("</td>\n");
           } else if (i == 4) { // close
