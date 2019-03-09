@@ -346,7 +346,7 @@ public class CommonUtil {
       } catch (Exception ex) {
         throw new RuntimeException("Failed to URL encode " + removeDoubleQuotes(splitResults[0], true) + ".", ex);
       }
-      String lastQuote = removeDoubleQuotes(splitResults[3], true);
+      String lastQuote = removeDoubleQuotes(splitResults[4], true);
       
       sb.append("    <tr>\n");
       for (int i = 0; i < splitResults.length; i++) {
